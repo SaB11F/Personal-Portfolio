@@ -1,6 +1,7 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 
-import { fonts, palette, surface } from "../lib/theme";
+import { fonts, palette } from "../lib/theme";
 
 const links = [
   { key: "experience", label: "Experience" },
@@ -10,28 +11,44 @@ const links = [
 
 function SectionNav({ isWide, onNavigate }) {
   return (
-    <View style={[styles.wrapper, isWide ? styles.wrapperWide : styles.wrapperCompact, surface]}>
-      <View style={styles.brandChip}>
-        <View style={styles.brandMark}>
-          <View style={styles.brandDot} />
+    <View style={styles.wrapper}>
+      <View style={styles.brandRow}>
+        <View style={styles.avatarGroup}>
+          <View style={styles.avatarShell}>
+            <View style={styles.avatarInner}>
+              <MaterialCommunityIcons
+                color="rgba(21, 23, 61, 0.35)"
+                name="account"
+                size={16}
+              />
+            </View>
+          </View>
+          <View style={styles.avatarGlow} />
         </View>
-        <Text style={styles.brandText}>RK</Text>
+
+        <Text style={styles.brandText}>
+          RK <Text style={styles.brandDot}>.</Text>
+        </Text>
       </View>
 
-      <View style={[styles.linkRow, !isWide && styles.linkRowCompact]}>
-        {links.map((link) => (
-          <Pressable
-            key={link.key}
-            onPress={() => onNavigate(link.key)}
-            style={styles.linkButton}
-          >
-            <Text style={styles.linkText}>{link.label}</Text>
-          </Pressable>
-        ))}
-      </View>
+      {isWide ? (
+        <View style={styles.linkRow}>
+          {links.map((link) => (
+            <Pressable
+              key={link.key}
+              onPress={() => onNavigate(link.key)}
+              style={styles.linkButton}
+            >
+              <Text style={styles.linkText}>{link.label}</Text>
+              <View style={styles.linkUnderline} />
+            </Pressable>
+          ))}
+        </View>
+      ) : null}
 
       <Pressable onPress={() => onNavigate("contact")} style={styles.ctaButton}>
         <Text style={styles.ctaText}>LET&apos;S TALK</Text>
+        <MaterialCommunityIcons color="#FFFFFF" name="arrow-right" size={14} />
       </Pressable>
     </View>
   );
@@ -39,90 +56,111 @@ function SectionNav({ isWide, onNavigate }) {
 
 const styles = StyleSheet.create({
   wrapper: {
-    alignSelf: "center",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 18,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderRadius: 999
-  },
-  wrapperWide: {
-    width: "auto",
-    minWidth: 560,
-    maxWidth: 660
-  },
-  wrapperCompact: {
     width: "100%",
-    maxWidth: 430,
-    gap: 10
-  },
-  brandChip: {
+    maxWidth: 1240,
+    alignSelf: "center",
+    minHeight: 72,
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 9,
+    justifyContent: "space-between",
+    gap: 20,
+    paddingHorizontal: 24,
+  },
+  brandRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+  },
+  avatarGroup: {
+    position: "relative",
+  },
+  avatarShell: {
+    width: 40,
+    height: 40,
+    padding: 2,
     borderRadius: 999,
     borderWidth: 1,
-    borderColor: "rgba(21, 23, 61, 0.08)",
-    backgroundColor: "rgba(255, 255, 255, 0.72)"
+    borderColor: "rgba(152, 37, 152, 0.18)",
+    backgroundColor: "rgba(255,255,255,0.4)",
+    ...(Platform.OS === "web"
+      ? {
+          backdropFilter: "blur(10px)",
+        }
+      : {}),
   },
-  brandMark: {
-    width: 16,
-    height: 16,
+  avatarInner: {
+    flex: 1,
     borderRadius: 999,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: palette.purple
+    backgroundColor: "#E4E7ED",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.5)",
   },
-  brandDot: {
-    width: 6,
-    height: 6,
+  avatarGlow: {
+    position: "absolute",
+    inset: -4,
     borderRadius: 999,
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "rgba(152, 37, 152, 0.12)",
+    opacity: 0.35,
+    zIndex: -1,
   },
   brandText: {
     color: palette.navy,
-    fontSize: 11,
+    fontSize: 24,
     fontWeight: "800",
-    letterSpacing: 0.4,
-    fontFamily: fonts.display
+    letterSpacing: -0.8,
+    fontFamily: fonts.display,
+  },
+  brandDot: {
+    color: palette.purple,
   },
   linkRow: {
     flexDirection: "row",
-    justifyContent: "center",
-    gap: 22,
-    paddingHorizontal: 8
-  },
-  linkRowCompact: {
-    gap: 12
+    alignItems: "center",
+    gap: 38,
+    marginLeft: "auto",
+    marginRight: 12,
   },
   linkButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 2
+    alignItems: "center",
+    gap: 6,
   },
   linkText: {
-    color: palette.muted,
-    fontSize: 10,
-    fontWeight: "700",
-    letterSpacing: 0.35,
-    fontFamily: fonts.display
+    color: "rgba(21, 23, 61, 0.58)",
+    fontSize: 12,
+    fontWeight: "800",
+    letterSpacing: 2.4,
+    textTransform: "uppercase",
+    fontFamily: fonts.display,
+  },
+  linkUnderline: {
+    width: 18,
+    height: 2,
+    borderRadius: 999,
+    backgroundColor: "rgba(152, 37, 152, 0.18)",
   },
   ctaButton: {
-    paddingHorizontal: 18,
-    paddingVertical: 11,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingHorizontal: 22,
+    paddingVertical: 12,
     borderRadius: 999,
-    backgroundColor: palette.navy
+    backgroundColor: palette.purple,
+    ...(Platform.OS === "web"
+      ? {
+          boxShadow: "0 14px 32px rgba(152, 37, 152, 0.2)",
+        }
+      : {}),
   },
   ctaText: {
     color: "#FFFFFF",
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: "900",
-    letterSpacing: 0.9,
-    fontFamily: fonts.display
-  }
+    letterSpacing: 1.3,
+    fontFamily: fonts.display,
+  },
 });
 
 export default SectionNav;

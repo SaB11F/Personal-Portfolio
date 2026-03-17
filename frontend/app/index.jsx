@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useRef, useState } from "react";
 import {
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -170,10 +171,15 @@ const styles = StyleSheet.create({
     paddingBottom: 48
   },
   navWrapper: {
-    paddingTop: 16,
-    paddingBottom: 8,
-    paddingHorizontal: 16,
-    backgroundColor: "transparent"
+    paddingHorizontal: 18,
+    backgroundColor: "rgba(255, 255, 255, 0.42)",
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(152, 37, 152, 0.08)",
+    ...(Platform.OS === "web"
+      ? {
+          backdropFilter: "blur(20px)"
+        }
+      : {})
   },
   page: {
     width: "100%",

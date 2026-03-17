@@ -1,3 +1,5 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import * as Linking from "expo-linking";
 import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 
 import { fonts, palette, shadow, surface } from "../lib/theme";
@@ -19,6 +21,8 @@ function HeroSection({
   const contentShift = progress * (isWide ? 12 : 6);
   const cardWidth = isWide ? 468 : 262;
   const cardHeight = isWide ? 572 : 324;
+  const defaultGithubUrl =
+    hero.ctas.find((cta) => cta.label.toLowerCase() === "github")?.href || null;
 
   return (
     <View style={[styles.outer, { height: sectionHeight }]}>
@@ -37,7 +41,7 @@ function HeroSection({
       >
         <View style={[styles.scene, !isWide && styles.sceneCompact]}>
           <View
-            pointerEvents="none"
+            pointerEvents="box-none"
             style={[
               styles.orbitBackdrop,
               isWide ? styles.orbitBackdropWide : styles.orbitBackdropCompact,
@@ -70,6 +74,7 @@ function HeroSection({
                 total: projects.length,
               });
               const theme = orbitalCardThemes[index % orbitalCardThemes.length];
+              const projectGithubUrl = project.githubUrl || defaultGithubUrl;
 
               return (
                 <View
@@ -105,16 +110,12 @@ function HeroSection({
                             : styles.iconBadgeLight,
                         ]}
                       >
-                        <Text
-                          style={[
-                            styles.iconBadgeText,
-                            theme === "dark"
-                              ? styles.iconBadgeTextDark
-                              : styles.iconBadgeTextLight,
-                          ]}
-                        >
-                          {getProjectMonogram(project.title)}
-                        </Text>
+                        <ProjectIcon
+                          color={
+                            theme === "dark" ? palette.pink : palette.purple
+                          }
+                          slug={project.slug}
+                        />
                       </View>
 
                       <View style={styles.orbitCardBody}>
@@ -162,16 +163,37 @@ function HeroSection({
                       >
                         {project.stack.slice(0, 2).join(" + ")}
                       </Text>
-                      <Text
+                      <Pressable
+                        disabled={!projectGithubUrl}
+                        onPress={() => {
+                          if (projectGithubUrl) {
+                            Linking.openURL(projectGithubUrl);
+                          }
+                        }}
                         style={[
-                          styles.orbitCardArrow,
+                          styles.projectLinkButton,
                           theme === "dark"
-                            ? styles.orbitCardTitleLight
-                            : styles.orbitCardTitleDark,
+                            ? styles.projectLinkButtonDark
+                            : styles.projectLinkButtonLight,
+                          !projectGithubUrl && styles.projectLinkButtonDisabled,
                         ]}
                       >
-                        ->
-                      </Text>
+                        <MaterialCommunityIcons
+                          color={theme === "dark" ? "#FFFFFF" : palette.navy}
+                          name="github"
+                          size={18}
+                        />
+                        <Text
+                          style={[
+                            styles.projectLinkText,
+                            theme === "dark"
+                              ? styles.orbitCardTitleLight
+                              : styles.orbitCardTitleDark,
+                          ]}
+                        >
+                          Code
+                        </Text>
+                      </Pressable>
                     </View>
                   </View>
                 </View>
@@ -188,63 +210,71 @@ function HeroSection({
               },
             ]}
           >
-            <View style={styles.availabilityPill}>
-              <View style={styles.availabilityPulse} />
-              <Text style={styles.availabilityText}>
-                AVAILABLE FOR NEW CHALLENGES
+            <View
+              style={[
+                styles.contentCard,
+                surface,
+                !isWide && styles.contentCardCompact,
+              ]}
+            >
+              <View style={styles.availabilityPill}>
+                <View style={styles.availabilityPulse} />
+                <Text style={styles.availabilityText}>
+                  AVAILABLE FOR NEW CHALLENGES
+                </Text>
+              </View>
+
+              <Text style={[styles.name, !isWide && styles.nameCompact]}>
+                {hero.name}
               </Text>
-            </View>
+              <Text style={[styles.subtitle, !isWide && styles.subtitleCompact]}>
+                {hero.title} |{" "}
+                <Text style={styles.subtitleAccent}>MERN &amp; AI Systems</Text>
+              </Text>
+              <Text style={styles.summary}>{hero.summary}</Text>
 
-            <Text style={[styles.name, !isWide && styles.nameCompact]}>
-              {hero.name}
-            </Text>
-            <Text style={[styles.subtitle, !isWide && styles.subtitleCompact]}>
-              {hero.title} |{" "}
-              <Text style={styles.subtitleAccent}>MERN &amp; AI Systems</Text>
-            </Text>
-            <Text style={styles.summary}>
-              Builder of real products, APIs, AI assistants, and applied
-              software systems. Merging hardware logic with modern web scale.
-            </Text>
-
-            <View style={styles.chipRow}>
-              {["React", "Node.js", "AI Systems", "RAG", "MERN Stack"].map(
-                (item, index) => (
-                  <View
-                    key={item}
-                    style={[
-                      styles.heroChip,
-                      index < 2
-                        ? styles.heroChipDark
-                        : index < 4
-                          ? styles.heroChipPurple
-                          : styles.heroChipPink,
-                    ]}
-                  >
-                    <Text
+              <View style={styles.chipRow}>
+                {["React", "Node.js", "AI Systems", "RAG", "MERN Stack"].map(
+                  (item, index) => (
+                    <View
+                      key={item}
                       style={[
-                        styles.heroChipText,
+                        styles.heroChip,
                         index < 2
-                          ? styles.heroChipTextLight
-                          : styles.heroChipTextDark,
+                          ? styles.heroChipDark
+                          : index < 4
+                            ? styles.heroChipPurple
+                            : styles.heroChipPink,
                       ]}
                     >
-                      {item}
-                    </Text>
-                  </View>
-                )
-              )}
-            </View>
+                      <Text
+                        style={[
+                          styles.heroChipText,
+                          index < 2
+                            ? styles.heroChipTextLight
+                            : styles.heroChipTextDark,
+                        ]}
+                      >
+                        {item}
+                      </Text>
+                    </View>
+                  )
+                )}
+              </View>
 
-            <View style={styles.ctaRow}>
-              <Pressable onPress={onTalkPress} style={styles.primaryCta}>
-                <Text style={styles.primaryCtaText}>Work Together</Text>
-                <Text style={styles.primaryCtaArrow}>-></Text>
-              </Pressable>
+              <View style={styles.ctaRow}>
+                <Pressable onPress={onTalkPress} style={styles.primaryCta}>
+                  <Text style={styles.primaryCtaText}>Work Together</Text>
+                  <Text style={styles.primaryCtaArrow}>-></Text>
+                </Pressable>
 
-              <Pressable onPress={onJourneyPress} style={[styles.secondaryCta, surface]}>
-                <Text style={styles.secondaryCtaText}>View Journey</Text>
-              </Pressable>
+                <Pressable
+                  onPress={onJourneyPress}
+                  style={[styles.secondaryCta, surface]}
+                >
+                  <Text style={styles.secondaryCtaText}>View Journey</Text>
+                </Pressable>
+              </View>
             </View>
           </View>
         </View>
@@ -292,13 +322,25 @@ function getOrbitCardState({
   };
 }
 
-function getProjectMonogram(title) {
-  return title
-    .split(" ")
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("")
-    .toUpperCase();
+function ProjectIcon({ color, slug }) {
+  const iconName = getProjectIconName(slug);
+
+  return <MaterialCommunityIcons color={color} name={iconName} size={28} />;
+}
+
+function getProjectIconName(slug) {
+  switch (slug) {
+    case "rag-assistant":
+      return "head-cog-outline";
+    case "fogponic-system":
+      return "leaf";
+    case "sopkomat":
+      return "cash-register";
+    case "speed-bump":
+      return "traffic-light-outline";
+    default:
+      return "shape-outline";
+  }
 }
 
 const styles = StyleSheet.create({
@@ -386,6 +428,26 @@ const styles = StyleSheet.create({
     maxWidth: "100%",
     paddingRight: 14,
   },
+  contentCard: {
+    width: "100%",
+    maxWidth: 620,
+    paddingHorizontal: 30,
+    paddingVertical: 28,
+    borderRadius: 38,
+    backgroundColor: "rgba(255,255,255,0.62)",
+    borderColor: "rgba(152, 37, 152, 0.08)",
+    ...(Platform.OS === "web"
+      ? {
+          backdropFilter: "blur(24px)",
+          boxShadow: "0 22px 56px rgba(21, 23, 61, 0.08)",
+        }
+      : {}),
+  },
+  contentCardCompact: {
+    paddingHorizontal: 22,
+    paddingVertical: 22,
+    borderRadius: 30,
+  },
   availabilityPill: {
     alignSelf: "flex-start",
     flexDirection: "row",
@@ -443,8 +505,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.display,
   },
   summary: {
-    marginTop: 14,
-    maxWidth: 520,
+    marginTop: 18,
     color: palette.muted,
     fontSize: 15,
     lineHeight: 27,
@@ -454,7 +515,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 10,
-    marginTop: 20,
+    marginTop: 22,
   },
   heroChip: {
     paddingHorizontal: 12,
@@ -562,18 +623,6 @@ const styles = StyleSheet.create({
   iconBadgeLight: {
     backgroundColor: "rgba(152, 37, 152, 0.12)",
   },
-  iconBadgeText: {
-    fontSize: 14,
-    fontWeight: "900",
-    letterSpacing: 0.8,
-    fontFamily: fonts.display,
-  },
-  iconBadgeTextDark: {
-    color: palette.pink,
-  },
-  iconBadgeTextLight: {
-    color: palette.purple,
-  },
   orbitCardBody: {
     marginTop: 24,
     gap: 16,
@@ -634,9 +683,31 @@ const styles = StyleSheet.create({
   orbitCardTagDark: {
     color: palette.purple,
   },
-  orbitCardArrow: {
-    fontSize: 18,
+  projectLinkButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderRadius: 999,
+    borderWidth: 1,
+  },
+  projectLinkButtonDark: {
+    backgroundColor: "rgba(255,255,255,0.08)",
+    borderColor: "rgba(255,255,255,0.12)",
+  },
+  projectLinkButtonLight: {
+    backgroundColor: "rgba(21,23,61,0.04)",
+    borderColor: "rgba(21,23,61,0.08)",
+  },
+  projectLinkButtonDisabled: {
+    opacity: 0.45,
+  },
+  projectLinkText: {
+    fontSize: 12,
     fontWeight: "900",
+    letterSpacing: 0.7,
+    textTransform: "uppercase",
     fontFamily: fonts.display,
   },
 });

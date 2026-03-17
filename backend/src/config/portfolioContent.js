@@ -6,7 +6,7 @@ const portfolioContent = {
     location: "Videm pri Ptuju, Slovenia",
     availability: "Open to software engineering opportunities",
     summary:
-      "Full-stack engineer with hands-on experience shipping AI assistants, backend systems, and applied hardware-software products. Strong foundation in MERN development, RAG pipelines, and production-ready APIs.",
+      "Full-stack software engineer with hands-on experience building production AI systems, scalable backend applications, and applied engineering products. Strong in MERN development, RAG architectures, pgVector, Pinecone, and enterprise AI integrations.",
     ctas: [
       { label: "Email me", href: "mailto:rene.kolednik@gmail.com" },
       { label: "Call me", href: "tel:+386070244070" },
@@ -56,46 +56,36 @@ const portfolioContent = {
   ],
   experience: [
     {
+      company: "Šopkomat (Startup)",
+      role: "Software Developer",
+      period: "Mar 2025 - Jan 2026",
+      meta: "Part-time · Ptuj, Slovenia · Hybrid",
+      impact:
+        "Contributed to development of a smart vending machine platform for automated bouquet sales, architecting a full-stack MERN solution and integrating backend systems with Raspberry Pi hardware for real-time device management.",
+    },
+    {
+      company: "Keski-Uudenmaan koulutuskuntayhtyma Keuda",
+      role: "IT Support Intern",
+      period: "Aug 2024 - Oct 2024",
+      meta: "Internship · Järvenpää, Uusimaa, Finland · On-site",
+      impact:
+        "Provided IT support within an educational institution serving 10,000+ users, assisting in network infrastructure maintenance, system configuration, device deployment, and day-to-day technical troubleshooting.",
+    },
+    {
       company: "3Quite",
       role: "Junior Developer",
-      period: "Jun 2024 - Apr 2025",
+      period: "Jul 2023 - Apr 2024",
+      meta: "Part-time · Hybrid",
       impact:
-        "Developed enterprise RAG systems for internal knowledge automation, designed embedding pipelines with OpenAI API and LangChain, implemented semantic search with PostgreSQL and pgVector, and built production REST APIs.",
+        "Developed enterprise-grade RAG systems for internal knowledge automation, designing embedding pipelines with OpenAI API and LangChain, implementing semantic search with PostgreSQL and pgVector, and building production-ready REST APIs.",
     },
     {
-      company: "ERSko",
-      role: "AI / Full-Stack Developer",
-      period: "Recent project",
+      company: "Multimedija Ptuj",
+      role: "Network Installation Assistant",
+      period: "Jun 2022 - Aug 2022",
+      meta: "Part-time · On-site",
       impact:
-        "Built and deployed an AI-powered assistant used by 1000+ users, combining RAG architecture, OpenAI integrations, LangChain workflows, pgVector, and a MERN-based product surface.",
-    },
-    {
-      company: "Modular Fogponic System",
-      role: "Founder",
-      period: "Product development",
-      impact:
-        "Founded and patented a modular fogponic growing system, designing the hardware architecture and integrating control software for automated plant cultivation.",
-    },
-    {
-      company: "Sopkomat",
-      role: "Software Contributor",
-      period: "Applied systems project",
-      impact:
-        "Developed a smart vending machine workflow for bouquet sales, built a MERN-style admin surface, and integrated Raspberry Pi hardware control for real-time product management.",
-    },
-    {
-      company: "Keuda, Finland",
-      role: "Erasmus+ Technical Intern",
-      period: "Internship",
-      impact:
-        "Provided IT support for a large institution, assisting with network management, system maintenance, and troubleshooting across an educational environment serving 10,000+ users.",
-    },
-    {
-      company: "Smart Speed-Control Bump",
-      role: "Embedded Systems Developer",
-      period: "Computer vision project",
-      impact:
-        "Built an intelligent speed-control concept using computer vision and hardware actuation, linking real-time vehicle detection to backend control logic and mechanical infrastructure.",
+        "Assisted in deployment of optical fiber infrastructure, antenna installation, and network configuration during a summer engagement, contributing to on-site connectivity setup and technical implementation.",
     },
   ],
   projects: [
@@ -104,9 +94,10 @@ const portfolioContent = {
       title: "AI Knowledge Assistant",
       year: "2024",
       summary:
-        "A production assistant built for real users with retrieval pipelines, semantic search, and enterprise-oriented knowledge automation.",
+        "Built and deployed an AI-powered assistant used by 1000+ users, combining RAG architecture, OpenAI API, LangChain workflows, pgVector, and a full-stack MERN product surface.",
       stack: ["OpenAI API", "LangChain", "pgVector", "Node.js", "MERN"],
-      outcome: "Used by 1000+ users and deployed in a real production setting.",
+      outcome:
+        "Production deployment for real users with enterprise-focused retrieval and knowledge automation.",
       accent: "purple",
     },
     {
@@ -114,9 +105,10 @@ const portfolioContent = {
       title: "Modular Fogponic System",
       year: "Patent",
       summary:
-        "A patented modular plant-growing system connecting electronics, control software, and product-grade hardware thinking.",
+        "Founded and patented a modular fogponic growing system, designing the hardware architecture and integrating control software for automated plant cultivation.",
       stack: ["Embedded control", "Systems design", "Automation"],
-      outcome: "Patent received under number 26655.",
+      outcome:
+        "Patent secured under number 26655 for the modular system and control concept.",
       accent: "pink",
     },
     {
@@ -124,9 +116,10 @@ const portfolioContent = {
       title: "Sopkomat",
       year: "MERN",
       summary:
-        "A smart vending workflow with an admin panel, live product management, and hardware integration through Raspberry Pi.",
+        "Developed a smart vending machine system for automated bouquet sales, built the MERN-based admin application, and integrated Raspberry Pi control for real-time product management.",
       stack: ["MongoDB", "Express", "React", "Node.js", "Raspberry Pi"],
-      outcome: "Merged software workflows with real-world device control.",
+      outcome:
+        "Connected software workflows with live hardware control and real-world retail operations.",
       accent: "navy",
     },
     {
@@ -134,9 +127,10 @@ const portfolioContent = {
       title: "Smart Speed-Control Bump",
       year: "CV + hardware",
       summary:
-        "A computer vision experiment that linked vehicle detection to a responsive physical system with backend logic.",
+        "Built an intelligent speed-control concept using computer vision and hardware actuation, linking real-time vehicle detection with backend control logic and mechanical infrastructure.",
       stack: ["OpenCV", "Computer vision", "Embedded systems"],
-      outcome: "Showcased full-stack thinking beyond the browser.",
+      outcome:
+        "Applied systems thinking across computer vision, backend logic, and physical response.",
       accent: "purple",
     },
   ],

@@ -2,14 +2,8 @@ import { StyleSheet, Text, View } from "react-native";
 
 import { fonts, palette, surface } from "../lib/theme";
 
-const timelineLabels = [
-  { period: "2021 - Present", note: "Current role", title: "Senior Full-Stack Developer" },
-  { period: "2019 - 2021", note: "", title: "AI Systems Architect" },
-  { period: "2018 - 2019", note: "", title: "Software Engineer" },
-];
-
 function ExperienceSection({ experience }) {
-  const visibleExperience = experience.slice(0, 3);
+  const visibleExperience = experience;
 
   return (
     <View style={styles.section}>
@@ -19,41 +13,36 @@ function ExperienceSection({ experience }) {
       </View>
 
       <View style={styles.stack}>
-        {visibleExperience.map((item, index) => {
-          const label = timelineLabels[index];
+        {visibleExperience.map((item, index) => (
+          <View
+            key={`${item.company}-${item.role}`}
+            style={[
+              styles.card,
+              surface,
+              index === 0 ? styles.cardPrimary : styles.cardMuted,
+            ]}
+          >
+            {index === 0 ? <View style={styles.primaryHalo} /> : null}
 
-          return (
-            <View
-              key={`${item.company}-${item.role}`}
-              style={[
-                styles.card,
-                surface,
-                index === 0 ? styles.cardPrimary : styles.cardMuted,
-              ]}
-            >
-              {index === 0 ? <View style={styles.primaryHalo} /> : null}
-
-              <View style={styles.cardDateColumn}>
-                <Text
-                  style={[
-                    styles.cardDate,
-                    index === 0 ? styles.cardDatePrimary : styles.cardDateMuted,
-                  ]}
-                >
-                  {label.period}
-                </Text>
-                {label.note ? (
-                  <Text style={styles.currentRoleLabel}>{label.note}</Text>
-                ) : null}
-              </View>
-
-              <View style={styles.cardContent}>
-                <Text style={styles.role}>{label.title}</Text>
-                <Text style={styles.copy}>{item.impact}</Text>
-              </View>
+            <View style={styles.cardDateColumn}>
+              <Text
+                style={[
+                  styles.cardDate,
+                  index === 0 ? styles.cardDatePrimary : styles.cardDateMuted,
+                ]}
+              >
+                {item.period}
+              </Text>
+              <Text style={styles.company}>{item.company}</Text>
+              {item.meta ? <Text style={styles.meta}>{item.meta}</Text> : null}
             </View>
-          );
-        })}
+
+            <View style={styles.cardContent}>
+              <Text style={styles.role}>{item.role}</Text>
+              <Text style={styles.copy}>{item.impact}</Text>
+            </View>
+          </View>
+        ))}
       </View>
     </View>
   );
@@ -120,13 +109,18 @@ const styles = StyleSheet.create({
   cardDateMuted: {
     color: "rgba(21, 23, 61, 0.58)",
   },
-  currentRoleLabel: {
+  company: {
     marginTop: 7,
-    color: "rgba(21, 23, 61, 0.34)",
-    fontSize: 10,
-    fontWeight: "900",
-    letterSpacing: 0.9,
-    textTransform: "uppercase",
+    color: "rgba(21, 23, 61, 0.78)",
+    fontSize: 13,
+    fontWeight: "700",
+    fontFamily: fonts.display,
+  },
+  meta: {
+    marginTop: 4,
+    color: "rgba(21, 23, 61, 0.42)",
+    fontSize: 11,
+    lineHeight: 16,
     fontFamily: fonts.display,
   },
   cardContent: {
