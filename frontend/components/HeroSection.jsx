@@ -212,8 +212,8 @@ function HeroSection({
           >
             <View
               style={[
-                styles.contentCard,
                 surface,
+                styles.contentCard,
                 !isWide && styles.contentCardCompact,
               ]}
             >
@@ -434,12 +434,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 28,
     borderRadius: 38,
-    backgroundColor: "rgba(255,255,255,0.62)",
-    borderColor: "rgba(152, 37, 152, 0.08)",
+    backgroundColor: "rgba(255, 255, 255, 0.42)",
+    borderColor: "rgba(255, 255, 255, 0.28)",
     ...(Platform.OS === "web"
       ? {
-          backdropFilter: "blur(24px)",
-          boxShadow: "0 22px 56px rgba(21, 23, 61, 0.08)",
+          backdropFilter: "blur(20px)",
+          boxShadow: "0 18px 44px rgba(21, 23, 61, 0.08)",
         }
       : {}),
   },
