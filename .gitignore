@@ -1,0 +1,7 @@
+node_modules
+backend/.env
+backend/node_modules
+frontend/.env
+frontend/.expo
+frontend/dist
+frontend/node_modules

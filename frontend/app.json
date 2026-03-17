@@ -1,0 +1,19 @@
+{
+  "expo": {
+    "name": "Rene Kolednik Portfolio",
+    "slug": "rene-kolednik-portfolio",
+    "scheme": "rene-portfolio",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": false
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    }
+  }
+}
