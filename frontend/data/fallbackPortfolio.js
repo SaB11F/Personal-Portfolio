@@ -34,23 +34,27 @@ const fallbackPortfolio = {
   ],
   skills: [
     {
-      group: "Frontend",
-      summary: "Interactive interfaces built to feel polished and fast.",
-      items: ["React", "JavaScript", "Responsive UI", "UX prototyping"]
-    },
-    {
-      group: "Backend",
-      summary: "Clean APIs and scalable application logic.",
-      items: ["Node.js", "Express", "MongoDB", "PostgreSQL", "REST APIs"]
+      group: "Full Stack",
+      summary:
+        "React frontends, Node.js APIs, Express services, and database-backed product workflows.",
+      items: ["React", "Node.js", "Express", "MongoDB", "PostgreSQL"]
     },
     {
       group: "AI Systems",
-      summary: "Applied retrieval, embeddings, and assistant workflows.",
+      summary:
+        "RAG pipelines, OpenAI integrations, embeddings, vector search, and assistant orchestration.",
       items: ["OpenAI API", "LangChain", "RAG", "pgVector", "Pinecone"]
     },
     {
+      group: "Embedded",
+      summary:
+        "Hardware control, Raspberry Pi integration, computer vision, and real-time applied systems.",
+      items: ["Raspberry Pi", "OpenCV", "Computer vision", "Sensors", "Control logic"]
+    },
+    {
       group: "Deployment",
-      summary: "Shipping and operating real software in production.",
+      summary:
+        "Dockerized deployment, Render hosting, system integration, and production-ready delivery.",
       items: ["Docker", "Render", "System integration", "Hardware control"]
     }
   ],

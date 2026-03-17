@@ -119,7 +119,12 @@ function HomeScreen() {
             }
             style={styles.sectionGap}
           >
-            <ExperienceSection experience={portfolio.experience} />
+            <ExperienceSection
+              experience={portfolio.experience}
+              scrollY={scrollY}
+              sectionTop={sectionOffsets.current.experience || 0}
+              viewportHeight={height}
+            />
           </View>
 
           <View
