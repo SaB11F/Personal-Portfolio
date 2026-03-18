@@ -11,6 +11,9 @@
   "license": "ISC",
   "type": "module",
   "description": "API for Rene Kolednik's portfolio site.",
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^17.2.1",

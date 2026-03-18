@@ -1,13 +1,11 @@
-import { Platform } from "react-native";
+const DEFAULT_API_BASE = "http://localhost:5000/api";
 
-const API_BASE =
-  process.env.EXPO_PUBLIC_API_URL ||
-  (Platform.OS === "web"
-    ? "http://localhost:5000/api"
-    : "http://localhost:5000/api");
+const API_BASE = normalizeBaseUrl(
+  process.env.EXPO_PUBLIC_API_URL || DEFAULT_API_BASE
+);
 
 const request = async (path, options) => {
-  const response = await fetch(`${API_BASE}${path}`, {
+  const response = await fetch(`${API_BASE}${normalizePath(path)}`, {
     headers: {
       "Content-Type": "application/json",
       ...(options?.headers || {}),
@@ -23,6 +21,14 @@ const request = async (path, options) => {
 
   return data;
 };
+
+function normalizeBaseUrl(value) {
+  return value.replace(/\/+$/, "");
+}
+
+function normalizePath(path) {
+  return path.startsWith("/") ? path : `/${path}`;
+}
 
 export const fetchPortfolio = () => request("/portfolio");
 
