@@ -10,12 +10,14 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import ContactSection from "../components/ContactSection";
-import ExperienceSection from "../components/ExperienceSection";
-import HeroSection from "../components/HeroSection";
-import HighlightsSection from "../components/HighlightsSection";
-import SectionNav from "../components/SectionNav";
-import SkillsSection from "../components/SkillsSection";
+import { SectionNav } from "../components/navigation";
+import {
+  ContactSection,
+  ExperienceSection,
+  HeroSection,
+  HighlightsSection,
+  SkillsSection
+} from "../components/sections";
 import fallbackPortfolio from "../data/fallbackPortfolio";
 import { fetchPortfolio } from "../lib/api";
 import { palette, webEffects } from "../lib/theme";
