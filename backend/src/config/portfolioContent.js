@@ -137,6 +137,17 @@ const portfolioContent = {
         "Applied systems thinking across computer vision, backend logic, and physical response.",
       accent: "purple",
     },
+    {
+      slug: "esa-cansat",
+      title: "ESA CanSat",
+      year: "ESA",
+      summary:
+        "Engineered a compact CanSat mission prototype with onboard sensing, telemetry, and real-time systems integration for the national ESA competition.",
+      stack: ["Embedded systems", "Telemetry", "Sensors", "Mission design"],
+      outcome:
+        "1st place in ESA CanSat Slovenia with a flight-ready concept and end-to-end mission execution.",
+      accent: "navy",
+    },
   ],
   achievements: [
     "Patent number 26655",
