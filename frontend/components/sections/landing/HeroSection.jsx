@@ -3,9 +3,9 @@ import * as Linking from "expo-linking";
 import { Platform, Pressable, Text, View } from "react-native";
 
 import { palette, surface } from "../../../lib/theme";
+import { HERO_CHIPS, ORBITAL_CARD_THEMES } from "./HeroSection.constants";
+import { getOrbitCardState, getProjectIconName } from "./HeroSection.helpers";
 import { styles } from "./HeroSection.style";
-
-const orbitalCardThemes = ["dark", "light", "dark", "light"];
 
 function HeroSection({
   hero,
@@ -74,7 +74,8 @@ function HeroSection({
                 isWide,
                 total: projects.length,
               });
-              const theme = orbitalCardThemes[index % orbitalCardThemes.length];
+              const theme =
+                ORBITAL_CARD_THEMES[index % ORBITAL_CARD_THEMES.length];
               const projectGithubUrl = project.githubUrl || defaultGithubUrl;
 
               return (
@@ -235,32 +236,30 @@ function HeroSection({
               <Text style={styles.summary}>{hero.summary}</Text>
 
               <View style={styles.chipRow}>
-                {["React", "Node.js", "AI Systems", "RAG", "MERN Stack"].map(
-                  (item, index) => (
-                    <View
-                      key={item}
+                {HERO_CHIPS.map((chip) => (
+                  <View
+                    key={chip.label}
+                    style={[
+                      styles.heroChip,
+                      chip.tone === "dark"
+                        ? styles.heroChipDark
+                        : chip.tone === "purple"
+                          ? styles.heroChipPurple
+                          : styles.heroChipPink,
+                    ]}
+                  >
+                    <Text
                       style={[
-                        styles.heroChip,
-                        index < 2
-                          ? styles.heroChipDark
-                          : index < 4
-                            ? styles.heroChipPurple
-                            : styles.heroChipPink,
+                        styles.heroChipText,
+                        chip.tone === "dark"
+                          ? styles.heroChipTextLight
+                          : styles.heroChipTextDark,
                       ]}
                     >
-                      <Text
-                        style={[
-                          styles.heroChipText,
-                          index < 2
-                            ? styles.heroChipTextLight
-                            : styles.heroChipTextDark,
-                        ]}
-                      >
-                        {item}
-                      </Text>
-                    </View>
-                  )
-                )}
+                      {chip.label}
+                    </Text>
+                  </View>
+                ))}
               </View>
 
               <View style={styles.ctaRow}>
@@ -284,64 +283,10 @@ function HeroSection({
   );
 }
 
-function getOrbitCardState({
-  angle,
-  cardHeight,
-  cardWidth,
-  index,
-  isWide,
-  total,
-}) {
-  const theta = (index * (360 / total) + angle) * (Math.PI / 180);
-  const radiusX = isWide ? 482 : 188;
-  const radiusY = isWide ? 224 : 142;
-  const x = Math.sin(theta) * radiusX;
-  const y = Math.cos(theta) * radiusY * 0.5;
-  const z = Math.cos(theta) * 400;
-  const scale = (z + 600) / 1000;
-  const blur = Math.max(0, (400 - z) / 100);
-
-  return {
-    anchorLeft: isWide ? "74%" : "56%",
-    anchorTop: isWide ? "50%" : "67%",
-    opacity: Math.max(0.16, (z + 500) / 900),
-    transform: [
-      { perspective: 1200 },
-      { translateX: x - cardWidth / 2 },
-      { translateY: y - cardHeight / 2 },
-      { scale },
-      { rotate: `${Math.sin(theta) * -3}deg` },
-      { rotateY: `${Math.sin(theta) * -15}deg` },
-    ],
-    webStyle:
-      Platform.OS === "web"
-        ? {
-            filter: z < 0 ? `blur(${blur}px)` : "blur(0px)",
-          }
-        : {},
-    zIndex: Math.round(z + 500),
-  };
-}
-
 function ProjectIcon({ color, slug }) {
   const iconName = getProjectIconName(slug);
 
   return <MaterialCommunityIcons color={color} name={iconName} size={28} />;
-}
-
-function getProjectIconName(slug) {
-  switch (slug) {
-    case "rag-assistant":
-      return "head-cog-outline";
-    case "fogponic-system":
-      return "leaf";
-    case "sopkomat":
-      return "cash-register";
-    case "speed-bump":
-      return "traffic-light-outline";
-    default:
-      return "shape-outline";
-  }
 }
 
 export default HeroSection;

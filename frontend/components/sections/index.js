@@ -1,5 +1,5 @@
-export { default as ContactSection } from "./contact/ContactSection";
-export { default as ExperienceSection } from "./experience/ExperienceSection";
-export { default as HeroSection } from "./landing/HeroSection";
-export { default as HighlightsSection } from "./highlights/HighlightsSection";
-export { default as SkillsSection } from "./skills/SkillsSection";
+export { default as ContactSection } from "./contact";
+export { default as ExperienceSection } from "./experience";
+export { default as HeroSection } from "./landing";
+export { default as HighlightsSection } from "./highlights";
+export { default as SkillsSection } from "./skills";
