@@ -43,6 +43,8 @@ export function getProjectIconName(slug) {
   switch (slug) {
     case "rag-assistant":
       return "head-cog-outline";
+    case "esa-cansat":
+      return "satellite-variant";
     case "fogponic-system":
       return "leaf";
     case "sopkomat":

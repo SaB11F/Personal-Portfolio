@@ -6,4 +6,16 @@ export const HERO_CHIPS = [
   { label: "MERN Stack", tone: "pink" },
 ];
 
-export const ORBITAL_CARD_THEMES = ["dark", "light", "dark", "light"];
+export const PROJECT_CARD_MEDIA = {
+  "fogponic-system": {
+    source: require("../../../assets/projects/orbital/Rastlinjak_patent.png"),
+  },
+};
+
+export const ORBITAL_CARD_THEMES = [
+  "dark",
+  "light",
+  "dark",
+  "light",
+  "soft",
+];

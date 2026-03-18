@@ -1,9 +1,13 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Image, Platform, Pressable, Text, View } from "react-native";
 
 import { palette, surface } from "../../../lib/theme";
-import { HERO_CHIPS, ORBITAL_CARD_THEMES } from "./HeroSection.constants";
+import {
+  HERO_CHIPS,
+  ORBITAL_CARD_THEMES,
+  PROJECT_CARD_MEDIA,
+} from "./HeroSection.constants";
 import { getOrbitCardState, getProjectIconName } from "./HeroSection.helpers";
 import { styles } from "./HeroSection.style";
 
@@ -76,6 +80,11 @@ function HeroSection({
               });
               const theme =
                 ORBITAL_CARD_THEMES[index % ORBITAL_CARD_THEMES.length];
+              const isLightTheme = theme === "light";
+              const isSoftTheme = theme === "soft";
+              const usesLightText = theme === "dark";
+              const projectMedia = PROJECT_CARD_MEDIA[project.slug];
+              const showsProjectMedia = isWide && projectMedia;
               const projectGithubUrl = project.githubUrl || defaultGithubUrl;
 
               return (
@@ -98,33 +107,80 @@ function HeroSection({
                   <View
                     style={[
                       styles.orbitCardInner,
-                      theme === "dark"
-                        ? styles.orbitCardInnerDark
-                        : styles.orbitCardInnerLight,
+                      isLightTheme
+                        ? styles.orbitCardInnerLight
+                        : isSoftTheme
+                          ? styles.orbitCardInnerSoft
+                          : styles.orbitCardInnerDark,
                     ]}
                   >
                     <View>
+                      {showsProjectMedia ? (
+                        <View style={styles.projectMediaFrame}>
+                          <Image
+                            resizeMode="cover"
+                            source={projectMedia.source}
+                            style={styles.projectMediaImage}
+                          />
+
+                          <View
+                            style={[
+                              styles.iconBadge,
+                              styles.projectMediaBadge,
+                              isLightTheme
+                                ? styles.iconBadgeLight
+                                : isSoftTheme
+                                  ? styles.iconBadgeSoft
+                                  : styles.iconBadgeDark,
+                            ]}
+                          >
+                            <ProjectIcon
+                              color={
+                                isLightTheme
+                                  ? palette.purple
+                                  : isSoftTheme
+                                    ? palette.purple
+                                    : palette.pink
+                              }
+                              slug={project.slug}
+                            />
+                          </View>
+                        </View>
+                      ) : (
+                        <View
+                          style={[
+                            styles.iconBadge,
+                            isLightTheme
+                              ? styles.iconBadgeLight
+                              : isSoftTheme
+                                ? styles.iconBadgeSoft
+                                : styles.iconBadgeDark,
+                          ]}
+                        >
+                          <ProjectIcon
+                            color={
+                              isLightTheme
+                                ? palette.purple
+                                : isSoftTheme
+                                  ? palette.purple
+                                  : palette.pink
+                            }
+                            slug={project.slug}
+                          />
+                        </View>
+                      )}
+
                       <View
                         style={[
-                          styles.iconBadge,
-                          theme === "dark"
-                            ? styles.iconBadgeDark
-                            : styles.iconBadgeLight,
+                          styles.orbitCardBody,
+                          showsProjectMedia && styles.orbitCardBodyWithMedia,
                         ]}
                       >
-                        <ProjectIcon
-                          color={
-                            theme === "dark" ? palette.pink : palette.purple
-                          }
-                          slug={project.slug}
-                        />
-                      </View>
-
-                      <View style={styles.orbitCardBody}>
                         <Text
                           style={[
                             styles.orbitCardTitle,
-                            theme === "dark"
+                            showsProjectMedia && styles.orbitCardTitleWithMedia,
+                            usesLightText
                               ? styles.orbitCardTitleLight
                               : styles.orbitCardTitleDark,
                           ]}
@@ -134,7 +190,8 @@ function HeroSection({
                         <Text
                           style={[
                             styles.orbitCardCopy,
-                            theme === "dark"
+                            showsProjectMedia && styles.orbitCardCopyWithMedia,
+                            usesLightText
                               ? styles.orbitCardCopyLight
                               : styles.orbitCardCopyDark,
                           ]}
@@ -144,7 +201,7 @@ function HeroSection({
                         <Text
                           style={[
                             styles.orbitCardOutcome,
-                            theme === "dark"
+                            usesLightText
                               ? styles.orbitCardOutcomeLight
                               : styles.orbitCardOutcomeDark,
                           ]}
@@ -158,9 +215,11 @@ function HeroSection({
                       <Text
                         style={[
                           styles.orbitCardTag,
-                          theme === "dark"
-                            ? styles.orbitCardTagLight
-                            : styles.orbitCardTagDark,
+                          isLightTheme
+                            ? styles.orbitCardTagDark
+                            : isSoftTheme
+                              ? styles.orbitCardTagSoft
+                              : styles.orbitCardTagLight,
                         ]}
                       >
                         {project.stack.slice(0, 2).join(" + ")}
@@ -174,21 +233,23 @@ function HeroSection({
                         }}
                         style={[
                           styles.projectLinkButton,
-                          theme === "dark"
-                            ? styles.projectLinkButtonDark
-                            : styles.projectLinkButtonLight,
+                          isLightTheme
+                            ? styles.projectLinkButtonLight
+                            : isSoftTheme
+                              ? styles.projectLinkButtonSoft
+                              : styles.projectLinkButtonDark,
                           !projectGithubUrl && styles.projectLinkButtonDisabled,
                         ]}
                       >
                         <MaterialCommunityIcons
-                          color={theme === "dark" ? "#FFFFFF" : palette.navy}
+                          color={usesLightText ? "#FFFFFF" : palette.navy}
                           name="github"
                           size={18}
                         />
                         <Text
                           style={[
                             styles.projectLinkText,
-                            theme === "dark"
+                            usesLightText
                               ? styles.orbitCardTitleLight
                               : styles.orbitCardTitleDark,
                           ]}
