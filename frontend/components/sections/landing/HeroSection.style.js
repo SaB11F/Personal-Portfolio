@@ -290,46 +290,15 @@ export const styles = StyleSheet.create({
   iconBadgeLight: {
     backgroundColor: "rgba(152, 37, 152, 0.12)",
   },
-  projectMediaFrame: {
-    position: "relative",
-    height: 178,
-    marginBottom: 20,
-    overflow: "hidden",
-    borderRadius: 24,
-    borderWidth: 1,
-    borderColor: "rgba(152, 37, 152, 0.1)",
-    backgroundColor: "rgba(241, 233, 233, 0.8)",
-  },
-  projectMediaImage: {
-    width: "100%",
-    height: "100%",
-  },
-  projectMediaBadge: {
-    position: "absolute",
-    top: 14,
-    left: 14,
-    backgroundColor: "rgba(255, 249, 252, 0.82)",
-    borderWidth: 1,
-    borderColor: "rgba(152, 37, 152, 0.08)",
-  },
   orbitCardBody: {
     marginTop: 24,
     gap: 16,
-  },
-  orbitCardBodyWithMedia: {
-    marginTop: 0,
-    gap: 14,
   },
   orbitCardTitle: {
     fontSize: 48,
     lineHeight: 52,
     fontWeight: "900",
     fontFamily: fonts.display,
-  },
-  orbitCardTitleWithMedia: {
-    fontSize: 42,
-    lineHeight: 46,
-    letterSpacing: -1.9,
   },
   orbitCardTitleLight: {
     color: "#FFFFFF",
@@ -342,10 +311,6 @@ export const styles = StyleSheet.create({
     lineHeight: 28,
     fontWeight: "500",
     fontFamily: fonts.display,
-  },
-  orbitCardCopyWithMedia: {
-    fontSize: 14,
-    lineHeight: 25,
   },
   orbitCardCopyLight: {
     color: "rgba(255,255,255,0.72)",

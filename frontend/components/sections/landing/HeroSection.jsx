@@ -1,13 +1,9 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
-import { Image, Platform, Pressable, Text, View } from "react-native";
+import { Platform, Pressable, Text, View } from "react-native";
 
 import { palette, surface } from "../../../lib/theme";
-import {
-  HERO_CHIPS,
-  ORBITAL_CARD_THEMES,
-  PROJECT_CARD_MEDIA,
-} from "./HeroSection.constants";
+import { HERO_CHIPS, ORBITAL_CARD_THEMES } from "./HeroSection.constants";
 import { getOrbitCardState, getProjectIconName } from "./HeroSection.helpers";
 import { styles } from "./HeroSection.style";
 
@@ -83,8 +79,6 @@ function HeroSection({
               const isLightTheme = theme === "light";
               const isSoftTheme = theme === "soft";
               const usesLightText = theme === "dark";
-              const projectMedia = PROJECT_CARD_MEDIA[project.slug];
-              const showsProjectMedia = isWide && projectMedia;
               const projectGithubUrl = project.githubUrl || defaultGithubUrl;
 
               return (
@@ -115,71 +109,32 @@ function HeroSection({
                     ]}
                   >
                     <View>
-                      {showsProjectMedia ? (
-                        <View style={styles.projectMediaFrame}>
-                          <Image
-                            resizeMode="cover"
-                            source={projectMedia.source}
-                            style={styles.projectMediaImage}
-                          />
-
-                          <View
-                            style={[
-                              styles.iconBadge,
-                              styles.projectMediaBadge,
-                              isLightTheme
-                                ? styles.iconBadgeLight
-                                : isSoftTheme
-                                  ? styles.iconBadgeSoft
-                                  : styles.iconBadgeDark,
-                            ]}
-                          >
-                            <ProjectIcon
-                              color={
-                                isLightTheme
-                                  ? palette.purple
-                                  : isSoftTheme
-                                    ? palette.purple
-                                    : palette.pink
-                              }
-                              slug={project.slug}
-                            />
-                          </View>
-                        </View>
-                      ) : (
-                        <View
-                          style={[
-                            styles.iconBadge,
-                            isLightTheme
-                              ? styles.iconBadgeLight
-                              : isSoftTheme
-                                ? styles.iconBadgeSoft
-                                : styles.iconBadgeDark,
-                          ]}
-                        >
-                          <ProjectIcon
-                            color={
-                              isLightTheme
-                                ? palette.purple
-                                : isSoftTheme
-                                  ? palette.purple
-                                  : palette.pink
-                            }
-                            slug={project.slug}
-                          />
-                        </View>
-                      )}
-
                       <View
                         style={[
-                          styles.orbitCardBody,
-                          showsProjectMedia && styles.orbitCardBodyWithMedia,
+                          styles.iconBadge,
+                          isLightTheme
+                            ? styles.iconBadgeLight
+                            : isSoftTheme
+                              ? styles.iconBadgeSoft
+                              : styles.iconBadgeDark,
                         ]}
                       >
+                        <ProjectIcon
+                          color={
+                            isLightTheme
+                              ? palette.purple
+                              : isSoftTheme
+                                ? palette.purple
+                                : palette.pink
+                          }
+                          slug={project.slug}
+                        />
+                      </View>
+
+                      <View style={styles.orbitCardBody}>
                         <Text
                           style={[
                             styles.orbitCardTitle,
-                            showsProjectMedia && styles.orbitCardTitleWithMedia,
                             usesLightText
                               ? styles.orbitCardTitleLight
                               : styles.orbitCardTitleDark,
@@ -190,7 +145,6 @@ function HeroSection({
                         <Text
                           style={[
                             styles.orbitCardCopy,
-                            showsProjectMedia && styles.orbitCardCopyWithMedia,
                             usesLightText
                               ? styles.orbitCardCopyLight
                               : styles.orbitCardCopyDark,
