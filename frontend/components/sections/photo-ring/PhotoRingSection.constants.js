@@ -69,16 +69,6 @@ export const PHOTO_RING_ITEMS = [
     image: require("../../../assets/gallery/Snapchat-2115422170.jpg"),
     offsetY: -8,
   },
-  {
-    id: "sopkomat-interface",
-    category: "Product",
-    title: "Sopkomat Admin Interface",
-    year: "2025",
-    caption:
-      "Early product interface snapshot from the smart retail and device-management workflow.",
-    image: require("../../../assets/gallery/šopkomat.jpg"),
-    offsetY: 14,
-  },
 ];
 
 export const PHOTO_RING_LOOP_COPIES = 5;
