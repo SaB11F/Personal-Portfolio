@@ -126,7 +126,7 @@ function HomeScreen() {
             onLayout={(event) =>
               registerSection("experience", event.nativeEvent.layout.y)
             }
-            style={styles.sectionGap}
+            style={styles.photoRingExitGap}
           >
             <ExperienceSection
               experience={portfolio.experience}
@@ -204,8 +204,11 @@ const styles = StyleSheet.create({
   sectionGap: {
     marginTop: 110
   },
+  photoRingExitGap: {
+    marginTop: 72
+  },
   memoryGap: {
-    marginTop: 36
+    marginTop: 2
   },
   footer: {
     paddingTop: 24,

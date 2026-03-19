@@ -10,30 +10,30 @@ export function buildLoopItems(items, copies) {
 export function getRingMetrics(width) {
   if (width >= 1320) {
     return {
-      cardWidth: 396,
-      cardHeight: 296,
+      cardWidth: 416,
+      cardHeight: 312,
       gap: 24,
-      spill: 118,
-      verticalPadding: 102,
+      spill: 126,
+      verticalPadding: 72,
     };
   }
 
   if (width >= 900) {
     return {
-      cardWidth: 344,
-      cardHeight: 258,
+      cardWidth: 360,
+      cardHeight: 270,
       gap: 20,
-      spill: 82,
-      verticalPadding: 90,
+      spill: 88,
+      verticalPadding: 62,
     };
   }
 
   return {
-    cardWidth: 272,
-    cardHeight: 204,
-    gap: 14,
-    spill: 34,
-    verticalPadding: 62,
+    cardWidth: 288,
+    cardHeight: 216,
+      gap: 14,
+    spill: 38,
+    verticalPadding: 46,
   };
 }
 
