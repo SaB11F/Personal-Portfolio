@@ -16,6 +16,7 @@ import {
   ExperienceSection,
   HeroSection,
   HighlightsSection,
+  PhotoRingSection,
   SkillsSection
 } from "../components/sections";
 import fallbackPortfolio from "../data/fallbackPortfolio";
@@ -116,6 +117,12 @@ function HomeScreen() {
           </View>
 
           <View
+            style={styles.memoryGap}
+          >
+            <PhotoRingSection />
+          </View>
+
+          <View
             onLayout={(event) =>
               registerSection("experience", event.nativeEvent.layout.y)
             }
@@ -196,6 +203,9 @@ const styles = StyleSheet.create({
   },
   sectionGap: {
     marginTop: 110
+  },
+  memoryGap: {
+    marginTop: 36
   },
   footer: {
     paddingTop: 24,
