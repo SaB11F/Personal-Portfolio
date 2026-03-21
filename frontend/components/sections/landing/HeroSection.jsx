@@ -3,7 +3,12 @@ import * as Linking from "expo-linking";
 import { Platform, Pressable, Text, View } from "react-native";
 
 import { palette, surface } from "../../../lib/theme";
-import { HERO_CHIPS, ORBITAL_CARD_THEMES } from "./HeroSection.constants";
+import {
+  HERO_CHIPS,
+  ORBITAL_CARD_GHOSTS,
+  ORBITAL_CARD_THEMES,
+} from "./HeroSection.constants";
+import OrbitGhostArtwork from "./OrbitGhostArtwork";
 import { getOrbitCardState, getProjectIconName } from "./HeroSection.helpers";
 import { styles } from "./HeroSection.style";
 
@@ -76,6 +81,7 @@ function HeroSection({
               });
               const theme =
                 ORBITAL_CARD_THEMES[index % ORBITAL_CARD_THEMES.length];
+              const ghost = ORBITAL_CARD_GHOSTS[project.slug];
               const isLightTheme = theme === "light";
               const isSoftTheme = theme === "soft";
               const usesLightText = theme === "dark";
@@ -108,109 +114,117 @@ function HeroSection({
                           : styles.orbitCardInnerDark,
                     ]}
                   >
-                    <View>
-                      <View
-                        style={[
-                          styles.iconBadge,
-                          isLightTheme
-                            ? styles.iconBadgeLight
-                            : isSoftTheme
-                              ? styles.iconBadgeSoft
-                              : styles.iconBadgeDark,
-                        ]}
-                      >
-                        <ProjectIcon
-                          color={
+                    <OrbitGhostArtwork
+                      ghost={ghost}
+                      isWide={isWide}
+                      theme={theme}
+                    />
+
+                    <View style={styles.orbitCardContentLayer}>
+                      <View>
+                        <View
+                          style={[
+                            styles.iconBadge,
                             isLightTheme
-                              ? palette.purple
+                              ? styles.iconBadgeLight
                               : isSoftTheme
+                                ? styles.iconBadgeSoft
+                                : styles.iconBadgeDark,
+                          ]}
+                        >
+                          <ProjectIcon
+                            color={
+                              isLightTheme
                                 ? palette.purple
-                                : palette.pink
-                          }
-                          slug={project.slug}
-                        />
+                                : isSoftTheme
+                                  ? palette.purple
+                                  : palette.pink
+                            }
+                            slug={project.slug}
+                          />
+                        </View>
+
+                        <View style={styles.orbitCardBody}>
+                          <Text
+                            style={[
+                              styles.orbitCardTitle,
+                              usesLightText
+                                ? styles.orbitCardTitleLight
+                                : styles.orbitCardTitleDark,
+                            ]}
+                          >
+                            {project.title}
+                          </Text>
+                          <Text
+                            style={[
+                              styles.orbitCardCopy,
+                              usesLightText
+                                ? styles.orbitCardCopyLight
+                                : styles.orbitCardCopyDark,
+                            ]}
+                          >
+                            {project.summary}
+                          </Text>
+                          <Text
+                            style={[
+                              styles.orbitCardOutcome,
+                              usesLightText
+                                ? styles.orbitCardOutcomeLight
+                                : styles.orbitCardOutcomeDark,
+                            ]}
+                          >
+                            {project.outcome}
+                          </Text>
+                        </View>
                       </View>
 
-                      <View style={styles.orbitCardBody}>
+                      <View style={styles.orbitCardFooter}>
                         <Text
                           style={[
-                            styles.orbitCardTitle,
-                            usesLightText
-                              ? styles.orbitCardTitleLight
-                              : styles.orbitCardTitleDark,
+                            styles.orbitCardTag,
+                            isLightTheme
+                              ? styles.orbitCardTagDark
+                              : isSoftTheme
+                                ? styles.orbitCardTagSoft
+                                : styles.orbitCardTagLight,
                           ]}
                         >
-                          {project.title}
+                          {project.stack.slice(0, 2).join(" + ")}
                         </Text>
-                        <Text
+                        <Pressable
+                          disabled={!projectGithubUrl}
+                          onPress={() => {
+                            if (projectGithubUrl) {
+                              Linking.openURL(projectGithubUrl);
+                            }
+                          }}
                           style={[
-                            styles.orbitCardCopy,
-                            usesLightText
-                              ? styles.orbitCardCopyLight
-                              : styles.orbitCardCopyDark,
+                            styles.projectLinkButton,
+                            isLightTheme
+                              ? styles.projectLinkButtonLight
+                              : isSoftTheme
+                                ? styles.projectLinkButtonSoft
+                                : styles.projectLinkButtonDark,
+                            !projectGithubUrl && styles.projectLinkButtonDisabled,
                           ]}
                         >
-                          {project.summary}
-                        </Text>
-                        <Text
-                          style={[
-                            styles.orbitCardOutcome,
-                            usesLightText
-                              ? styles.orbitCardOutcomeLight
-                              : styles.orbitCardOutcomeDark,
-                          ]}
-                        >
-                          {project.outcome}
-                        </Text>
+                          <MaterialCommunityIcons
+                            color={usesLightText ? "#FFFFFF" : palette.navy}
+                            name="github"
+                            size={18}
+                          />
+                          <Text
+                            style={[
+                              styles.projectLinkText,
+                              usesLightText
+                                ? styles.orbitCardTitleLight
+                                : styles.orbitCardTitleDark,
+                            ]}
+                          >
+                            Code
+                          </Text>
+                        </Pressable>
                       </View>
-                    </View>
-
-                    <View style={styles.orbitCardFooter}>
-                      <Text
-                        style={[
-                          styles.orbitCardTag,
-                          isLightTheme
-                            ? styles.orbitCardTagDark
-                            : isSoftTheme
-                              ? styles.orbitCardTagSoft
-                              : styles.orbitCardTagLight,
-                        ]}
-                      >
-                        {project.stack.slice(0, 2).join(" + ")}
-                      </Text>
-                      <Pressable
-                        disabled={!projectGithubUrl}
-                        onPress={() => {
-                          if (projectGithubUrl) {
-                            Linking.openURL(projectGithubUrl);
-                          }
-                        }}
-                        style={[
-                          styles.projectLinkButton,
-                          isLightTheme
-                            ? styles.projectLinkButtonLight
-                            : isSoftTheme
-                              ? styles.projectLinkButtonSoft
-                              : styles.projectLinkButtonDark,
-                          !projectGithubUrl && styles.projectLinkButtonDisabled,
-                        ]}
-                      >
-                        <MaterialCommunityIcons
-                          color={usesLightText ? "#FFFFFF" : palette.navy}
-                          name="github"
-                          size={18}
-                        />
-                        <Text
-                          style={[
-                            styles.projectLinkText,
-                            usesLightText
-                              ? styles.orbitCardTitleLight
-                              : styles.orbitCardTitleDark,
-                          ]}
-                        >
-                          Code
-                        </Text>
-                      </Pressable>
                     </View>
                   </View>
                 </View>
