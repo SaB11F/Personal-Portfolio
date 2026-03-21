@@ -54,6 +54,17 @@ export const webEffects = {
             "radial-gradient(at 0% 0%, rgba(228,145,201,0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(152,37,152,0.1) 0px, transparent 50%)"
         }
       : {},
+  cursorGlowOverlay:
+    Platform.OS === "web"
+      ? {
+          backgroundImage:
+            "radial-gradient(220px circle at var(--cursor-glow-x, 50%) var(--cursor-glow-y, 35%), rgba(228,145,201,0.24) 0%, rgba(228,145,201,0.12) 32%, transparent 64%), radial-gradient(420px circle at var(--cursor-glow-x, 50%) var(--cursor-glow-y, 35%), rgba(152,37,152,0.18) 0%, rgba(152,37,152,0.08) 36%, transparent 70%)",
+          opacity: "var(--cursor-glow-opacity, 0)",
+          transitionDuration: "180ms",
+          transitionProperty: "opacity",
+          transitionTimingFunction: "ease-out"
+        }
+      : {},
   dottedDark:
     Platform.OS === "web"
       ? {

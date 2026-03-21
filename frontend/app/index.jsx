@@ -60,6 +60,53 @@ function HomeScreen() {
     };
   }, []);
 
+  useEffect(() => {
+    if (Platform.OS !== "web") {
+      return undefined;
+    }
+
+    const root = document.documentElement;
+    let frameId = null;
+
+    const updateGlow = (clientX, clientY, opacity) => {
+      root.style.setProperty("--cursor-glow-x", `${clientX}px`);
+      root.style.setProperty("--cursor-glow-y", `${clientY}px`);
+      root.style.setProperty("--cursor-glow-opacity", opacity);
+    };
+
+    const handlePointerMove = (event) => {
+      if (frameId) {
+        cancelAnimationFrame(frameId);
+      }
+
+      frameId = requestAnimationFrame(() => {
+        updateGlow(event.clientX, event.clientY, "1");
+      });
+    };
+
+    const handlePointerLeave = () => {
+      root.style.setProperty("--cursor-glow-opacity", "0");
+    };
+
+    updateGlow(window.innerWidth * 0.5, window.innerHeight * 0.24, "0");
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerleave", handlePointerLeave);
+    window.addEventListener("blur", handlePointerLeave);
+
+    return () => {
+      if (frameId) {
+        cancelAnimationFrame(frameId);
+      }
+
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerleave", handlePointerLeave);
+      window.removeEventListener("blur", handlePointerLeave);
+      root.style.removeProperty("--cursor-glow-x");
+      root.style.removeProperty("--cursor-glow-y");
+      root.style.removeProperty("--cursor-glow-opacity");
+    };
+  }, []);
+
   const registerSection = (key, y) => {
     sectionOffsets.current[key] = Math.max(0, y - 12);
   };
@@ -79,6 +126,7 @@ function HomeScreen() {
   return (
     <SafeAreaView style={[styles.safeArea, webEffects.meshBackground]}>
       <StatusBar style="dark" />
+      <View pointerEvents="none" style={[styles.cursorGlow, webEffects.cursorGlowOverlay]} />
 
       <ScrollView
         ref={scrollViewRef}
@@ -179,9 +227,21 @@ function clamp(value, min, max) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    position: "relative",
     backgroundColor: palette.canvas
   },
+  cursorGlow: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 0,
+    ...(Platform.OS === "web"
+      ? {
+          position: "fixed"
+        }
+      : {})
+  },
   scrollContent: {
+    position: "relative",
+    zIndex: 1,
     paddingBottom: 48
   },
   navWrapper: {
