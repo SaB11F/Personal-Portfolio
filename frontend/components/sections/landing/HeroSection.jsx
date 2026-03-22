@@ -179,18 +179,31 @@ function HeroSection({
                       </View>
 
                       <View style={styles.orbitCardFooter}>
-                        <Text
-                          style={[
-                            styles.orbitCardTag,
-                            isLightTheme
-                              ? styles.orbitCardTagDark
-                              : isSoftTheme
-                                ? styles.orbitCardTagSoft
-                                : styles.orbitCardTagLight,
-                          ]}
-                        >
-                          {project.stack.slice(0, 2).join(" + ")}
-                        </Text>
+                        <View style={styles.orbitCardTagRow}>
+                          <View
+                            style={[
+                              styles.orbitCardTagChip,
+                              isLightTheme
+                                ? styles.orbitCardTagChipLight
+                                : isSoftTheme
+                                  ? styles.orbitCardTagChipSoft
+                                  : styles.orbitCardTagChipDark,
+                            ]}
+                          >
+                            <Text
+                              style={[
+                                styles.orbitCardTag,
+                                isLightTheme
+                                  ? styles.orbitCardTagDark
+                                  : isSoftTheme
+                                    ? styles.orbitCardTagSoft
+                                    : styles.orbitCardTagLight,
+                              ]}
+                            >
+                              {project.tag || project.stack[0]}
+                            </Text>
+                          </View>
+                        </View>
                         <Pressable
                           disabled={!projectGithubUrl}
                           onPress={() => {

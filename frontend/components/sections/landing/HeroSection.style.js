@@ -728,8 +728,31 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     gap: 16,
   },
-  orbitCardTag: {
+  orbitCardTagRow: {
     flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  orbitCardTagChip: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 999,
+    borderWidth: 1,
+  },
+  orbitCardTagChipDark: {
+    backgroundColor: "rgba(255,255,255,0.08)",
+    borderColor: "rgba(255,255,255,0.12)",
+  },
+  orbitCardTagChipSoft: {
+    backgroundColor: "rgba(255,255,255,0.34)",
+    borderColor: "rgba(152, 37, 152, 0.14)",
+  },
+  orbitCardTagChipLight: {
+    backgroundColor: "rgba(21,23,61,0.04)",
+    borderColor: "rgba(21,23,61,0.08)",
+  },
+  orbitCardTag: {
     fontSize: 12,
     fontWeight: "900",
     letterSpacing: 0.7,

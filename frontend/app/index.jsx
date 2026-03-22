@@ -20,11 +20,9 @@ import {
   SkillsSection
 } from "../components/sections";
 import fallbackPortfolio from "../data/fallbackPortfolio";
-import { fetchPortfolio } from "../lib/api";
 import { palette, webEffects } from "../lib/theme";
 
 function HomeScreen() {
-  const [portfolio, setPortfolio] = useState(fallbackPortfolio);
   const [scrollY, setScrollY] = useState(0);
   const scrollViewRef = useRef(null);
   const sectionOffsets = useRef({});
@@ -37,28 +35,6 @@ function HomeScreen() {
     0,
     1
   );
-
-  useEffect(() => {
-    let ignore = false;
-
-    const loadPortfolio = async () => {
-      try {
-        const payload = await fetchPortfolio();
-
-        if (!ignore) {
-          setPortfolio(payload);
-        }
-      } catch (_error) {
-        // Fallback content is already loaded.
-      }
-    };
-
-    loadPortfolio();
-
-    return () => {
-      ignore = true;
-    };
-  }, []);
 
   useEffect(() => {
     if (Platform.OS !== "web") {
@@ -152,13 +128,13 @@ function HomeScreen() {
             }}
           >
             <HeroSection
-              hero={portfolio.hero}
+              hero={fallbackPortfolio.hero}
               isWide={isWide}
-              metrics={portfolio.hero.metrics}
+              metrics={fallbackPortfolio.hero.metrics}
               onJourneyPress={() => handleNavigate("experience")}
               onTalkPress={() => handleNavigate("contact")}
               progress={heroProgress}
-              projects={portfolio.projects}
+              projects={fallbackPortfolio.projects}
               sectionHeight={heroHeight}
               viewportHeight={height}
             />
@@ -177,7 +153,7 @@ function HomeScreen() {
             style={styles.photoRingExitGap}
           >
             <ExperienceSection
-              experience={portfolio.experience}
+              experience={fallbackPortfolio.experience}
               scrollY={scrollY}
               sectionTop={sectionOffsets.current.experience || 0}
               viewportHeight={height}
@@ -190,13 +166,13 @@ function HomeScreen() {
             }
             style={styles.sectionGap}
           >
-            <SkillsSection isWide={isWide} skills={portfolio.skills} />
+            <SkillsSection isWide={isWide} skills={fallbackPortfolio.skills} />
           </View>
 
           <View style={styles.sectionGap}>
             <HighlightsSection
-              achievements={portfolio.achievements}
-              education={portfolio.education}
+              achievements={fallbackPortfolio.achievements}
+              education={fallbackPortfolio.education}
             />
           </View>
 
@@ -206,7 +182,7 @@ function HomeScreen() {
             }
             style={styles.sectionGap}
           >
-            <ContactSection contact={portfolio.contact} isWide={isWide} />
+            <ContactSection contact={fallbackPortfolio.contact} isWide={isWide} />
           </View>
 
           <View style={styles.footer}>

@@ -95,8 +95,9 @@ const fallbackPortfolio = {
   projects: [
     {
       slug: "rag-assistant",
-      title: "AI Knowledge Assistant",
+      title: "ERŠko",
       year: "2024",
+      tag: "1000+ users",
       summary:
         "Built and deployed an AI-powered assistant used by 1000+ users, combining RAG architecture, OpenAI API, LangChain workflows, pgVector, and a full-stack MERN product surface.",
       stack: ["OpenAI API", "LangChain", "pgVector", "Node.js", "MERN"],
@@ -108,6 +109,7 @@ const fallbackPortfolio = {
       slug: "fogponic-system",
       title: "Modular Fogponic System",
       year: "Patent",
+      tag: "Patented system",
       summary:
         "Founded and patented a modular fogponic growing system, designing the hardware architecture and integrating control software for automated plant cultivation.",
       stack: ["Embedded control", "Systems design", "Automation"],
@@ -117,8 +119,9 @@ const fallbackPortfolio = {
     },
     {
       slug: "sopkomat",
-      title: "Sopkomat",
+      title: "Šopkomat",
       year: "MERN",
+      tag: "Live vending machine",
       summary:
         "Developed a smart vending machine system for automated bouquet sales, built the MERN-based admin application, and integrated Raspberry Pi control for real-time product management.",
       stack: ["MongoDB", "Express", "React", "Node.js", "Raspberry Pi"],
@@ -130,6 +133,7 @@ const fallbackPortfolio = {
       slug: "speed-bump",
       title: "Smart Speed-Control Bump",
       year: "CV + hardware",
+      tag: "Vision-controlled",
       summary:
         "Built an intelligent speed-control concept using computer vision and hardware actuation, linking real-time vehicle detection with backend control logic and mechanical infrastructure.",
       stack: ["OpenCV", "Computer vision", "Embedded systems"],
@@ -141,6 +145,7 @@ const fallbackPortfolio = {
       slug: "esa-cansat",
       title: "ESA CanSat",
       year: "ESA",
+      tag: "1st place ESA",
       summary:
         "Engineered a compact CanSat mission prototype with onboard sensing, telemetry, and real-time systems integration for the national ESA competition.",
       stack: ["Embedded systems", "Telemetry", "Sensors", "Mission design"],
