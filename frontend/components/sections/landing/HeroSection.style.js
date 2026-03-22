@@ -292,6 +292,37 @@ export const styles = StyleSheet.create({
   iconBadgeLight: {
     backgroundColor: "rgba(152, 37, 152, 0.12)",
   },
+  orbitCardMediaWrap: {
+    position: "relative",
+    minHeight: 222,
+    marginBottom: 8,
+    borderRadius: 26,
+    overflow: "hidden",
+  },
+  orbitCardMediaImage: {
+    width: "100%",
+    height: 222,
+    borderRadius: 26,
+  },
+  orbitCardFloatingBadge: {
+    position: "absolute",
+    top: -24,
+    left: -24,
+    zIndex: 5,
+    width: 96,
+    height: 96,
+    borderRadius: 28,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,0.96)",
+    borderWidth: 1,
+    borderColor: "rgba(228, 145, 201, 0.22)",
+    ...(Platform.OS === "web"
+      ? {
+          boxShadow: "0 18px 38px rgba(21, 23, 61, 0.18)",
+        }
+      : {}),
+  },
   orbitCardContentLayer: {
     flex: 1,
     justifyContent: "space-between",
@@ -685,6 +716,9 @@ export const styles = StyleSheet.create({
   orbitCardBody: {
     marginTop: 24,
     gap: 16,
+  },
+  orbitCardBodyWithMedia: {
+    marginTop: 12,
   },
   orbitCardTitle: {
     fontSize: 48,

@@ -99,7 +99,7 @@ const portfolioContent = {
       year: "2024",
       tag: "1000+ users",
       summary:
-        "Built and deployed an AI-powered assistant used by 1000+ users, combining RAG architecture, OpenAI API, LangChain workflows, pgVector, and a full-stack MERN product surface.",
+        "A production AI school assistant used by 1000+ students and staff for fast school information, support, and everyday questions. Built as a real proof of concept that turned AI into something practical and accessible inside the school environment.",
       stack: ["OpenAI API", "LangChain", "pgVector", "Node.js", "MERN"],
       outcome:
         "Production deployment for real users with enterprise-focused retrieval and knowledge automation.",
@@ -107,11 +107,11 @@ const portfolioContent = {
     },
     {
       slug: "fogponic-system",
-      title: "Modular Fogponic System",
+      title: "Fogponic Greenhouse",
       year: "Patent",
       tag: "Patented system",
       summary:
-        "Founded and patented a modular fogponic growing system, designing the hardware architecture and integrating control software for automated plant cultivation.",
+        "A patented modular fogponic greenhouse designed for efficient automated plant cultivation. It combined hardware architecture, environmental control, and practical system design into a real proof of concept.",
       stack: ["Embedded control", "Systems design", "Automation"],
       outcome:
         "Patent secured under number 26655 for the modular system and control concept.",

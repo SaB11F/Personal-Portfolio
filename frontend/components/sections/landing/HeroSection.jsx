@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Image, Platform, Pressable, Text, View } from "react-native";
 
 import { palette, surface } from "../../../lib/theme";
 import {
@@ -11,6 +11,11 @@ import {
 import OrbitGhostArtwork from "./OrbitGhostArtwork";
 import { getOrbitCardState, getProjectIconName } from "./HeroSection.helpers";
 import { styles } from "./HeroSection.style";
+
+const PROJECT_IMAGE_SOURCES = {
+  "rag-assistant": require("../../../assets/orbital_cards/ERŠko_7.png"),
+  "fogponic-system": require("../../../assets/orbital_cards/Fogponic_1.png"),
+};
 
 function HeroSection({
   hero,
@@ -82,6 +87,7 @@ function HeroSection({
               const theme =
                 ORBITAL_CARD_THEMES[index % ORBITAL_CARD_THEMES.length];
               const ghost = ORBITAL_CARD_GHOSTS[project.slug];
+              const projectImageSource = PROJECT_IMAGE_SOURCES[project.slug];
               const isLightTheme = theme === "light";
               const isSoftTheme = theme === "soft";
               const usesLightText = theme === "dark";
@@ -104,6 +110,12 @@ function HeroSection({
                     orbitCard.webStyle,
                   ]}
                 >
+                  {projectImageSource ? (
+                    <View style={styles.orbitCardFloatingBadge}>
+                      <ProjectIcon color={palette.purple} slug={project.slug} />
+                    </View>
+                  ) : null}
+
                   <View
                     style={[
                       styles.orbitCardInner,
@@ -122,29 +134,43 @@ function HeroSection({
 
                     <View style={styles.orbitCardContentLayer}>
                       <View>
+                        {projectImageSource ? (
+                          <View style={styles.orbitCardMediaWrap}>
+                            <Image
+                              source={projectImageSource}
+                              style={styles.orbitCardMediaImage}
+                            />
+                          </View>
+                        ) : (
+                          <View
+                            style={[
+                              styles.iconBadge,
+                              isLightTheme
+                                ? styles.iconBadgeLight
+                                : isSoftTheme
+                                  ? styles.iconBadgeSoft
+                                  : styles.iconBadgeDark,
+                            ]}
+                          >
+                            <ProjectIcon
+                              color={
+                                isLightTheme
+                                  ? palette.purple
+                                  : isSoftTheme
+                                    ? palette.purple
+                                    : palette.pink
+                              }
+                              slug={project.slug}
+                            />
+                          </View>
+                        )}
+
                         <View
                           style={[
-                            styles.iconBadge,
-                            isLightTheme
-                              ? styles.iconBadgeLight
-                              : isSoftTheme
-                                ? styles.iconBadgeSoft
-                                : styles.iconBadgeDark,
+                            styles.orbitCardBody,
+                            projectImageSource && styles.orbitCardBodyWithMedia,
                           ]}
                         >
-                          <ProjectIcon
-                            color={
-                              isLightTheme
-                                ? palette.purple
-                                : isSoftTheme
-                                  ? palette.purple
-                                  : palette.pink
-                            }
-                            slug={project.slug}
-                          />
-                        </View>
-
-                        <View style={styles.orbitCardBody}>
                           <Text
                             style={[
                               styles.orbitCardTitle,
@@ -165,16 +191,18 @@ function HeroSection({
                           >
                             {project.summary}
                           </Text>
-                          <Text
-                            style={[
-                              styles.orbitCardOutcome,
-                              usesLightText
-                                ? styles.orbitCardOutcomeLight
-                                : styles.orbitCardOutcomeDark,
-                            ]}
-                          >
-                            {project.outcome}
-                          </Text>
+                          {!projectImageSource ? (
+                            <Text
+                              style={[
+                                styles.orbitCardOutcome,
+                                usesLightText
+                                  ? styles.orbitCardOutcomeLight
+                                  : styles.orbitCardOutcomeDark,
+                              ]}
+                            >
+                              {project.outcome}
+                            </Text>
+                          ) : null}
                         </View>
                       </View>
 
