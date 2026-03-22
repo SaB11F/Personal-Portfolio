@@ -17,6 +17,7 @@ const PROJECT_IMAGE_SOURCES = {
   "fogponic-system": require("../../../assets/orbital_cards/Fogponic_1.png"),
   sopkomat: require("../../../assets/orbital_cards/Šopkomat_1.png"),
   "speed-bump": require("../../../assets/orbital_cards/Speed_bump_6.png"),
+  "esa-cansat": require("../../../assets/gallery/CanSat_zmagovalna.jpg"),
 };
 
 function HeroSection({

@@ -147,7 +147,7 @@ const fallbackPortfolio = {
       year: "ESA",
       tag: "1st place ESA",
       summary:
-        "Engineered a compact CanSat mission prototype with onboard sensing, telemetry, and real-time systems integration for the national ESA competition.",
+        "Engineered a compact CanSat mission prototype with onboard sensing, telemetry, and real-time systems integration for the national ESA competition. After winning the Slovenian nationals, we advanced further to the European stage with the project.",
       stack: ["Embedded systems", "Telemetry", "Sensors", "Mission design"],
       outcome:
         "1st place in ESA CanSat Slovenia with a flight-ready concept and end-to-end mission execution.",
