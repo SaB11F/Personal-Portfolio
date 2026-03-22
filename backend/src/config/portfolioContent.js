@@ -131,11 +131,11 @@ const portfolioContent = {
     },
     {
       slug: "speed-bump",
-      title: "Smart Speed-Control Bump",
+      title: "Smart Traffic",
       year: "CV + hardware",
       tag: "Vision-controlled",
       summary:
-        "Built an intelligent speed-control concept using computer vision and hardware actuation, linking real-time vehicle detection with backend control logic and mechanical infrastructure.",
+        "A vision-controlled traffic concept designed to detect approaching vehicles, measure speed, and trigger a responsive road obstacle. It brought together computer vision, sensing hardware, and physical actuation into one practical smart-street proof of concept.",
       stack: ["OpenCV", "Computer vision", "Embedded systems"],
       outcome:
         "Applied systems thinking across computer vision, backend logic, and physical response.",

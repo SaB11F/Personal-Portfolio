@@ -304,6 +304,13 @@ export const styles = StyleSheet.create({
     height: 222,
     borderRadius: 26,
   },
+  orbitCardMediaImageSpeedBump: {
+    ...(Platform.OS === "web"
+      ? {
+          objectPosition: "center 18%",
+        }
+      : {}),
+  },
   orbitCardFloatingBadge: {
     position: "absolute",
     top: -24,

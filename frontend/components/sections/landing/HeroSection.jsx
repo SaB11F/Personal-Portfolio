@@ -16,6 +16,7 @@ const PROJECT_IMAGE_SOURCES = {
   "rag-assistant": require("../../../assets/orbital_cards/ERŠko_7.png"),
   "fogponic-system": require("../../../assets/orbital_cards/Fogponic_1.png"),
   sopkomat: require("../../../assets/orbital_cards/Šopkomat_1.png"),
+  "speed-bump": require("../../../assets/orbital_cards/Speed_bump_6.png"),
 };
 
 function HeroSection({
@@ -139,7 +140,11 @@ function HeroSection({
                           <View style={styles.orbitCardMediaWrap}>
                             <Image
                               source={projectImageSource}
-                              style={styles.orbitCardMediaImage}
+                              style={[
+                                styles.orbitCardMediaImage,
+                                project.slug === "speed-bump" &&
+                                  styles.orbitCardMediaImageSpeedBump,
+                              ]}
                             />
                           </View>
                         ) : (
