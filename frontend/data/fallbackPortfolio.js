@@ -123,7 +123,7 @@ const fallbackPortfolio = {
       year: "MERN",
       tag: "Live vending machine",
       summary:
-        "Developed a smart vending machine system for automated bouquet sales, built the MERN-based admin application, and integrated Raspberry Pi control for real-time product management.",
+        "A smart bouquet vending machine built for real automated flower sales and pickup. It connected a MERN management app with Raspberry Pi hardware for live control, stock handling, and real-world operation.",
       stack: ["MongoDB", "Express", "React", "Node.js", "Raspberry Pi"],
       outcome:
         "Connected software workflows with live hardware control and real-world retail operations.",

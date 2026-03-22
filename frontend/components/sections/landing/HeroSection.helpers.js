@@ -48,7 +48,7 @@ export function getProjectIconName(slug) {
     case "fogponic-system":
       return "leaf";
     case "sopkomat":
-      return "cash-register";
+      return "view-grid-plus-outline";
     case "speed-bump":
       return "traffic-light-outline";
     default:
