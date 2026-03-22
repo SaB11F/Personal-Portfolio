@@ -8,7 +8,7 @@ export function getOrbitCardState({
   isWide,
   total,
 }) {
-  const theta = (index * (360 / total) + angle) * (Math.PI / 180);
+  const theta = (index * (360 / total) - angle) * (Math.PI / 180);
   const radiusX = isWide ? 482 : 188;
   const radiusY = isWide ? 224 : 142;
   const x = Math.sin(theta) * radiusX;
