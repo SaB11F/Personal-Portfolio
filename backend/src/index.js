@@ -15,16 +15,31 @@ const frontendDist = path.resolve(__dirname, "../../frontend/dist");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const normalizeOrigin = (origin) => origin.trim().replace(/\/+$/, "");
 const allowedOrigins = process.env.CLIENT_URL
-  ? process.env.CLIENT_URL.split(",").map((origin) => origin.trim())
+  ? process.env.CLIENT_URL.split(",")
+      .map((origin) => origin.trim())
+      .filter(Boolean)
+      .map(normalizeOrigin)
   : [];
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || !allowedOrigins.length) {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(normalizeOrigin(origin))) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`Origin ${origin} is not allowed by CORS.`));
+  },
+  optionsSuccessStatus: 204,
+};
 
 app.use(express.json({ limit: "1mb" }));
-app.use(
-  cors({
-    origin: allowedOrigins.length ? allowedOrigins : true,
-  }),
-);
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
 
 app.get("/api/health", (_req, res) => {
   res.json({

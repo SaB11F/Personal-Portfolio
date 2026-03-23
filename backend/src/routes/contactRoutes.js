@@ -47,6 +47,10 @@ router.post("/", async (req, res) => {
       deliveryWarning = error.message;
     }
 
+    if (deliveryWarning) {
+      console.warn("Contact delivery warning:", deliveryWarning);
+    }
+
     if (!stored && !delivered) {
       return res.status(503).json({
         message:
@@ -57,7 +61,7 @@ router.post("/", async (req, res) => {
     return res.status(201).json({
       message: delivered
         ? "Message sent successfully."
-        : "Message saved successfully. Email delivery is not configured yet.",
+        : "Message saved successfully. Email delivery is currently unavailable.",
       stored,
       delivered,
       warning: deliveryWarning,
