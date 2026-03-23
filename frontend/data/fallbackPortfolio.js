@@ -165,16 +165,37 @@ const fallbackPortfolio = {
   ],
   education: [
     {
-      school: "Faculty of Information Studies (FIS), Novo Mesto",
-      program: "Bachelor of Science in Computer Science and Web Technologies",
-      period: "2026",
-      note: "Enrolled in BSc in Computer Science."
+      phase: "Phase I",
+      school: "Osnovna šola Videm",
+      program: "Early curiosity and first technical instincts.",
+      period: "Elementary School",
+      note:
+        "This was where curiosity first took shape through computers, problem-solving, and the first real drive to understand how technology works.",
+      tag: "Early Curiosity",
+      icon: "lightbulb-on-outline",
+      accent: "purple"
     },
     {
-      school: "ERS Ptuj",
-      program: "Computer Engineering Technician",
+      phase: "Phase II",
+      school: "Srednja elektro in računalniška šola Ptuj",
+      program: "Technical foundation in engineering and software.",
       period: "2022 - 2026",
-      note: "Technical foundation in computer systems and engineering practice."
+      note:
+        "Technical high school gave that curiosity structure through programming, electronics, engineering logic, and the discipline of building real projects.",
+      tag: "Technical Foundation",
+      icon: "source-branch",
+      accent: "navy"
+    },
+    {
+      phase: "Phase III",
+      school: "Fakulteta za informacijske študije Novo mesto",
+      program: "Next chapter in computer science and systems growth.",
+      period: "2026 -",
+      note:
+        "The next chapter is focused on scale, depth, and long-term growth in computer science, building on practical experience in software systems and AI.",
+      tag: "Next Chapter",
+      icon: "school-outline",
+      accent: "pink"
     }
   ],
   languages: [
