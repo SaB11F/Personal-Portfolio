@@ -1,6 +1,7 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import { useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Platform, Pressable, Text, TextInput, View } from "react-native";
 
 import { submitContact } from "../../../lib/api";
 import { webEffects } from "../../../lib/theme";
@@ -15,6 +16,7 @@ const initialForm = {
 
 function ContactSection({ contact, isWide }) {
   const [form, setForm] = useState(initialForm);
+  const [messageHeight, setMessageHeight] = useState(168);
   const [status, setStatus] = useState({
     state: "idle",
     message: "Tell me about your vision.",
@@ -43,6 +45,7 @@ function ContactSection({ contact, isWide }) {
         message: response.message,
       });
       setForm(initialForm);
+      setMessageHeight(168);
     } catch (error) {
       setStatus({
         state: "error",
@@ -65,16 +68,18 @@ function ContactSection({ contact, isWide }) {
 
           <View style={styles.contactList}>
             <ContactLink
+              icon="email-outline"
               label="Email"
               onPress={() => Linking.openURL(`mailto:${contact.email}`)}
               value={contact.email}
             />
             <ContactLink
+              icon="phone-outline"
               label="Phone"
               onPress={() => Linking.openURL(`tel:${contact.phone}`)}
               value={contact.phone}
             />
-            <ContactLink label="Base" value={contact.location} />
+            <ContactLink icon="map-marker-outline" label="Base" value={contact.location} />
           </View>
         </View>
 
@@ -86,6 +91,7 @@ function ContactSection({ contact, isWide }) {
               name="name"
               onChangeText={(value) => setField("name", value)}
               placeholder="John Doe"
+              shellStyle={styles.rowFieldShell}
               value={form.name}
             />
             <Field
@@ -94,6 +100,7 @@ function ContactSection({ contact, isWide }) {
               name="subject"
               onChangeText={(value) => setField("subject", value)}
               placeholder="New Project"
+              shellStyle={styles.rowFieldShell}
               value={form.subject}
             />
           </View>
@@ -114,15 +121,31 @@ function ContactSection({ contact, isWide }) {
             multiline
             name="message"
             numberOfLines={4}
+            onContentSizeChange={(event) => {
+              const nextHeight = event?.nativeEvent?.contentSize?.height;
+              if (typeof nextHeight === "number") {
+                setMessageHeight(Math.max(168, Math.min(nextHeight + 20, 288)));
+              }
+            }}
             onChangeText={(value) => setField("message", value)}
             placeholder="Tell me about your vision..."
-            style={styles.messageField}
+            scrollEnabled={false}
+            style={[
+              styles.messageField,
+              { height: messageHeight },
+              Platform.OS === "web" ? styles.messageFieldWeb : null,
+            ]}
             value={form.message}
           />
 
           <Pressable onPress={handleSubmit} style={styles.submitButton}>
             <Text style={styles.submitText}>Send Message</Text>
-            <Text style={styles.submitArrow}>-></Text>
+            <MaterialCommunityIcons
+              color="#FFFFFF"
+              name="send-outline"
+              size={20}
+              style={styles.submitIcon}
+            />
           </Pressable>
 
           <Text
@@ -140,12 +163,11 @@ function ContactSection({ contact, isWide }) {
   );
 }
 
-function ContactLink({ label, onPress, value }) {
+function ContactLink({ icon, label, onPress, value }) {
   const content = (
     <View style={styles.contactRow}>
       <View style={styles.contactIcon}>
-        <View style={styles.contactIconLine} />
-        <View style={styles.contactIconDot} />
+        <MaterialCommunityIcons color="#FFFFFF" name={icon} size={22} />
       </View>
       <View style={styles.contactTextColumn}>
         <Text style={styles.contactLabel}>{label}</Text>
@@ -168,13 +190,16 @@ function Field({
   multiline,
   name,
   numberOfLines,
+  onContentSizeChange,
   onChangeText,
   placeholder,
+  scrollEnabled,
+  shellStyle,
   style,
   value,
 }) {
   return (
-    <View style={styles.fieldShell}>
+    <View style={[styles.fieldShell, shellStyle]}>
       <Text style={styles.fieldLabel}>{label}</Text>
       <TextInput
         accessibilityLabel={label}
@@ -183,9 +208,11 @@ function Field({
         nativeID={id}
         name={name}
         numberOfLines={numberOfLines}
+        onContentSizeChange={onContentSizeChange}
         onChangeText={onChangeText}
         placeholder={placeholder}
         placeholderTextColor="rgba(255,255,255,0.36)"
+        scrollEnabled={scrollEnabled}
         style={[styles.fieldInput, multiline && styles.fieldInputMultiline, style]}
         value={value}
       />
