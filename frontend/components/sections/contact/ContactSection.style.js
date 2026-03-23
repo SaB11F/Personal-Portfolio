@@ -168,6 +168,9 @@ export const styles = StyleSheet.create({
     fontWeight: "600",
     fontFamily: fonts.display,
   },
+  statusTextWarning: {
+    color: "rgba(255, 211, 125, 0.96)",
+  },
   statusTextError: {
     color: palette.pink,
   },

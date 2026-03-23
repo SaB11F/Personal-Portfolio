@@ -28,15 +28,18 @@ function ContactSection({ contact, isWide }) {
   };
 
   const handleSubmit = async () => {
+    const payload = { ...form };
+
     setStatus({
       state: "loading",
       message: "Sending message...",
     });
 
     try {
-      const response = await submitContact(form);
+      const response = await submitContact(payload);
+
       setStatus({
-        state: "success",
+        state: response.delivered === false ? "warning" : "success",
         message: response.message,
       });
       setForm(initialForm);
@@ -78,13 +81,17 @@ function ContactSection({ contact, isWide }) {
         <View style={styles.formCard}>
           <View style={[styles.row, !isWide && styles.rowCompact]}>
             <Field
+              id="contact-name"
               label="Name"
+              name="name"
               onChangeText={(value) => setField("name", value)}
               placeholder="John Doe"
               value={form.name}
             />
             <Field
+              id="contact-subject"
               label="Subject"
+              name="subject"
               onChangeText={(value) => setField("subject", value)}
               placeholder="New Project"
               value={form.subject}
@@ -92,16 +99,20 @@ function ContactSection({ contact, isWide }) {
           </View>
 
           <Field
+            id="contact-email"
             keyboardType="email-address"
             label="Email"
+            name="email"
             onChangeText={(value) => setField("email", value)}
             placeholder="rene@company.com"
             value={form.email}
           />
 
           <Field
+            id="contact-message"
             label="Message"
             multiline
+            name="message"
             numberOfLines={4}
             onChangeText={(value) => setField("message", value)}
             placeholder="Tell me about your vision..."
@@ -117,6 +128,7 @@ function ContactSection({ contact, isWide }) {
           <Text
             style={[
               styles.statusText,
+              status.state === "warning" && styles.statusTextWarning,
               status.state === "error" && styles.statusTextError,
             ]}
           >
@@ -150,9 +162,11 @@ function ContactLink({ label, onPress, value }) {
 }
 
 function Field({
+  id,
   keyboardType,
   label,
   multiline,
+  name,
   numberOfLines,
   onChangeText,
   placeholder,
@@ -163,8 +177,11 @@ function Field({
     <View style={styles.fieldShell}>
       <Text style={styles.fieldLabel}>{label}</Text>
       <TextInput
+        accessibilityLabel={label}
         keyboardType={keyboardType}
         multiline={multiline}
+        nativeID={id}
+        name={name}
         numberOfLines={numberOfLines}
         onChangeText={onChangeText}
         placeholder={placeholder}

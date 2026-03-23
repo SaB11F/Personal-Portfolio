@@ -53,15 +53,17 @@ router.post("/", async (req, res) => {
 
     if (!stored && !delivered) {
       return res.status(503).json({
-        message:
-          "Contact is not fully configured yet. Add MongoDB or SMTP settings in the backend environment.",
+        message: "Unable to save or send the message right now.",
+        stored,
+        delivered,
+        warning: deliveryWarning,
       });
     }
 
     return res.status(201).json({
       message: delivered
         ? "Message sent successfully."
-        : "Message saved successfully. Email delivery is currently unavailable.",
+        : "Message saved successfully, but email delivery is currently unavailable.",
       stored,
       delivered,
       warning: deliveryWarning,

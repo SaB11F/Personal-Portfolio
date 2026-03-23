@@ -14,7 +14,8 @@ Create `backend/.env` and configure:
 
 - `CLIENT_URL` with your frontend domain once it is deployed
 - `MONGO_URI` if you want to store messages in MongoDB
-- `SMTP_*` plus `CONTACT_TO_EMAIL` if you want messages emailed to you
+- `RESEND_API_KEY` plus `CONTACT_TO_EMAIL` if you want messages emailed to you
+- Optional: `CONTACT_FROM_EMAIL` to control the sender identity instead of the default Resend onboarding sender
 
 ## Render Deployment
 
@@ -29,4 +30,4 @@ In Render:
    - Start Command: `npm start`
    - Health Check Path: `/api/health`
 3. Set `CLIENT_URL` after your frontend URL is known.
-4. Add `MONGO_URI` and SMTP variables later when you are ready to enable persistent contact storage and email delivery.
+4. Add `MONGO_URI`, `RESEND_API_KEY`, and `CONTACT_TO_EMAIL` later when you are ready to enable persistent contact storage and email delivery.

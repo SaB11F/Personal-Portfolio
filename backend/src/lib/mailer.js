@@ -1,25 +1,13 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-const getTransport = () => {
-  if (
-    !process.env.SMTP_HOST ||
-    !process.env.SMTP_PORT ||
-    !process.env.SMTP_USER ||
-    !process.env.SMTP_PASS ||
-    !process.env.CONTACT_TO_EMAIL
-  ) {
+const DEFAULT_CONTACT_FROM = "Portfolio Contact <onboarding@resend.dev>";
+
+const getResendClient = () => {
+  if (!process.env.RESEND_API_KEY || !process.env.CONTACT_TO_EMAIL) {
     return null;
   }
 
-  return nodemailer.createTransport({
-    host: process.env.SMTP_HOST,
-    port: Number(process.env.SMTP_PORT),
-    secure: process.env.SMTP_SECURE === "true",
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-  });
+  return new Resend(process.env.RESEND_API_KEY);
 };
 
 export const sendContactNotification = async ({
@@ -29,25 +17,67 @@ export const sendContactNotification = async ({
   subject,
   message,
 }) => {
-  const transporter = getTransport();
+  const resend = getResendClient();
 
-  if (!transporter) {
-    return { sent: false, reason: "SMTP is not configured." };
+  if (!resend) {
+    return { sent: false, reason: "Resend is not configured." };
   }
 
-  await transporter.sendMail({
-    from: process.env.PORTFOLIO_MAIL_FROM || process.env.SMTP_USER,
-    to: process.env.CONTACT_TO_EMAIL,
-    replyTo: email,
-    subject: `Portfolio contact: ${subject || `Message from ${name}`}`,
-    text: [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      `Company: ${company || "Not provided"}`,
-      "",
-      message,
-    ].join("\n"),
-  });
+  const safeName = escapeHeader(name);
+  const safeEmail = String(email).trim();
+  const safeCompany = company?.trim() || "Not provided";
+  const safeSubject = subject?.trim() || `Message from ${safeName}`;
 
-  return { sent: true };
+  try {
+    const { error } = await resend.emails.send({
+      from: process.env.CONTACT_FROM_EMAIL || DEFAULT_CONTACT_FROM,
+      to: [process.env.CONTACT_TO_EMAIL],
+      replyTo: `${safeName} <${safeEmail}>`,
+      subject: `Portfolio contact: ${safeSubject}`,
+      text: [
+        `Name: ${safeName}`,
+        `Email: ${safeEmail}`,
+        `Company: ${safeCompany}`,
+        "",
+        message,
+      ].join("\n"),
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+          <h2>New Portfolio Message</h2>
+          <p><strong>Name:</strong> ${escapeHtml(safeName)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(safeEmail)}</p>
+          <p><strong>Company:</strong> ${escapeHtml(safeCompany)}</p>
+          <p><strong>Subject:</strong> ${escapeHtml(safeSubject)}</p>
+          <hr />
+          <p style="white-space: pre-wrap;">${escapeHtml(message)}</p>
+        </div>
+      `,
+    });
+
+    if (error) {
+      return { sent: false, reason: error.message || "Resend delivery failed." };
+    }
+
+    return { sent: true };
+  } catch (error) {
+    return {
+      sent: false,
+      reason: error instanceof Error ? error.message : "Resend delivery failed.",
+    };
+  }
 };
+
+function escapeHeader(value) {
+  return String(value)
+    .replaceAll(/[\r\n]/g, " ")
+    .trim();
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
