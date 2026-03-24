@@ -62,11 +62,11 @@ export function getConnectionStyle({ from, index, to }) {
     left: midX,
     top: midY,
     width: distance,
-    opacity: 0.58 + (index % 4) * 0.04,
+    opacity: 0.38 + (index % 4) * 0.04,
     backgroundColor:
       index % 3 === 0
-        ? "rgba(21, 23, 61, 0.26)"
-        : "rgba(21, 23, 61, 0.18)",
+        ? "rgba(152, 37, 152, 0.18)"
+        : "rgba(21, 23, 61, 0.12)",
     transform: [{ rotate: angle }],
   };
 }

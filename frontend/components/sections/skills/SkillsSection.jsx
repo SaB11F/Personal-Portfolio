@@ -73,6 +73,9 @@ function SkillsSection({ isWide, skills }) {
     >
       <View pointerEvents="none" style={styles.ambientGlow} />
       <View pointerEvents="none" style={styles.ambientGlowSecondary} />
+      <View pointerEvents="none" style={styles.abstractBlobLeft} />
+      <View pointerEvents="none" style={styles.abstractBlobRight} />
+      <View pointerEvents="none" style={styles.abstractRing} />
 
       <View pointerEvents="none" style={styles.dotCluster}>
         {DOT_CLUSTER_DOTS.map((dot) => (
@@ -94,6 +97,10 @@ function SkillsSection({ isWide, skills }) {
 
       <View style={[styles.layout, !isWide && styles.layoutCompact]}>
         <View style={[styles.leftColumn, !isWide && styles.leftColumnCompact]}>
+          <View style={styles.headerBlock}>
+            <Text style={styles.eyebrow}>Stack Map</Text>
+            <View style={styles.headingAccent} />
+          </View>
           <Text
             style={[
               styles.heading,
@@ -114,103 +121,110 @@ function SkillsSection({ isWide, skills }) {
             real-time software solutions.
           </Text>
 
-          {isWide ? (
-            <View style={styles.networkStage}>
-              {NODE_CONNECTIONS.map((connection, index) => (
-                <View
-                  key={`${connection[0]}-${connection[1]}`}
-                  pointerEvents="none"
-                  style={[
-                    styles.connectionLine,
-                    getConnectionStyle({
-                      from: nodesByLabel[connection[0]],
-                      index,
-                      to: nodesByLabel[connection[1]],
-                    }),
-                  ]}
-                />
-              ))}
+          <View style={styles.networkPanel}>
+            <View style={styles.networkPanelHeader}>
+              <Text style={styles.networkPanelTitle}>Core Stack</Text>
+              <Text style={styles.networkPanelMeta}>Interface to intelligence</Text>
+            </View>
 
-              {SKILL_NODES.map((node, index) => {
-                const translateY = motionValues[index].interpolate({
-                  inputRange: [0, 0.5, 1],
-                  outputRange: [0, index % 2 === 0 ? -5 : -3, 0],
-                });
-                const translateX = motionValues[index].interpolate({
-                  inputRange: [0, 0.5, 1],
-                  outputRange: [0, index % 3 === 0 ? 2 : -2, 0],
-                });
-
-                return (
-                  <Animated.View
-                    key={node.label}
+            {isWide ? (
+              <View style={styles.networkStage}>
+                {NODE_CONNECTIONS.map((connection, index) => (
+                  <View
+                    key={`${connection[0]}-${connection[1]}`}
+                    pointerEvents="none"
                     style={[
-                      styles.nodeWrap,
-                      {
-                        left: node.x,
-                        top: node.y,
-                        width: node.width,
-                        transform: [{ translateY }, { translateX }],
-                      },
+                      styles.connectionLine,
+                      getConnectionStyle({
+                        from: nodesByLabel[connection[0]],
+                        index,
+                        to: nodesByLabel[connection[1]],
+                      }),
                     ]}
-                  >
-                    <Pressable
-                      onHoverIn={() => setHoveredNode(node.label)}
-                      onHoverOut={() => setHoveredNode(null)}
-                      onPressIn={() => setHoveredNode(node.label)}
-                      onPressOut={() => setHoveredNode(null)}
+                  />
+                ))}
+
+                {SKILL_NODES.map((node, index) => {
+                  const translateY = motionValues[index].interpolate({
+                    inputRange: [0, 0.5, 1],
+                    outputRange: [0, index % 2 === 0 ? -5 : -3, 0],
+                  });
+                  const translateX = motionValues[index].interpolate({
+                    inputRange: [0, 0.5, 1],
+                    outputRange: [0, index % 3 === 0 ? 2 : -2, 0],
+                  });
+
+                  return (
+                    <Animated.View
+                      key={node.label}
                       style={[
-                        styles.skillChip,
-                        getChipToneStyle(styles, node.tone),
-                        hoveredNode === node.label && styles.skillChipHovered,
-                        Platform.OS === "web" && styles.skillChipTransition,
+                        styles.nodeWrap,
+                        {
+                          left: node.x,
+                          top: node.y,
+                          width: node.width,
+                          transform: [{ translateY }, { translateX }],
+                        },
                       ]}
                     >
-                      <Text
+                      <Pressable
+                        onHoverIn={() => setHoveredNode(node.label)}
+                        onHoverOut={() => setHoveredNode(null)}
+                        onPressIn={() => setHoveredNode(node.label)}
+                        onPressOut={() => setHoveredNode(null)}
                         style={[
-                          styles.skillChipText,
-                          getChipToneTextStyle(styles, node.tone),
+                          styles.skillChip,
+                          getChipToneStyle(styles, node.tone),
+                          hoveredNode === node.label && styles.skillChipHovered,
+                          Platform.OS === "web" && styles.skillChipTransition,
                         ]}
                       >
-                        {node.label}
-                      </Text>
-                    </Pressable>
-                  </Animated.View>
-                );
-              })}
-            </View>
-          ) : (
-            <View
-              style={[
-                styles.mobileChipWrap,
-                isPhone && styles.mobileChipWrapPhone,
-              ]}
-            >
-              {SKILL_NODES.map((node) => (
-                <Pressable
-                  key={node.label}
-                  onPressIn={() => setHoveredNode(node.label)}
-                  onPressOut={() => setHoveredNode(null)}
-                  style={[
-                    styles.skillChip,
-                    styles.skillChipCompact,
-                    getChipToneStyle(styles, node.tone),
-                    hoveredNode === node.label && styles.skillChipHovered,
-                  ]}
-                >
-                  <Text
+                        <Text
+                          style={[
+                            styles.skillChipText,
+                            getChipToneTextStyle(styles, node.tone),
+                          ]}
+                        >
+                          {node.label}
+                        </Text>
+                      </Pressable>
+                    </Animated.View>
+                  );
+                })}
+              </View>
+            ) : (
+              <View
+                style={[
+                  styles.mobileChipWrap,
+                  isPhone && styles.mobileChipWrapPhone,
+                ]}
+              >
+                {SKILL_NODES.map((node) => (
+                  <Pressable
+                    key={node.label}
+                    onPressIn={() => setHoveredNode(node.label)}
+                    onPressOut={() => setHoveredNode(null)}
                     style={[
-                      styles.skillChipText,
-                      styles.skillChipTextCompact,
-                      getChipToneTextStyle(styles, node.tone),
+                      styles.skillChip,
+                      styles.skillChipCompact,
+                      getChipToneStyle(styles, node.tone),
+                      hoveredNode === node.label && styles.skillChipHovered,
                     ]}
                   >
-                    {node.label}
-                  </Text>
-                </Pressable>
-              ))}
-            </View>
-          )}
+                    <Text
+                      style={[
+                        styles.skillChipText,
+                        styles.skillChipTextCompact,
+                        getChipToneTextStyle(styles, node.tone),
+                      ]}
+                    >
+                      {node.label}
+                    </Text>
+                  </Pressable>
+                ))}
+              </View>
+            )}
+          </View>
         </View>
 
         <View
@@ -246,7 +260,7 @@ function SkillsSection({ isWide, skills }) {
                       ? styles.featureCardSingleColumn
                       : styles.featureCardCompact,
                   {
-                    backgroundColor: theme.backgroundColor,
+                    backgroundColor: theme.solidBackgroundColor || theme.backgroundColor,
                     borderColor: theme.borderColor || "transparent",
                     transform: [
                       { rotate: isHovered ? "0deg" : theme.rotate },
@@ -255,6 +269,7 @@ function SkillsSection({ isWide, skills }) {
                   },
                   Platform.OS === "web"
                     ? {
+                        backgroundImage: theme.backgroundColor,
                         transitionDuration: "220ms",
                         transitionProperty:
                           "transform, box-shadow, filter, background-color",
@@ -266,11 +281,20 @@ function SkillsSection({ isWide, skills }) {
                     : null,
                 ]}
               >
-                <MaterialCommunityIcons
-                  color={theme.color}
-                  name={theme.icon}
-                  size={isWide ? 28 : 26}
-                />
+                <View
+                  style={[
+                    styles.featureIconTile,
+                    {
+                      backgroundColor: theme.iconTileBackgroundColor,
+                    },
+                  ]}
+                >
+                  <MaterialCommunityIcons
+                    color={theme.color}
+                    name={theme.icon}
+                    size={isWide ? 26 : 24}
+                  />
+                </View>
 
                 <Text style={[styles.featureTitle, { color: theme.color }]}>
                   {card.title}

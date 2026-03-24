@@ -6,15 +6,15 @@ export const styles = StyleSheet.create({
   shell: {
     position: "relative",
     overflow: "hidden",
-    paddingHorizontal: 56,
-    paddingVertical: 54,
-    borderRadius: 52,
+    paddingHorizontal: 58,
+    paddingVertical: 58,
+    borderRadius: 56,
     backgroundColor: "rgba(255, 251, 253, 0.8)",
     borderColor: "rgba(255, 255, 255, 0.34)",
     ...(Platform.OS === "web"
       ? {
           backdropFilter: "blur(20px)",
-          boxShadow: "0 32px 90px rgba(21, 23, 61, 0.08)",
+          boxShadow: "0 34px 96px rgba(21, 23, 61, 0.08)",
         }
       : {}),
   },
@@ -45,6 +45,35 @@ export const styles = StyleSheet.create({
     height: 150,
     borderRadius: 999,
     backgroundColor: "rgba(152, 37, 152, 0.03)",
+  },
+  abstractBlobLeft: {
+    position: "absolute",
+    left: -80,
+    bottom: -72,
+    width: 260,
+    height: 210,
+    borderRadius: 999,
+    backgroundColor: "rgba(228, 145, 201, 0.12)",
+  },
+  abstractBlobRight: {
+    position: "absolute",
+    right: 110,
+    top: 112,
+    width: 170,
+    height: 124,
+    borderRadius: 36,
+    backgroundColor: "rgba(152, 37, 152, 0.04)",
+    transform: [{ rotate: "14deg" }],
+  },
+  abstractRing: {
+    position: "absolute",
+    right: 18,
+    top: 168,
+    width: 126,
+    height: 126,
+    borderRadius: 999,
+    borderWidth: 18,
+    borderColor: "rgba(228, 145, 201, 0.08)",
   },
   dotCluster: {
     position: "absolute",
@@ -77,6 +106,23 @@ export const styles = StyleSheet.create({
   leftColumnCompact: {
     maxWidth: "100%",
     paddingTop: 0,
+  },
+  headerBlock: {
+    gap: 12,
+  },
+  eyebrow: {
+    color: "rgba(152, 37, 152, 0.62)",
+    fontSize: 11,
+    fontWeight: "900",
+    letterSpacing: 3,
+    textTransform: "uppercase",
+    fontFamily: fonts.display,
+  },
+  headingAccent: {
+    width: 88,
+    height: 5,
+    borderRadius: 999,
+    backgroundColor: "rgba(152, 37, 152, 0.16)",
   },
   heading: {
     color: palette.navy,
@@ -113,15 +159,50 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 24,
   },
+  networkPanel: {
+    marginTop: 20,
+    borderRadius: 30,
+    paddingHorizontal: 22,
+    paddingVertical: 22,
+    backgroundColor: "rgba(255,255,255,0.5)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.48)",
+    ...(Platform.OS === "web"
+      ? {
+          backdropFilter: "blur(14px)",
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.65)",
+        }
+      : {}),
+  },
+  networkPanelHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 18,
+  },
+  networkPanelTitle: {
+    color: palette.navy,
+    fontSize: 15,
+    fontWeight: "800",
+    letterSpacing: -0.2,
+    fontFamily: fonts.display,
+  },
+  networkPanelMeta: {
+    color: "rgba(106, 98, 128, 0.78)",
+    fontSize: 11,
+    fontWeight: "700",
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+    fontFamily: fonts.display,
+  },
   networkStage: {
     position: "relative",
     width: 508,
     height: 172,
-    marginTop: 24,
   },
   connectionLine: {
     position: "absolute",
-    height: 2.2,
+    height: 2,
     borderRadius: 999,
   },
   nodeWrap: {
@@ -137,11 +218,11 @@ export const styles = StyleSheet.create({
     gap: 8,
   },
   skillChip: {
-    minHeight: 42,
+    minHeight: 44,
     borderRadius: 999,
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 16,
+    paddingHorizontal: 18,
     borderWidth: 1,
   },
   skillChipCompact: {
@@ -163,28 +244,29 @@ export const styles = StyleSheet.create({
   },
   skillChipDark: {
     backgroundColor: palette.navy,
-    borderColor: "rgba(21, 23, 61, 0.06)",
+    borderColor: "rgba(21, 23, 61, 0.04)",
     ...(Platform.OS === "web"
       ? {
-          boxShadow: "0 12px 24px rgba(21, 23, 61, 0.08)",
+          boxShadow: "0 12px 26px rgba(21, 23, 61, 0.08)",
         }
       : {}),
   },
   skillChipPurple: {
-    backgroundColor: "rgba(152, 37, 152, 0.14)",
-    borderColor: "rgba(152, 37, 152, 0.12)",
+    backgroundColor: "rgba(152, 37, 152, 0.12)",
+    borderColor: "rgba(152, 37, 152, 0.08)",
   },
   skillChipPink: {
-    backgroundColor: "rgba(228, 145, 201, 0.2)",
-    borderColor: "rgba(228, 145, 201, 0.24)",
+    backgroundColor: "rgba(228, 145, 201, 0.16)",
+    borderColor: "rgba(228, 145, 201, 0.18)",
   },
   skillChipSoft: {
-    backgroundColor: "rgba(241, 233, 233, 0.94)",
+    backgroundColor: "rgba(241, 233, 233, 0.88)",
     borderColor: "rgba(21, 23, 61, 0.06)",
   },
   skillChipText: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: "900",
+    letterSpacing: 0.2,
     fontFamily: fonts.display,
   },
   skillChipTextCompact: {
@@ -208,7 +290,7 @@ export const styles = StyleSheet.create({
     alignItems: "flex-start",
     alignContent: "flex-start",
     gap: 18,
-    paddingTop: 2,
+    paddingTop: 10,
   },
   cardsStageCompact: {
     width: "100%",
@@ -221,11 +303,16 @@ export const styles = StyleSheet.create({
   },
   featureCard: {
     overflow: "hidden",
-    paddingHorizontal: 22,
+    paddingHorizontal: 24,
     paddingTop: 18,
-    paddingBottom: 20,
-    borderRadius: 24,
+    paddingBottom: 22,
+    borderRadius: 28,
     borderWidth: 1,
+    ...(Platform.OS === "web"
+      ? {
+          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.24)",
+        }
+      : {}),
   },
   featureCardWide: {
     position: "relative",
@@ -238,17 +325,24 @@ export const styles = StyleSheet.create({
     width: "100%",
     minHeight: 148,
   },
+  featureIconTile: {
+    width: 50,
+    height: 50,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   featureTitle: {
     marginTop: 16,
-    fontSize: 18,
-    lineHeight: 24,
+    fontSize: 17,
+    lineHeight: 23,
     fontWeight: "800",
     fontFamily: fonts.display,
   },
   featureText: {
-    marginTop: 6,
-    fontSize: 10,
-    lineHeight: 15,
+    marginTop: 8,
+    fontSize: 11,
+    lineHeight: 18,
     opacity: 0.86,
     fontFamily: fonts.display,
   },
