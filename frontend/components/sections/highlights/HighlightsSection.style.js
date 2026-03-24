@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
     ...shadow,
     ...(Platform.OS === "web"
       ? {
-          backdropFilter: "blur(16px)",
+          backdropFilter: "blur(12px)",
           transitionDuration: "260ms",
           transitionProperty: "transform, box-shadow, border-color",
           transitionTimingFunction: "cubic-bezier(0.2, 0.8, 0.2, 1)",

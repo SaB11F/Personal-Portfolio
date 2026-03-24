@@ -36,7 +36,7 @@ export const surface = {
   borderRadius: 28,
   ...(Platform.OS === "web"
     ? {
-        backdropFilter: "blur(18px)"
+        backdropFilter: "blur(14px)"
       }
     : {}),
   ...shadow,
@@ -58,7 +58,7 @@ export const webEffects = {
     Platform.OS === "web"
       ? {
           backgroundImage:
-            "radial-gradient(220px circle at var(--cursor-glow-x, 50%) var(--cursor-glow-y, 35%), rgba(228,145,201,0.24) 0%, rgba(228,145,201,0.12) 32%, transparent 64%), radial-gradient(420px circle at var(--cursor-glow-x, 50%) var(--cursor-glow-y, 35%), rgba(152,37,152,0.18) 0%, rgba(152,37,152,0.08) 36%, transparent 70%)",
+            "radial-gradient(180px circle at var(--cursor-glow-x, 50%) var(--cursor-glow-y, 35%), rgba(228,145,201,0.22) 0%, rgba(228,145,201,0.1) 30%, transparent 62%), radial-gradient(340px circle at var(--cursor-glow-x, 50%) var(--cursor-glow-y, 35%), rgba(152,37,152,0.16) 0%, rgba(152,37,152,0.07) 34%, transparent 68%)",
           opacity: "var(--cursor-glow-opacity, 0)",
           transitionDuration: "180ms",
           transitionProperty: "opacity",

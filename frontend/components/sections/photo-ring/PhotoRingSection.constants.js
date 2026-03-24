@@ -6,7 +6,7 @@ export const PHOTO_RING_ITEMS = [
     year: "2024",
     caption:
       "First-place CanSat milestone combining embedded systems, telemetry, testing, and mission execution.",
-    image: require("../../../assets/gallery/CanSat_zmagovalna.jpg"),
+    image: require("../../../assets/gallery/ring/cansat-card.jpg"),
     offsetY: -10,
   },
   {
@@ -16,7 +16,7 @@ export const PHOTO_RING_ITEMS = [
     year: "2024",
     caption:
       "Team milestone captured during competition and project collaboration season.",
-    image: require("../../../assets/gallery/slika2.jpg"),
+    image: require("../../../assets/gallery/ring/slika2-ring.jpg"),
     offsetY: 18,
   },
   {
@@ -26,7 +26,7 @@ export const PHOTO_RING_ITEMS = [
     year: "2024",
     caption:
       "Recognition moment celebrating applied engineering work and project results.",
-    image: require("../../../assets/gallery/slika3.jpg"),
+    image: require("../../../assets/gallery/ring/slika3-ring.jpg"),
     offsetY: -8,
   },
   {
@@ -36,7 +36,7 @@ export const PHOTO_RING_ITEMS = [
     year: "2023",
     caption:
       "Patent milestone for the modular fogponic system and its applied engineering concept.",
-    image: require("../../../assets/gallery/Rastlinjak_patent.png"),
+    image: require("../../../assets/gallery/ring/rastlinjak-patent-ring.jpg"),
     offsetY: 16,
   },
   {
@@ -46,7 +46,7 @@ export const PHOTO_RING_ITEMS = [
     year: "2024",
     caption:
       "Award-day moment capturing achievement, mentorship, and public presentation.",
-    image: require("../../../assets/gallery/slika1.jpg"),
+    image: require("../../../assets/gallery/ring/slika1-ring.jpg"),
     offsetY: -6,
   },
   {
@@ -56,7 +56,7 @@ export const PHOTO_RING_ITEMS = [
     year: "2024",
     caption:
       "Hands-on prototype work, review, and testing during the engineering process.",
-    image: require("../../../assets/gallery/slika4.jpg"),
+    image: require("../../../assets/gallery/ring/slika4-ring.jpg"),
     offsetY: 16,
   },
   {
@@ -66,9 +66,9 @@ export const PHOTO_RING_ITEMS = [
     year: "2024",
     caption:
       "A conversation-driven milestone around design, craft, and professional growth.",
-    image: require("../../../assets/gallery/Snapchat-2115422170.jpg"),
+    image: require("../../../assets/gallery/ring/meetup-ring.jpg"),
     offsetY: -8,
   },
 ];
 
-export const PHOTO_RING_LOOP_COPIES = 5;
+export const PHOTO_RING_LOOP_COPIES = 4;

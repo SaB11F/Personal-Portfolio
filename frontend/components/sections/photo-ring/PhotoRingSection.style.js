@@ -49,7 +49,6 @@ export const styles = StyleSheet.create({
     ...shadow,
     ...(Platform.OS === "web"
       ? {
-          backdropFilter: "blur(14px)",
           transitionDuration: "260ms",
           transitionProperty: "transform, box-shadow, filter",
           transitionTimingFunction: "ease-out",
@@ -85,7 +84,7 @@ export const styles = StyleSheet.create({
     borderTopColor: "rgba(255, 255, 255, 0.1)",
     ...(Platform.OS === "web"
       ? {
-          backdropFilter: "blur(10px)",
+          backdropFilter: "blur(6px)",
         }
       : {}),
   },
@@ -116,7 +115,7 @@ export const styles = StyleSheet.create({
     backgroundColor: "rgba(21, 23, 61, 0.9)",
     ...(Platform.OS === "web"
       ? {
-          backdropFilter: "blur(20px)",
+          backdropFilter: "blur(12px)",
         }
       : {}),
   },

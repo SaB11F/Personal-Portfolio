@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Platform,
   ScrollView,
@@ -41,8 +41,17 @@ function HomeScreen() {
       return undefined;
     }
 
+    const pointerCapability = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let isEnabled =
+      pointerCapability.matches &&
+      !reduceMotionQuery.matches &&
+      document.visibilityState === "visible";
     const root = document.documentElement;
     let frameId = null;
+    let hasQueuedFrame = false;
+    let pendingX = window.innerWidth * 0.5;
+    let pendingY = window.innerHeight * 0.24;
 
     const updateGlow = (clientX, clientY, opacity) => {
       root.style.setProperty("--cursor-glow-x", `${clientX}px`);
@@ -50,24 +59,69 @@ function HomeScreen() {
       root.style.setProperty("--cursor-glow-opacity", opacity);
     };
 
-    const handlePointerMove = (event) => {
-      if (frameId) {
-        cancelAnimationFrame(frameId);
-      }
-
-      frameId = requestAnimationFrame(() => {
-        updateGlow(event.clientX, event.clientY, "1");
-      });
-    };
-
-    const handlePointerLeave = () => {
+    const hideGlow = () => {
       root.style.setProperty("--cursor-glow-opacity", "0");
     };
 
+    const flushFrame = () => {
+      hasQueuedFrame = false;
+      frameId = null;
+
+      if (!isEnabled) {
+        return;
+      }
+
+      updateGlow(pendingX, pendingY, "1");
+    };
+
+    const handlePointerMove = (event) => {
+      if (!isEnabled) {
+        return;
+      }
+
+      pendingX = event.clientX;
+      pendingY = event.clientY;
+
+      if (hasQueuedFrame) {
+        return;
+      }
+
+      hasQueuedFrame = true;
+      frameId = requestAnimationFrame(flushFrame);
+    };
+
+    const handlePointerLeave = () => {
+      hideGlow();
+    };
+
+    const updateEnabledState = () => {
+      isEnabled =
+        pointerCapability.matches &&
+        !reduceMotionQuery.matches &&
+        document.visibilityState === "visible";
+
+      if (!isEnabled) {
+        hideGlow();
+      }
+    };
+
+    const handleVisibilityChange = () => {
+      updateEnabledState();
+    };
+
     updateGlow(window.innerWidth * 0.5, window.innerHeight * 0.24, "0");
-    window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("pointerleave", handlePointerLeave);
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("pointerleave", handlePointerLeave, { passive: true });
     window.addEventListener("blur", handlePointerLeave);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    if (typeof pointerCapability.addEventListener === "function") {
+      pointerCapability.addEventListener("change", updateEnabledState);
+      reduceMotionQuery.addEventListener("change", updateEnabledState);
+    } else if (typeof pointerCapability.addListener === "function") {
+      pointerCapability.addListener(updateEnabledState);
+      reduceMotionQuery.addListener(updateEnabledState);
+    }
 
     return () => {
       if (frameId) {
@@ -77,17 +131,27 @@ function HomeScreen() {
       window.removeEventListener("pointermove", handlePointerMove);
       window.removeEventListener("pointerleave", handlePointerLeave);
       window.removeEventListener("blur", handlePointerLeave);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+
+      if (typeof pointerCapability.removeEventListener === "function") {
+        pointerCapability.removeEventListener("change", updateEnabledState);
+        reduceMotionQuery.removeEventListener("change", updateEnabledState);
+      } else if (typeof pointerCapability.removeListener === "function") {
+        pointerCapability.removeListener(updateEnabledState);
+        reduceMotionQuery.removeListener(updateEnabledState);
+      }
+
       root.style.removeProperty("--cursor-glow-x");
       root.style.removeProperty("--cursor-glow-y");
       root.style.removeProperty("--cursor-glow-opacity");
     };
   }, []);
 
-  const registerSection = (key, y) => {
+  const registerSection = useCallback((key, y) => {
     sectionOffsets.current[key] = Math.max(0, y - 12);
-  };
+  }, []);
 
-  const handleNavigate = (key) => {
+  const handleNavigate = useCallback((key) => {
     const orbitOffset =
       key === "orbit"
         ? sectionOffsets.current.top + Math.min(height * 0.45, 360)
@@ -97,7 +161,7 @@ function HomeScreen() {
       y: orbitOffset || 0,
       animated: true
     });
-  };
+  }, [height]);
 
   return (
     <SafeAreaView style={[styles.safeArea, webEffects.meshBackground]}>
@@ -227,7 +291,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "rgba(152, 37, 152, 0.08)",
     ...(Platform.OS === "web"
       ? {
-          backdropFilter: "blur(20px)"
+          backdropFilter: "blur(14px)"
         }
       : {})
   },

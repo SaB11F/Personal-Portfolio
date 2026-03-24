@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Platform, Pressable, Text, TextInput, View } from "react-native";
 
 import { submitContact } from "../../../lib/api";
@@ -220,4 +220,4 @@ function Field({
   );
 }
 
-export default ContactSection;
+export default memo(ContactSection);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Platform, Pressable, Text, View } from "react-native";
 
@@ -88,4 +88,4 @@ function HighlightsSection({ education }) {
   );
 }
 
-export default HighlightsSection;
+export default memo(HighlightsSection);

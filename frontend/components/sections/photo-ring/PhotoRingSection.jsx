@@ -1,15 +1,16 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import {
   Animated,
   Image,
   Modal,
   PanResponder,
+  Platform,
   Pressable,
   Text,
   useWindowDimensions,
   View,
 } from "react-native";
-import { useEffect, useMemo, useRef, useState } from "react";
 
 import { palette } from "../../../lib/theme";
 import {
@@ -31,6 +32,8 @@ function PhotoRingSection() {
     [width]
   );
   const isCompact = width < 900;
+  const [isVisible, setIsVisible] = useState(Platform.OS !== "web");
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const translateX = useRef(new Animated.Value(0)).current;
   const lightboxAnimation = useRef(new Animated.Value(0)).current;
   const momentumFrame = useRef(null);
@@ -41,6 +44,7 @@ function PhotoRingSection() {
   const dragStartRef = useRef(0);
   const isDraggingRef = useRef(false);
   const activeItemRef = useRef(null);
+  const sectionRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const interactionRef = useRef({
     moved: false,
@@ -56,6 +60,69 @@ function PhotoRingSection() {
   const loopSpan = PHOTO_RING_ITEMS.length * (cardWidth + gap);
   const anchor = -loopSpan * 2 - cardWidth * 0.38;
   const sectionWidth = width;
+  const shouldAnimateAmbient = !prefersReducedMotion && isVisible && !activeItem;
+
+  useEffect(() => {
+    if (Platform.OS !== "web") {
+      return undefined;
+    }
+
+    const handleReduceMotionChange = () => {
+      setPrefersReducedMotion(
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      );
+    };
+    const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    handleReduceMotionChange();
+
+    if (typeof reduceMotionQuery.addEventListener === "function") {
+      reduceMotionQuery.addEventListener("change", handleReduceMotionChange);
+    } else if (typeof reduceMotionQuery.addListener === "function") {
+      reduceMotionQuery.addListener(handleReduceMotionChange);
+    }
+
+    let observer;
+    if ("IntersectionObserver" in window && sectionRef.current) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          setIsVisible(Boolean(entry?.isIntersecting));
+        },
+        {
+          threshold: 0.14,
+        }
+      );
+      observer.observe(sectionRef.current);
+    } else {
+      setIsVisible(true);
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState !== "visible") {
+        setIsVisible(false);
+        return;
+      }
+
+      if (!observer) {
+        setIsVisible(true);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+
+      if (observer) {
+        observer.disconnect();
+      }
+
+      if (typeof reduceMotionQuery.removeEventListener === "function") {
+        reduceMotionQuery.removeEventListener("change", handleReduceMotionChange);
+      } else if (typeof reduceMotionQuery.removeListener === "function") {
+        reduceMotionQuery.removeListener(handleReduceMotionChange);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     positionRef.current = anchor;
@@ -102,6 +169,15 @@ function PhotoRingSection() {
   }, []);
 
   useEffect(() => {
+    if (!shouldAnimateAmbient) {
+      if (autoFrame.current) {
+        cancelAnimationFrame(autoFrame.current);
+        autoFrame.current = null;
+      }
+      autoLastTick.current = null;
+      return undefined;
+    }
+
     const step = (timestamp) => {
       if (autoLastTick.current == null) {
         autoLastTick.current = timestamp;
@@ -117,7 +193,7 @@ function PhotoRingSection() {
       ) {
         translateX.setValue(
           wrapTrackPosition(
-            positionRef.current - delta * 0.028,
+            positionRef.current - delta * 0.02,
             anchor,
             loopSpan
           )
@@ -137,7 +213,7 @@ function PhotoRingSection() {
 
       autoLastTick.current = null;
     };
-  }, [anchor, loopSpan, translateX]);
+  }, [anchor, loopSpan, shouldAnimateAmbient, translateX]);
 
   const stopMomentum = () => {
     if (momentumFrame.current) {
@@ -250,6 +326,7 @@ function PhotoRingSection() {
 
   return (
     <View
+      ref={sectionRef}
       style={[
         styles.section,
         isCompact && styles.sectionCompact,
@@ -431,4 +508,4 @@ function PhotoRingSection() {
   );
 }
 
-export default PhotoRingSection;
+export default memo(PhotoRingSection);

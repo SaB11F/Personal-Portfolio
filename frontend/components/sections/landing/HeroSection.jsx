@@ -13,11 +13,11 @@ import { getOrbitCardState, getProjectIconName } from "./HeroSection.helpers";
 import { styles } from "./HeroSection.style";
 
 const PROJECT_IMAGE_SOURCES = {
-  "rag-assistant": require("../../../assets/orbital_cards/ERŠko_7.png"),
-  "fogponic-system": require("../../../assets/orbital_cards/Fogponic_1.png"),
-  sopkomat: require("../../../assets/orbital_cards/Šopkomat_1.png"),
-  "speed-bump": require("../../../assets/orbital_cards/Speed_bump_6.png"),
-  "esa-cansat": require("../../../assets/gallery/CanSat_zmagovalna.jpg"),
+  "rag-assistant": require("../../../assets/orbital_cards/web/ersko-card.jpg"),
+  "fogponic-system": require("../../../assets/orbital_cards/web/fogponic-card.jpg"),
+  sopkomat: require("../../../assets/orbital_cards/web/sopkomat-card.jpg"),
+  "speed-bump": require("../../../assets/orbital_cards/web/speed-bump-card.jpg"),
+  "esa-cansat": require("../../../assets/gallery/ring/cansat-card.jpg"),
 };
 
 function HeroSection({
@@ -342,7 +342,7 @@ function HeroSection({
               <View style={styles.ctaRow}>
                 <Pressable onPress={onTalkPress} style={styles.primaryCta}>
                   <Text style={styles.primaryCtaText}>Work Together</Text>
-                  <Text style={styles.primaryCtaArrow}>-></Text>
+                  <Text style={styles.primaryCtaArrow}>-&gt;</Text>
                 </Pressable>
 
                 <Pressable

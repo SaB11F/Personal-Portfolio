@@ -94,7 +94,7 @@ export const styles = StyleSheet.create({
     gap: 10,
     ...(globalThis?.navigator
       ? {
-          backdropFilter: "blur(18px)",
+          backdropFilter: "blur(14px)",
         }
       : {}),
   },

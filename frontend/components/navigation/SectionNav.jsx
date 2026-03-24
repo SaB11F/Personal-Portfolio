@@ -1,4 +1,5 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { memo } from "react";
 import { Pressable, Text, View } from "react-native";
 
 import { styles } from "./SectionNav.style";
@@ -54,4 +55,4 @@ function SectionNav({ isWide, onNavigate }) {
   );
 }
 
-export default SectionNav;
+export default memo(SectionNav);

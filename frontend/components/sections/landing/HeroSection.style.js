@@ -97,7 +97,7 @@ export const styles = StyleSheet.create({
     borderColor: "rgba(255, 255, 255, 0.28)",
     ...(Platform.OS === "web"
       ? {
-          backdropFilter: "blur(20px)",
+          backdropFilter: "blur(16px)",
           boxShadow: "0 18px 44px rgba(21, 23, 61, 0.08)",
         }
       : {}),
@@ -251,7 +251,7 @@ export const styles = StyleSheet.create({
     ...shadow,
     ...(Platform.OS === "web"
       ? {
-          backdropFilter: "blur(12px)",
+          backdropFilter: "blur(8px)",
         }
       : {}),
   },
