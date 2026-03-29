@@ -1,7 +1,7 @@
 import { memo, useState } from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Platform, Pressable, Text, View } from "react-native";
 
+import { AppIcon } from "../../common";
 import { palette } from "../../../lib/theme";
 import { styles } from "./HighlightsSection.style";
 
@@ -61,7 +61,7 @@ function HighlightsSection({ education }) {
                 ]}
               >
                 <View style={[styles.iconTile, iconBgStyle]}>
-                  <MaterialCommunityIcons
+                  <AppIcon
                     color={iconColor}
                     name={item.icon || "school-outline"}
                     size={30}

@@ -5,7 +5,6 @@ Express API for the portfolio frontend.
 ## Routes
 
 - `GET /api/health` - health check
-- `GET /api/portfolio` - portfolio content payload
 - `POST /api/contact` - stores and/or forwards contact messages
 
 ## Environment

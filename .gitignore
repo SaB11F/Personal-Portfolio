@@ -16,6 +16,7 @@ frontend/.expo-shared/
 frontend/dist/
 coverage/
 .cache/
+temp_inspect_*/
 
 # logs
 *.log

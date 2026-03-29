@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -10,6 +9,7 @@ import {
   View,
 } from "react-native";
 
+import { AppIcon } from "../../common";
 import { palette, surface } from "../../../lib/theme";
 import {
   HERO_CHIPS,
@@ -141,6 +141,10 @@ function HeroSection({ hero, isWide, onJourneyPress, onTalkPress, projects }) {
                 const isSoftTheme = theme === "soft";
                 const usesLightText = theme === "dark";
                 const projectGithubUrl = project.githubUrl || defaultGithubUrl;
+                const projectLinkLabel = project.githubUrl ? "Code" : "GitHub";
+                const projectLinkA11yLabel = project.githubUrl
+                  ? `Open code repository for ${project.title}`
+                  : `Open Rene Kolednik GitHub profile for ${project.title}`;
 
                 return (
                   <View
@@ -289,6 +293,7 @@ function HeroSection({ hero, isWide, onJourneyPress, onTalkPress, projects }) {
                             </View>
                           </View>
                           <Pressable
+                            accessibilityLabel={projectLinkA11yLabel}
                             disabled={!projectGithubUrl}
                             onPress={() => {
                               if (projectGithubUrl) {
@@ -305,7 +310,7 @@ function HeroSection({ hero, isWide, onJourneyPress, onTalkPress, projects }) {
                               !projectGithubUrl && styles.projectLinkButtonDisabled,
                             ]}
                           >
-                            <MaterialCommunityIcons
+                            <AppIcon
                               color={usesLightText ? "#FFFFFF" : palette.navy}
                               name="github"
                               size={18}
@@ -318,7 +323,7 @@ function HeroSection({ hero, isWide, onJourneyPress, onTalkPress, projects }) {
                                   : styles.orbitCardTitleDark,
                               ]}
                             >
-                              Code
+                              {projectLinkLabel}
                             </Text>
                           </Pressable>
                         </View>
@@ -417,7 +422,7 @@ function HeroSection({ hero, isWide, onJourneyPress, onTalkPress, projects }) {
 function ProjectIcon({ color, slug }) {
   const iconName = getProjectIconName(slug);
 
-  return <MaterialCommunityIcons color={color} name={iconName} size={28} />;
+  return <AppIcon color={color} name={iconName} size={28} />;
 }
 
 function getWrappedIndex(value, total) {

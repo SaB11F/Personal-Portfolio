@@ -19,7 +19,7 @@ import {
   PhotoRingSection,
   SkillsSection
 } from "../components/sections";
-import fallbackPortfolio from "../data/fallbackPortfolio";
+import portfolioContent from "../data/portfolioContent";
 import { palette, webEffects } from "../lib/theme";
 
 function HomeScreen() {
@@ -173,11 +173,11 @@ function HomeScreen() {
             }}
           >
             <HeroSection
-              hero={fallbackPortfolio.hero}
+              hero={portfolioContent.hero}
               isWide={isWide}
               onJourneyPress={() => handleNavigate("experience")}
               onTalkPress={() => handleNavigate("contact")}
-              projects={fallbackPortfolio.projects}
+              projects={portfolioContent.projects}
             />
           </View>
 
@@ -193,7 +193,7 @@ function HomeScreen() {
             }
             style={styles.photoRingExitGap}
           >
-            <ExperienceSection experience={fallbackPortfolio.experience} />
+            <ExperienceSection experience={portfolioContent.experience} />
           </View>
 
           <View
@@ -202,13 +202,13 @@ function HomeScreen() {
             }
             style={styles.sectionGap}
           >
-            <SkillsSection isWide={isWide} skills={fallbackPortfolio.skills} />
+            <SkillsSection isWide={isWide} skills={portfolioContent.skills} />
           </View>
 
           <View style={styles.sectionGap}>
             <HighlightsSection
-              achievements={fallbackPortfolio.achievements}
-              education={fallbackPortfolio.education}
+              achievements={portfolioContent.achievements}
+              education={portfolioContent.education}
             />
           </View>
 
@@ -218,7 +218,7 @@ function HomeScreen() {
             }
             style={styles.sectionGap}
           >
-            <ContactSection contact={fallbackPortfolio.contact} isWide={isWide} />
+            <ContactSection contact={portfolioContent.contact} isWide={isWide} />
           </View>
 
           <View style={styles.footer}>

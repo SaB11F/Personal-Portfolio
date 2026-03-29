@@ -158,6 +158,9 @@ export const styles = StyleSheet.create({
     borderRadius: 18,
     backgroundColor: palette.purple,
   },
+  submitButtonDisabled: {
+    opacity: 0.72,
+  },
   submitText: {
     color: "#FFFFFF",
     fontSize: 16,

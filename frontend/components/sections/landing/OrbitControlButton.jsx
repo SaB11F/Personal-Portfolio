@@ -1,6 +1,6 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Pressable, View } from "react-native";
 
+import { AppIcon } from "../../common";
 import { styles } from "./HeroSection.style";
 
 function OrbitControlButton({ isCompact, label, onPress }) {
@@ -19,7 +19,7 @@ function OrbitControlButton({ isCompact, label, onPress }) {
           isCompact && styles.orbitControlButtonCompact,
         ]}
       >
-        <MaterialCommunityIcons
+        <AppIcon
           color="#FFFFFF"
           name="arrow-right"
           size={isCompact ? 24 : 28}

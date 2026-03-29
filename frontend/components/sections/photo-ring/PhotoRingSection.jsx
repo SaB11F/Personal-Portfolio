@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import {
   Animated,
@@ -12,6 +11,7 @@ import {
   View,
 } from "react-native";
 
+import { AppIcon } from "../../common";
 import { palette } from "../../../lib/theme";
 import {
   PHOTO_RING_ITEMS,
@@ -447,7 +447,7 @@ function PhotoRingSection() {
                   closeHovered && styles.closeButtonHovered,
                 ]}
               >
-                <MaterialCommunityIcons color="#FFFFFF" name="close" size={22} />
+                <AppIcon color="#FFFFFF" name="close" size={22} />
               </Pressable>
 
               <View
@@ -483,7 +483,7 @@ function PhotoRingSection() {
 
                 <View style={styles.lightboxMetaRow}>
                   <View style={styles.lightboxMetaBadge}>
-                    <MaterialCommunityIcons
+                    <AppIcon
                       color={palette.purple}
                       name="star-four-points-outline"
                       size={20}

@@ -1,4 +1,3 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { memo, useEffect, useRef, useState } from "react";
 import {
   Animated,
@@ -9,6 +8,7 @@ import {
   View,
 } from "react-native";
 
+import { AppIcon } from "../../common";
 import { surface } from "../../../lib/theme";
 import {
   DOT_CLUSTER_DOTS,
@@ -348,7 +348,7 @@ function SkillsSection({ isWide, skills }) {
                     },
                   ]}
                 >
-                  <MaterialCommunityIcons
+                  <AppIcon
                     color={theme.color}
                     name={theme.icon}
                     size={isWide ? 26 : 24}

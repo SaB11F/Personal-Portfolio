@@ -1,6 +1,6 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { View } from "react-native";
 
+import { AppIcon } from "../../common";
 import { styles } from "./HeroSection.style";
 
 function getGhostColor(theme) {
@@ -505,7 +505,7 @@ function OrbitGhostArtwork({ ghost, isWide, theme }) {
           <VendingMachineFigure theme={theme} />
         </View>
       ) : (
-        <MaterialCommunityIcons
+        <AppIcon
           color={getGhostColor(theme)}
           name={ghost.icon}
           size={size}

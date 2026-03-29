@@ -1,8 +1,8 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as Linking from "expo-linking";
 import { memo, useState } from "react";
 import { Platform, Pressable, Text, TextInput, View } from "react-native";
 
+import { AppIcon } from "../../common";
 import { submitContact } from "../../../lib/api";
 import { webEffects } from "../../../lib/theme";
 import { styles } from "./ContactSection.style";
@@ -17,6 +17,7 @@ const initialForm = {
 function ContactSection({ contact, isWide }) {
   const [form, setForm] = useState(initialForm);
   const [messageHeight, setMessageHeight] = useState(168);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState({
     state: "idle",
     message: "Tell me about your vision.",
@@ -30,8 +31,22 @@ function ContactSection({ contact, isWide }) {
   };
 
   const handleSubmit = async () => {
-    const payload = { ...form };
+    if (isSubmitting) {
+      return;
+    }
 
+    const payload = sanitizeContactForm(form);
+    const validationMessage = validateContactForm(payload);
+
+    if (validationMessage) {
+      setStatus({
+        state: "error",
+        message: validationMessage,
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
     setStatus({
       state: "loading",
       message: "Sending message...",
@@ -51,6 +66,8 @@ function ContactSection({ contact, isWide }) {
         state: "error",
         message: error.message,
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -91,6 +108,7 @@ function ContactSection({ contact, isWide }) {
               name="name"
               onChangeText={(value) => setField("name", value)}
               placeholder="John Doe"
+              readOnly={isSubmitting}
               shellStyle={styles.rowFieldShell}
               value={form.name}
             />
@@ -100,6 +118,7 @@ function ContactSection({ contact, isWide }) {
               name="subject"
               onChangeText={(value) => setField("subject", value)}
               placeholder="New Project"
+              readOnly={isSubmitting}
               shellStyle={styles.rowFieldShell}
               value={form.subject}
             />
@@ -112,6 +131,7 @@ function ContactSection({ contact, isWide }) {
             name="email"
             onChangeText={(value) => setField("email", value)}
             placeholder="rene@company.com"
+            readOnly={isSubmitting}
             value={form.email}
           />
 
@@ -129,6 +149,7 @@ function ContactSection({ contact, isWide }) {
             }}
             onChangeText={(value) => setField("message", value)}
             placeholder="Tell me about your vision..."
+            readOnly={isSubmitting}
             scrollEnabled={false}
             style={[
               styles.messageField,
@@ -138,9 +159,15 @@ function ContactSection({ contact, isWide }) {
             value={form.message}
           />
 
-          <Pressable onPress={handleSubmit} style={styles.submitButton}>
-            <Text style={styles.submitText}>Send Message</Text>
-            <MaterialCommunityIcons
+          <Pressable
+            disabled={isSubmitting}
+            onPress={handleSubmit}
+            style={[styles.submitButton, isSubmitting && styles.submitButtonDisabled]}
+          >
+            <Text style={styles.submitText}>
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </Text>
+            <AppIcon
               color="#FFFFFF"
               name="send-outline"
               size={20}
@@ -167,7 +194,7 @@ function ContactLink({ icon, label, onPress, value }) {
   const content = (
     <View style={styles.contactRow}>
       <View style={styles.contactIcon}>
-        <MaterialCommunityIcons color="#FFFFFF" name={icon} size={22} />
+        <AppIcon color="#FFFFFF" name={icon} size={22} />
       </View>
       <View style={styles.contactTextColumn}>
         <Text style={styles.contactLabel}>{label}</Text>
@@ -193,6 +220,7 @@ function Field({
   onContentSizeChange,
   onChangeText,
   placeholder,
+  readOnly,
   scrollEnabled,
   shellStyle,
   style,
@@ -203,6 +231,7 @@ function Field({
       <Text style={styles.fieldLabel}>{label}</Text>
       <TextInput
         accessibilityLabel={label}
+        editable={!readOnly}
         keyboardType={keyboardType}
         multiline={multiline}
         nativeID={id}
@@ -218,6 +247,27 @@ function Field({
       />
     </View>
   );
+}
+
+function sanitizeContactForm(form) {
+  return {
+    name: form.name.trim(),
+    email: form.email.trim(),
+    subject: form.subject.trim(),
+    message: form.message.trim(),
+  };
+}
+
+function validateContactForm(form) {
+  if (!form.name || !form.email || !form.message) {
+    return "Name, email, and message are required.";
+  }
+
+  if (!/\S+@\S+\.\S+/.test(form.email)) {
+    return "Please provide a valid email.";
+  }
+
+  return "";
 }
 
 export default memo(ContactSection);

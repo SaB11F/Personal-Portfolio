@@ -30,8 +30,6 @@ function normalizePath(path) {
   return path.startsWith("/") ? path : `/${path}`;
 }
 
-export const fetchPortfolio = () => request("/portfolio");
-
 export const submitContact = (payload) =>
   request("/contact", {
     method: "POST",

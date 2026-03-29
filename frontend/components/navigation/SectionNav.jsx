@@ -1,7 +1,7 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { memo } from "react";
 import { Pressable, Text, View } from "react-native";
 
+import { AppIcon } from "../common";
 import { styles } from "./SectionNav.style";
 
 const links = [
@@ -17,7 +17,7 @@ function SectionNav({ isWide, onNavigate }) {
         <View style={styles.avatarGroup}>
           <View style={styles.avatarShell}>
             <View style={styles.avatarInner}>
-              <MaterialCommunityIcons
+              <AppIcon
                 color="rgba(21, 23, 61, 0.35)"
                 name="account"
                 size={16}
@@ -49,7 +49,7 @@ function SectionNav({ isWide, onNavigate }) {
 
       <Pressable onPress={() => onNavigate("contact")} style={styles.ctaButton}>
         <Text style={styles.ctaText}>LET&apos;S TALK</Text>
-        <MaterialCommunityIcons color="#FFFFFF" name="arrow-right" size={14} />
+        <AppIcon color="#FFFFFF" name="arrow-right" size={14} />
       </Pressable>
     </View>
   );
