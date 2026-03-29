@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import {
   Platform,
   ScrollView,
@@ -23,10 +23,9 @@ import fallbackPortfolio from "../data/fallbackPortfolio";
 import { palette, webEffects } from "../lib/theme";
 
 function HomeScreen() {
-  const [scrollY, setScrollY] = useState(0);
   const scrollViewRef = useRef(null);
   const sectionOffsets = useRef({});
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const isWide = width >= 1024;
 
   useEffect(() => {
@@ -159,8 +158,6 @@ function HomeScreen() {
       <ScrollView
         ref={scrollViewRef}
         contentContainerStyle={styles.scrollContent}
-        onScroll={(event) => setScrollY(event.nativeEvent.contentOffset.y)}
-        scrollEventThrottle={16}
         showsVerticalScrollIndicator={false}
         stickyHeaderIndices={[0]}
       >
@@ -196,12 +193,7 @@ function HomeScreen() {
             }
             style={styles.photoRingExitGap}
           >
-            <ExperienceSection
-              experience={fallbackPortfolio.experience}
-              scrollY={scrollY}
-              sectionTop={sectionOffsets.current.experience || 0}
-              viewportHeight={height}
-            />
+            <ExperienceSection experience={fallbackPortfolio.experience} />
           </View>
 
           <View
