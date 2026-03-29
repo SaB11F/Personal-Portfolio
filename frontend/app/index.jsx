@@ -26,15 +26,8 @@ function HomeScreen() {
   const [scrollY, setScrollY] = useState(0);
   const scrollViewRef = useRef(null);
   const sectionOffsets = useRef({});
-  const heroOffset = useRef(0);
   const { height, width } = useWindowDimensions();
   const isWide = width >= 1024;
-  const heroHeight = Math.max(isWide ? height * 3 : height * 2.2, isWide ? 1900 : 1520);
-  const heroProgress = clamp(
-    (scrollY - heroOffset.current) / Math.max(1, heroHeight - height),
-    0,
-    1
-  );
 
   useEffect(() => {
     if (Platform.OS !== "web") {
@@ -152,16 +145,11 @@ function HomeScreen() {
   }, []);
 
   const handleNavigate = useCallback((key) => {
-    const orbitOffset =
-      key === "orbit"
-        ? sectionOffsets.current.top + Math.min(height * 0.45, 360)
-        : sectionOffsets.current[key];
-
     scrollViewRef.current?.scrollTo({
-      y: orbitOffset || 0,
+      y: sectionOffsets.current[key] ?? sectionOffsets.current.top ?? 0,
       animated: true
     });
-  }, [height]);
+  }, []);
 
   return (
     <SafeAreaView style={[styles.safeArea, webEffects.meshBackground]}>
@@ -183,24 +171,16 @@ function HomeScreen() {
         <View style={styles.page}>
           <View
             onLayout={(event) => {
-              heroOffset.current = event.nativeEvent.layout.y;
               registerSection("top", event.nativeEvent.layout.y);
-              registerSection(
-                "orbit",
-                event.nativeEvent.layout.y + Math.min(height * 0.45, 360)
-              );
+              registerSection("orbit", event.nativeEvent.layout.y);
             }}
           >
             <HeroSection
               hero={fallbackPortfolio.hero}
               isWide={isWide}
-              metrics={fallbackPortfolio.hero.metrics}
               onJourneyPress={() => handleNavigate("experience")}
               onTalkPress={() => handleNavigate("contact")}
-              progress={heroProgress}
               projects={fallbackPortfolio.projects}
-              sectionHeight={heroHeight}
-              viewportHeight={height}
             />
           </View>
 
@@ -260,10 +240,6 @@ function HomeScreen() {
   );
 }
 
-function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
-}
-
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -297,9 +273,9 @@ const styles = StyleSheet.create({
   },
   page: {
     width: "100%",
-    maxWidth: 1240,
+    maxWidth: 1480,
     alignSelf: "center",
-    paddingHorizontal: 20
+    paddingHorizontal: 8
   },
   sectionGap: {
     marginTop: 110

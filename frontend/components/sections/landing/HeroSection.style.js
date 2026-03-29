@@ -8,16 +8,17 @@ export const styles = StyleSheet.create({
   },
   stickyFrame: {
     justifyContent: "center",
-    paddingTop: 34,
-    paddingBottom: 34,
+    paddingTop: 14,
+    paddingBottom: 16,
   },
   scene: {
     position: "relative",
-    minHeight: 930,
-    justifyContent: "center",
+    minHeight: 790,
+    justifyContent: "flex-start",
+    paddingTop: 44,
   },
   sceneCompact: {
-    minHeight: 1080,
+    minHeight: 900,
     justifyContent: "flex-start",
     paddingTop: 26,
   },
@@ -25,12 +26,20 @@ export const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
     overflow: "visible",
   },
+  orbitInteractionLayer: {
+    ...StyleSheet.absoluteFillObject,
+    ...(Platform.OS === "web"
+      ? {
+          touchAction: "pan-y",
+        }
+      : {}),
+  },
   orbitBackdropWide: {
-    top: -54,
-    bottom: 54,
+    top: -14,
+    bottom: 0,
   },
   orbitBackdropCompact: {
-    top: 200,
+    top: 108,
   },
   orbitGlow: {
     position: "absolute",
@@ -62,16 +71,16 @@ export const styles = StyleSheet.create({
   orbitPathWide: {
     width: 1140,
     height: 590,
-    left: "75%",
-    top: "48%",
+    left: "76%",
+    top: "44%",
     marginLeft: -570,
     marginTop: -295,
   },
   orbitPathCompact: {
     width: 800,
     height: 390,
-    left: "56%",
-    top: "58%",
+    left: "58%",
+    top: "49%",
     marginLeft: -400,
     marginTop: -195,
   },
@@ -79,19 +88,19 @@ export const styles = StyleSheet.create({
     position: "relative",
     zIndex: 20,
     width: "100%",
-    maxWidth: 540,
-    paddingTop: 28,
+    maxWidth: 680,
+    paddingTop: 0,
     paddingBottom: 32,
   },
   overlayPanelCompact: {
     maxWidth: "100%",
-    paddingRight: 14,
+    paddingRight: 20,
   },
   contentCard: {
     width: "100%",
-    maxWidth: 620,
-    paddingHorizontal: 30,
-    paddingVertical: 28,
+    maxWidth: 700,
+    paddingHorizontal: 38,
+    paddingVertical: 34,
     borderRadius: 38,
     backgroundColor: "rgba(255, 255, 255, 0.42)",
     borderColor: "rgba(255, 255, 255, 0.28)",
@@ -103,8 +112,8 @@ export const styles = StyleSheet.create({
       : {}),
   },
   contentCardCompact: {
-    paddingHorizontal: 22,
-    paddingVertical: 22,
+    paddingHorizontal: 24,
+    paddingVertical: 24,
     borderRadius: 30,
   },
   availabilityPill: {
@@ -135,28 +144,28 @@ export const styles = StyleSheet.create({
   },
   name: {
     color: palette.navy,
-    fontSize: 72,
-    lineHeight: 74,
+    fontSize: 84,
+    lineHeight: 84,
     fontWeight: "900",
-    letterSpacing: -3,
+    letterSpacing: -3.8,
     fontFamily: fonts.display,
   },
   nameCompact: {
-    fontSize: 50,
-    lineHeight: 52,
-    letterSpacing: -2.1,
+    fontSize: 56,
+    lineHeight: 58,
+    letterSpacing: -2.5,
   },
   subtitle: {
     marginTop: 8,
     color: "rgba(21, 23, 61, 0.82)",
-    fontSize: 24,
-    lineHeight: 32,
+    fontSize: 26,
+    lineHeight: 36,
     fontWeight: "500",
     fontFamily: fonts.display,
   },
   subtitleCompact: {
-    fontSize: 19,
-    lineHeight: 28,
+    fontSize: 21,
+    lineHeight: 30,
   },
   subtitleAccent: {
     color: palette.purple,
@@ -166,8 +175,8 @@ export const styles = StyleSheet.create({
   summary: {
     marginTop: 18,
     color: palette.muted,
-    fontSize: 15,
-    lineHeight: 27,
+    fontSize: 16,
+    lineHeight: 30,
     fontFamily: fonts.display,
   },
   chipRow: {
@@ -255,6 +264,16 @@ export const styles = StyleSheet.create({
         }
       : {}),
   },
+  orbitCardFrameMotion: {
+    ...(Platform.OS === "web"
+      ? {
+          transitionDuration: "520ms",
+          transitionProperty: "transform, opacity, filter",
+          transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
+          willChange: "transform, opacity, filter",
+        }
+      : {}),
+  },
   orbitCardInner: {
     flex: 1,
     position: "relative",
@@ -294,14 +313,14 @@ export const styles = StyleSheet.create({
   },
   orbitCardMediaWrap: {
     position: "relative",
-    minHeight: 222,
+    minHeight: 246,
     marginBottom: 8,
     borderRadius: 26,
     overflow: "hidden",
   },
   orbitCardMediaImage: {
     width: "100%",
-    height: 222,
+    height: 246,
     borderRadius: 26,
   },
   orbitCardMediaImageSpeedBump: {
@@ -329,6 +348,43 @@ export const styles = StyleSheet.create({
           boxShadow: "0 18px 38px rgba(21, 23, 61, 0.18)",
         }
       : {}),
+  },
+  orbitControlDock: {
+    position: "absolute",
+    right: -48,
+    top: "50%",
+    zIndex: 30,
+    transform: [{ translateY: -40 }],
+  },
+  orbitControlDockCompact: {
+    right: -12,
+    top: "50%",
+    transform: [{ translateY: -34 }],
+  },
+  orbitControlButton: {
+    width: 80,
+    height: 80,
+    borderRadius: 28,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: palette.purple,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.26)",
+    ...shadow,
+    ...(Platform.OS === "web"
+      ? {
+          backdropFilter: "blur(14px)",
+          transitionDuration: "180ms",
+          transitionProperty: "transform, box-shadow, background-color",
+          transitionTimingFunction: "ease-out",
+          boxShadow: "0 24px 46px rgba(152, 37, 152, 0.34)",
+        }
+      : {}),
+  },
+  orbitControlButtonCompact: {
+    width: 68,
+    height: 68,
+    borderRadius: 24,
   },
   orbitCardContentLayer: {
     flex: 1,

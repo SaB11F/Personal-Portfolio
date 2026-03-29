@@ -19,7 +19,7 @@ export function getOrbitCardState({
 
   return {
     anchorLeft: isWide ? "74%" : "56%",
-    anchorTop: isWide ? "50%" : "67%",
+    anchorTop: isWide ? "32%" : "61%",
     opacity: Math.max(0.16, (z + 500) / 900),
     transform: [
       { perspective: 1200 },
