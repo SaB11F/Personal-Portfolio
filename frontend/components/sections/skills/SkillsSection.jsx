@@ -1,6 +1,5 @@
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useState } from "react";
 import {
-  Animated,
   Platform,
   Pressable,
   Text,
@@ -29,100 +28,13 @@ function SkillsSection({ isWide, skills }) {
   const { width } = useWindowDimensions();
   const [hoveredCard, setHoveredCard] = useState(null);
   const [hoveredNode, setHoveredNode] = useState(null);
-  const [isVisible, setIsVisible] = useState(Platform.OS !== "web");
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const motionValues = useRef(
-    SKILL_NODES.map(() => new Animated.Value(0))
-  ).current;
-  const sectionRef = useRef(null);
   const isPhone = width < 640;
   const shouldStackCompactCards = width < 760;
   const featureCards = buildFeatureCards(skills);
   const nodesByLabel = buildNodesByLabel(SKILL_NODES);
-  const shouldAnimateNodes =
-    Platform.OS === "web" && isWide && !prefersReducedMotion && isVisible;
-
-  useEffect(() => {
-    if (Platform.OS !== "web") {
-      return undefined;
-    }
-
-    const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handleReduceMotionChange = () => {
-      setPrefersReducedMotion(reduceMotionQuery.matches);
-    };
-    handleReduceMotionChange();
-
-    if (typeof reduceMotionQuery.addEventListener === "function") {
-      reduceMotionQuery.addEventListener("change", handleReduceMotionChange);
-    } else if (typeof reduceMotionQuery.addListener === "function") {
-      reduceMotionQuery.addListener(handleReduceMotionChange);
-    }
-
-    let observer;
-    if ("IntersectionObserver" in window && sectionRef.current) {
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          setIsVisible(Boolean(entry?.isIntersecting));
-        },
-        {
-          threshold: 0.16,
-        }
-      );
-      observer.observe(sectionRef.current);
-    } else {
-      setIsVisible(true);
-    }
-
-    return () => {
-      if (observer) {
-        observer.disconnect();
-      }
-
-      if (typeof reduceMotionQuery.removeEventListener === "function") {
-        reduceMotionQuery.removeEventListener("change", handleReduceMotionChange);
-      } else if (typeof reduceMotionQuery.removeListener === "function") {
-        reduceMotionQuery.removeListener(handleReduceMotionChange);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!shouldAnimateNodes) {
-      motionValues.forEach((value) => {
-        value.stopAnimation();
-        value.setValue(0);
-      });
-      return undefined;
-    }
-
-    const loops = motionValues.map((value, index) =>
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(value, {
-            toValue: 1,
-            duration: 4400 + index * 180,
-            useNativeDriver: true,
-          }),
-          Animated.timing(value, {
-            toValue: 0,
-            duration: 4400 + index * 180,
-            useNativeDriver: true,
-          }),
-        ])
-      )
-    );
-
-    loops.forEach((loop) => loop.start());
-
-    return () => {
-      loops.forEach((loop) => loop.stop());
-    };
-  }, [motionValues, shouldAnimateNodes]);
 
   return (
     <View
-      ref={sectionRef}
       style={[
         surface,
         styles.shell,
@@ -203,18 +115,9 @@ function SkillsSection({ isWide, skills }) {
                   />
                 ))}
 
-                {SKILL_NODES.map((node, index) => {
-                  const translateY = motionValues[index].interpolate({
-                    inputRange: [0, 0.5, 1],
-                    outputRange: [0, index % 2 === 0 ? -5 : -3, 0],
-                  });
-                  const translateX = motionValues[index].interpolate({
-                    inputRange: [0, 0.5, 1],
-                    outputRange: [0, index % 3 === 0 ? 2 : -2, 0],
-                  });
-
+                {SKILL_NODES.map((node) => {
                   return (
-                    <Animated.View
+                    <View
                       key={node.label}
                       style={[
                         styles.nodeWrap,
@@ -222,7 +125,6 @@ function SkillsSection({ isWide, skills }) {
                           left: node.x,
                           top: node.y,
                           width: node.width,
-                          transform: [{ translateY }, { translateX }],
                         },
                       ]}
                     >
@@ -247,7 +149,7 @@ function SkillsSection({ isWide, skills }) {
                           {node.label}
                         </Text>
                       </Pressable>
-                    </Animated.View>
+                    </View>
                   );
                 })}
               </View>
