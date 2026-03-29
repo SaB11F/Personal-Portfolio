@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useRef } from "react";
 import {
   Platform,
   ScrollView,
@@ -28,117 +28,6 @@ function HomeScreen() {
   const { width } = useWindowDimensions();
   const isWide = width >= 1024;
 
-  useEffect(() => {
-    if (Platform.OS !== "web") {
-      return undefined;
-    }
-
-    const pointerCapability = window.matchMedia("(hover: hover) and (pointer: fine)");
-    const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let isEnabled =
-      pointerCapability.matches &&
-      !reduceMotionQuery.matches &&
-      document.visibilityState === "visible";
-    const root = document.documentElement;
-    let frameId = null;
-    let hasQueuedFrame = false;
-    let pendingX = window.innerWidth * 0.5;
-    let pendingY = window.innerHeight * 0.24;
-
-    const updateGlow = (clientX, clientY, opacity) => {
-      root.style.setProperty("--cursor-glow-x", `${clientX}px`);
-      root.style.setProperty("--cursor-glow-y", `${clientY}px`);
-      root.style.setProperty("--cursor-glow-opacity", opacity);
-    };
-
-    const hideGlow = () => {
-      root.style.setProperty("--cursor-glow-opacity", "0");
-    };
-
-    const flushFrame = () => {
-      hasQueuedFrame = false;
-      frameId = null;
-
-      if (!isEnabled) {
-        return;
-      }
-
-      updateGlow(pendingX, pendingY, "1");
-    };
-
-    const handlePointerMove = (event) => {
-      if (!isEnabled) {
-        return;
-      }
-
-      pendingX = event.clientX;
-      pendingY = event.clientY;
-
-      if (hasQueuedFrame) {
-        return;
-      }
-
-      hasQueuedFrame = true;
-      frameId = requestAnimationFrame(flushFrame);
-    };
-
-    const handlePointerLeave = () => {
-      hideGlow();
-    };
-
-    const updateEnabledState = () => {
-      isEnabled =
-        pointerCapability.matches &&
-        !reduceMotionQuery.matches &&
-        document.visibilityState === "visible";
-
-      if (!isEnabled) {
-        hideGlow();
-      }
-    };
-
-    const handleVisibilityChange = () => {
-      updateEnabledState();
-    };
-
-    updateGlow(window.innerWidth * 0.5, window.innerHeight * 0.24, "0");
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    window.addEventListener("pointerleave", handlePointerLeave, { passive: true });
-    window.addEventListener("blur", handlePointerLeave);
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    if (typeof pointerCapability.addEventListener === "function") {
-      pointerCapability.addEventListener("change", updateEnabledState);
-      reduceMotionQuery.addEventListener("change", updateEnabledState);
-    } else if (typeof pointerCapability.addListener === "function") {
-      pointerCapability.addListener(updateEnabledState);
-      reduceMotionQuery.addListener(updateEnabledState);
-    }
-
-    return () => {
-      if (frameId) {
-        cancelAnimationFrame(frameId);
-      }
-
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerleave", handlePointerLeave);
-      window.removeEventListener("blur", handlePointerLeave);
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-
-      if (typeof pointerCapability.removeEventListener === "function") {
-        pointerCapability.removeEventListener("change", updateEnabledState);
-        reduceMotionQuery.removeEventListener("change", updateEnabledState);
-      } else if (typeof pointerCapability.removeListener === "function") {
-        pointerCapability.removeListener(updateEnabledState);
-        reduceMotionQuery.removeListener(updateEnabledState);
-      }
-
-      root.style.removeProperty("--cursor-glow-x");
-      root.style.removeProperty("--cursor-glow-y");
-      root.style.removeProperty("--cursor-glow-opacity");
-    };
-  }, []);
-
   const registerSection = useCallback((key, y) => {
     sectionOffsets.current[key] = Math.max(0, y - 12);
   }, []);
@@ -153,7 +42,6 @@ function HomeScreen() {
   return (
     <SafeAreaView style={[styles.safeArea, webEffects.meshBackground]}>
       <StatusBar style="dark" />
-      <View pointerEvents="none" style={[styles.cursorGlow, webEffects.cursorGlowOverlay]} />
 
       <ScrollView
         ref={scrollViewRef}
@@ -237,15 +125,6 @@ const styles = StyleSheet.create({
     flex: 1,
     position: "relative",
     backgroundColor: palette.canvas
-  },
-  cursorGlow: {
-    ...StyleSheet.absoluteFillObject,
-    zIndex: 0,
-    ...(Platform.OS === "web"
-      ? {
-          position: "fixed"
-        }
-      : {})
   },
   scrollContent: {
     position: "relative",
