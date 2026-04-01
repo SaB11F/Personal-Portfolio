@@ -1,30 +1,3 @@
-const faviconMarkup = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <defs>
-    <linearGradient id="brand" x1="0%" x2="100%" y1="0%" y2="100%">
-      <stop offset="0%" stop-color="#15173D" />
-      <stop offset="100%" stop-color="#982598" />
-    </linearGradient>
-  </defs>
-  <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#brand)" />
-  <circle cx="20" cy="20" r="10" fill="rgba(255,255,255,0.14)" />
-  <text
-    x="18"
-    y="39"
-    fill="#FFF9FC"
-    font-family="Segoe UI, Arial, sans-serif"
-    font-size="22"
-    font-weight="700"
-    letter-spacing="-1.2"
-  >
-    RK
-  </text>
-  <circle cx="49" cy="44" r="3.8" fill="#E491C9" />
-</svg>
-`;
-
-const faviconHref = `data:image/svg+xml,${encodeURIComponent(faviconMarkup)}`;
-
 function ScrollViewStyleReset() {
   return (
     <style
@@ -48,8 +21,6 @@ export default function Html({ children }) {
         />
         <meta content="#15173D" name="theme-color" />
         <meta content="light" name="color-scheme" />
-        <link href={faviconHref} rel="icon" type="image/svg+xml" />
-        <link href={faviconHref} rel="shortcut icon" />
         <ScrollViewStyleReset />
       </head>
       <body>{children}</body>

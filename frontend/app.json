@@ -13,7 +13,8 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static"
+      "output": "static",
+      "favicon": "./assets/brand/favicon.png"
     }
   }
 }
