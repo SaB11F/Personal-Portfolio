@@ -39,6 +39,7 @@ function PhotoRingSection() {
   const momentumFrame = useRef(null);
   const autoFrame = useRef(null);
   const autoLastTick = useRef(null);
+  const movedResetTimeout = useRef(null);
   const wrappingRef = useRef(false);
   const positionRef = useRef(0);
   const dragStartRef = useRef(0);
@@ -82,16 +83,19 @@ function PhotoRingSection() {
     }
 
     let observer;
-    if ("IntersectionObserver" in window && sectionRef.current) {
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          setIsVisible(Boolean(entry?.isIntersecting));
-        },
-        {
-          threshold: 0.14,
-        }
-      );
-      observer.observe(sectionRef.current);
+    if ("IntersectionObserver" in window) {
+      if (sectionRef.current) {
+        observer = new IntersectionObserver(
+          ([entry]) => {
+            setIsVisible(Boolean(entry?.isIntersecting));
+          },
+          {
+            threshold: 0.14,
+          }
+        );
+        observer.observe(sectionRef.current);
+      }
+      // sectionRef.current null edge case: isVisible stays false (safe, no animation)
     } else {
       setIsVisible(true);
     }
@@ -164,6 +168,10 @@ function PhotoRingSection() {
 
       if (autoFrame.current) {
         cancelAnimationFrame(autoFrame.current);
+      }
+
+      if (movedResetTimeout.current) {
+        clearTimeout(movedResetTimeout.current);
       }
     };
   }, []);
@@ -311,7 +319,7 @@ function PhotoRingSection() {
             interactionRef.current.hasMomentum = false;
           }
 
-          setTimeout(() => {
+          movedResetTimeout.current = setTimeout(() => {
             interactionRef.current.moved = false;
           }, 120);
         },
