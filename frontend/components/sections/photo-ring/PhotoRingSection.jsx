@@ -387,7 +387,12 @@ function PhotoRingSection() {
                       accessibilityLabel={item.title}
                       resizeMode="cover"
                       source={item.image}
-                      style={styles.cardImage}
+                      style={[
+                        styles.cardImage,
+                        item.imageRotate
+                          ? { transform: [{ rotate: item.imageRotate }] }
+                          : null,
+                      ]}
                     />
 
                     <View style={styles.cardShade} />

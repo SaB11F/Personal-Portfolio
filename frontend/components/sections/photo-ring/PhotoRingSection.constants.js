@@ -58,6 +58,7 @@ export const PHOTO_RING_ITEMS = [
       "Hands-on prototype work, review, and testing during the engineering process.",
     image: require("../../../assets/gallery/ring/slika4-ring.jpg"),
     offsetY: 16,
+    imageRotate: "90deg",
   },
   {
     id: "meetup",
