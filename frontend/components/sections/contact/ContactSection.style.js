@@ -19,6 +19,10 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 46,
   },
+  layoutTablet: {
+    flexDirection: "row",
+    gap: 28,
+  },
   layoutCompact: {
     flexDirection: "column",
     gap: 28,
@@ -37,6 +41,12 @@ export const styles = StyleSheet.create({
     letterSpacing: -2.4,
     fontFamily: fonts.display,
     maxWidth: 360,
+  },
+  headingTablet: {
+    fontSize: 42,
+    lineHeight: 48,
+    letterSpacing: -1.8,
+    maxWidth: 300,
   },
   headingPhone: {
     fontSize: 36,
@@ -87,6 +97,9 @@ export const styles = StyleSheet.create({
     fontWeight: "500",
     lineHeight: 24,
     fontFamily: fonts.display,
+  },
+  formCardTablet: {
+    maxWidth: 420,
   },
   formCard: {
     width: "100%",

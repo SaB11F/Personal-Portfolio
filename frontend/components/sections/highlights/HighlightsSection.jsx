@@ -8,6 +8,7 @@ import { styles } from "./HighlightsSection.style";
 function HighlightsSection({ education }) {
   const { width } = useWindowDimensions();
   const isPhone = width < 640;
+  const isTablet = width >= 768 && !isPhone;
   const cards = education.slice(0, 3);
   const [hoveredCard, setHoveredCard] = useState(null);
 
@@ -57,6 +58,7 @@ function HighlightsSection({ education }) {
                 }}
                 style={[
                   styles.card,
+                  isTablet && styles.cardTablet,
                   isPhone && styles.cardPhone,
                   !isPhone && index === 1 && styles.cardDelayed,
                   !isPhone && index === 2 && styles.cardDelayedMore,

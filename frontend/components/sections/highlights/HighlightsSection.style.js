@@ -68,6 +68,10 @@ export const styles = StyleSheet.create({
         }
       : {}),
   },
+  cardTablet: {
+    width: "46%",
+    minHeight: 0,
+  },
   cardPhone: {
     maxWidth: "100%",
     minHeight: 0,

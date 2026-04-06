@@ -17,6 +17,7 @@ const initialForm = {
 function ContactSection({ contact, isPhone: isPhoneProp, isWide }) {
   const { width } = useWindowDimensions();
   const isPhone = isPhoneProp ?? width < 640;
+  const isTablet = width >= 768 && !isWide;
   const [form, setForm] = useState(initialForm);
   const [messageHeight, setMessageHeight] = useState(168);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -77,9 +78,9 @@ function ContactSection({ contact, isPhone: isPhoneProp, isWide }) {
     <View style={styles.shell}>
       <View style={[styles.patternLayer, webEffects.dottedDark]} />
 
-      <View style={[styles.layout, !isWide && styles.layoutCompact]}>
+      <View style={[styles.layout, isTablet && styles.layoutTablet, !isWide && !isTablet && styles.layoutCompact]}>
         <View style={styles.infoColumn}>
-          <Text style={[styles.heading, isPhone && styles.headingPhone]}>Ready to build the future?</Text>
+          <Text style={[styles.heading, isTablet && styles.headingTablet, isPhone && styles.headingPhone]}>Ready to build the future?</Text>
           <Text style={styles.copy}>
             Whether it&apos;s a complex AI pipeline or a high-performance MERN
             app, let&apos;s turn your vision into production-ready reality.
@@ -102,7 +103,7 @@ function ContactSection({ contact, isPhone: isPhoneProp, isWide }) {
           </View>
         </View>
 
-        <View style={styles.formCard}>
+        <View style={[styles.formCard, isTablet && styles.formCardTablet]}>
           <View style={[styles.row, !isWide && styles.rowCompact]}>
             <Field
               id="contact-name"
