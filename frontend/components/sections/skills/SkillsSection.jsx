@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import {
   Platform,
   Pressable,
@@ -24,6 +24,15 @@ import {
 } from "./SkillsSection.helpers";
 import { styles } from "./SkillsSection.style";
 
+// Static web-only transition style — identical for every card, defined once at module level
+const WEB_CARD_TRANSITION = Platform.OS === "web"
+  ? {
+      transitionDuration: "220ms",
+      transitionProperty: "transform, box-shadow, filter, background-color",
+      transitionTimingFunction: "ease-out",
+    }
+  : null;
+
 function SkillsSection({ isWide, skills }) {
   const { width } = useWindowDimensions();
   const [hoveredCard, setHoveredCard] = useState(null);
@@ -32,6 +41,17 @@ function SkillsSection({ isWide, skills }) {
   const shouldStackCompactCards = width < 760;
   const featureCards = buildFeatureCards(skills);
   const nodesByLabel = buildNodesByLabel(SKILL_NODES);
+  // Pre-compute per-card static styles (background, border, backgroundImage).
+  // These depend only on FEATURE_CARD_THEMES which never changes at runtime.
+  const cardStaticStyles = useMemo(
+    () =>
+      FEATURE_CARD_THEMES.map((theme) => ({
+        backgroundColor: theme.solidBackgroundColor || theme.backgroundColor,
+        borderColor: theme.borderColor || "transparent",
+        ...(Platform.OS === "web" ? { backgroundImage: theme.backgroundColor } : {}),
+      })),
+    []
+  );
 
   return (
     <View
@@ -221,21 +241,16 @@ function SkillsSection({ isWide, skills }) {
                     : shouldStackCompactCards
                       ? styles.featureCardSingleColumn
                       : styles.featureCardCompact,
+                  cardStaticStyles[index],
                   {
-                    backgroundColor: theme.solidBackgroundColor || theme.backgroundColor,
-                    borderColor: theme.borderColor || "transparent",
                     transform: [
                       { rotate: isHovered ? "0deg" : theme.rotate },
                       { translateY: isHovered ? -4 : 0 },
                     ],
                   },
+                  WEB_CARD_TRANSITION,
                   Platform.OS === "web"
                     ? {
-                        backgroundImage: theme.backgroundColor,
-                        transitionDuration: "220ms",
-                        transitionProperty:
-                          "transform, box-shadow, filter, background-color",
-                        transitionTimingFunction: "ease-out",
                         boxShadow: isHovered
                           ? "0 22px 42px rgba(21, 23, 61, 0.12)"
                           : "0 16px 28px rgba(21, 23, 61, 0.07)",

@@ -1,4 +1,5 @@
 import express from "express";
+import { rateLimit } from "express-rate-limit";
 
 import { isDatabaseReady } from "../lib/db.js";
 import { sendContactNotification } from "../lib/mailer.js";
@@ -6,9 +7,18 @@ import ContactMessage from "../models/ContactMessage.js";
 
 const router = express.Router();
 
-const isValidEmail = (value) => /\S+@\S+\.\S+/.test(value);
+const contactLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  limit: 5,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: { message: "Too many requests. Please try again later." },
+});
 
-router.post("/", async (req, res) => {
+const isValidEmail = (value) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(value).toLowerCase());
+
+router.post("/", contactLimiter, async (req, res) => {
   try {
     const { name, email, company, subject, message } = req.body;
 
@@ -69,9 +79,9 @@ router.post("/", async (req, res) => {
       warning: deliveryWarning,
     });
   } catch (error) {
+    console.error("Contact route error:", error);
     return res.status(500).json({
       message: "Unable to process the contact request right now.",
-      error: error.message,
     });
   }
 });

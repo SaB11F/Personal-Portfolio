@@ -2,6 +2,13 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 
+const REQUIRED_ENV_VARS = ["RESEND_API_KEY", "CONTACT_TO_EMAIL"];
+const missingVars = REQUIRED_ENV_VARS.filter((key) => !process.env[key]);
+if (missingVars.length > 0) {
+  console.error(`Missing required environment variables: ${missingVars.join(", ")}`);
+  process.exit(1);
+}
+
 import { connectDB, isDatabaseReady } from "./lib/db.js";
 import contactRoutes from "./routes/contactRoutes.js";
 
