@@ -1,6 +1,6 @@
 import * as Linking from "expo-linking";
 import { memo, useState } from "react";
-import { Platform, Pressable, Text, TextInput, View } from "react-native";
+import { Platform, Pressable, Text, TextInput, useWindowDimensions, View } from "react-native";
 
 import { AppIcon } from "../../common";
 import { submitContact } from "../../../lib/api";
@@ -14,7 +14,9 @@ const initialForm = {
   message: "",
 };
 
-function ContactSection({ contact, isWide }) {
+function ContactSection({ contact, isPhone: isPhoneProp, isWide }) {
+  const { width } = useWindowDimensions();
+  const isPhone = isPhoneProp ?? width < 640;
   const [form, setForm] = useState(initialForm);
   const [messageHeight, setMessageHeight] = useState(168);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -77,7 +79,7 @@ function ContactSection({ contact, isWide }) {
 
       <View style={[styles.layout, !isWide && styles.layoutCompact]}>
         <View style={styles.infoColumn}>
-          <Text style={styles.heading}>Ready to build the future?</Text>
+          <Text style={[styles.heading, isPhone && styles.headingPhone]}>Ready to build the future?</Text>
           <Text style={styles.copy}>
             Whether it&apos;s a complex AI pipeline or a high-performance MERN
             app, let&apos;s turn your vision into production-ready reality.

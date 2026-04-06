@@ -188,6 +188,7 @@ function SkillsSection({ isWide, skills }) {
           </View>
         </View>
 
+        {!isPhone ? (
         <View
           style={[
             styles.cardsStage,
@@ -267,6 +268,7 @@ function SkillsSection({ isWide, skills }) {
             );
           })}
         </View>
+        ) : null}
       </View>
     </View>
   );

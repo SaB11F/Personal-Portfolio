@@ -6,6 +6,7 @@ import { styles } from "./ExperienceSection.style";
 function ExperienceSection({ experience }) {
   const { width } = useWindowDimensions();
   const isCompact = width < 920;
+  const isPhone = width < 640;
 
   return (
     <View style={styles.section}>
@@ -22,60 +23,66 @@ function ExperienceSection({ experience }) {
           return (
             <View
               key={`${item.company}-${item.role}`}
-              style={[styles.timelineItem, isCompact && styles.timelineItemCompact]}
+              style={[
+                styles.timelineItem,
+                isCompact && !isPhone && styles.timelineItemCompact,
+                isPhone && styles.timelineItemPhone,
+              ]}
             >
-              <View
-                style={[styles.railColumn, isCompact && styles.railColumnCompact]}
-              >
+              {!isPhone ? (
                 <View
-                  style={[
-                    styles.periodChip,
-                    isFeatured ? styles.periodChipFeatured : styles.periodChipDefault,
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.periodChipText,
-                      isFeatured
-                        ? styles.periodChipTextFeatured
-                        : styles.periodChipTextDefault,
-                    ]}
-                  >
-                    {item.period}
-                  </Text>
-                </View>
-
-                <View
-                  style={[
-                    styles.markerColumn,
-                    isCompact && styles.markerColumnCompact,
-                  ]}
+                  style={[styles.railColumn, isCompact && styles.railColumnCompact]}
                 >
                   <View
                     style={[
-                      styles.roadNode,
-                      isFeatured ? styles.roadNodeFeatured : styles.roadNodeDefault,
+                      styles.periodChip,
+                      isFeatured ? styles.periodChipFeatured : styles.periodChipDefault,
                     ]}
                   >
-                    {isFeatured ? <View style={styles.roadNodeCore} /> : null}
+                    <Text
+                      style={[
+                        styles.periodChipText,
+                        isFeatured
+                          ? styles.periodChipTextFeatured
+                          : styles.periodChipTextDefault,
+                      ]}
+                    >
+                      {item.period}
+                    </Text>
                   </View>
 
-                  {!isLast ? (
+                  <View
+                    style={[
+                      styles.markerColumn,
+                      isCompact && styles.markerColumnCompact,
+                    ]}
+                  >
                     <View
                       style={[
-                        styles.roadStem,
-                        isFeatured && styles.roadStemFeatured,
-                        isCompact && styles.roadStemCompact,
+                        styles.roadNode,
+                        isFeatured ? styles.roadNodeFeatured : styles.roadNodeDefault,
                       ]}
-                    />
-                  ) : null}
+                    >
+                      {isFeatured ? <View style={styles.roadNodeCore} /> : null}
+                    </View>
+
+                    {!isLast ? (
+                      <View
+                        style={[
+                          styles.roadStem,
+                          isFeatured && styles.roadStemFeatured,
+                          isCompact && styles.roadStemCompact,
+                        ]}
+                      />
+                    ) : null}
+                  </View>
                 </View>
-              </View>
+              ) : null}
 
               <View
-                style={[styles.cardShell, isCompact && styles.cardShellCompact]}
+                style={[styles.cardShell, (isCompact || isPhone) && styles.cardShellCompact]}
               >
-                {isFeatured ? (
+                {isFeatured && !isPhone ? (
                   <View pointerEvents="none" style={styles.primaryHalo} />
                 ) : null}
 
@@ -85,12 +92,36 @@ function ExperienceSection({ experience }) {
                     surface,
                     isFeatured ? styles.cardFeatured : styles.cardDefault,
                     isCompact && styles.cardCompact,
+                    isPhone && styles.cardPhone,
+                    isPhone && (isFeatured ? styles.cardPhoneFeaturedBorder : styles.cardPhoneDefaultBorder),
                     Platform.OS === "web" &&
                       (isFeatured ? styles.cardFeaturedWeb : styles.cardDefaultWeb),
                   ]}
                 >
+                  {isPhone ? (
+                    <View
+                      style={[
+                        styles.periodBadgePhone,
+                        isFeatured
+                          ? styles.periodBadgePhoneFeatured
+                          : styles.periodBadgePhoneDefault,
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.periodBadgePhoneText,
+                          isFeatured
+                            ? styles.periodChipTextFeatured
+                            : styles.periodChipTextDefault,
+                        ]}
+                      >
+                        {item.period}
+                      </Text>
+                    </View>
+                  ) : null}
+
                   <View style={styles.cardHeader}>
-                    <Text style={styles.role}>{item.role}</Text>
+                    <Text style={[styles.role, isPhone && styles.rolePhone]}>{item.role}</Text>
                     <Text style={styles.company}>{item.company}</Text>
                   </View>
 

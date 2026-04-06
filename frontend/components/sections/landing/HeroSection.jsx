@@ -1,11 +1,13 @@
 import * as Linking from "expo-linking";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Image,
   PanResponder,
   Platform,
   Pressable,
+  ScrollView,
   Text,
+  useWindowDimensions,
   View,
 } from "react-native";
 
@@ -32,9 +34,14 @@ const PROJECT_IMAGE_SOURCES = {
 const SWIPE_CAPTURE_DISTANCE = 12;
 const SWIPE_TRIGGER_DISTANCE = 42;
 
-function HeroSection({ hero, isWide, onJourneyPress, onTalkPress, projects }) {
+function HeroSection({ hero, isPhone, isWide, onJourneyPress, onTalkPress, projects }) {
+  const { width: screenWidth } = useWindowDimensions();
   const [orbitStep, setOrbitStep] = useState(0);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [activeCarouselIndex, setActiveCarouselIndex] = useState(0);
+  const carouselRef = useRef(null);
+  const carouselCardWidth = screenWidth - 64;
+  const carouselCardGap = 12;
   const cardWidth = isWide ? 548 : 288;
   const cardHeight = isWide ? 638 : 356;
   const defaultGithubUrl =
@@ -98,6 +105,147 @@ function HeroSection({ hero, isWide, onJourneyPress, onTalkPress, projects }) {
       },
     });
   }, [isWide, totalProjects]);
+
+  if (isPhone) {
+    return (
+      <View style={styles.outer}>
+        <View style={styles.stickyFrame}>
+          <View style={styles.phoneScene}>
+            <View pointerEvents="none" style={styles.phoneBgGlow} />
+
+            <View style={[surface, styles.contentCard, styles.contentCardCompact]}>
+              <View style={styles.availabilityPill}>
+                <View style={styles.availabilityPulse} />
+                <Text style={styles.availabilityText}>
+                  AVAILABLE FOR NEW CHALLENGES
+                </Text>
+              </View>
+
+              <Text style={[styles.name, styles.nameCompact]}>
+                {hero.name}
+              </Text>
+              <Text style={[styles.subtitle, styles.subtitleCompact]}>
+                {hero.title} |{" "}
+                <Text style={styles.subtitleAccent}>MERN &amp; AI Systems</Text>
+              </Text>
+              <Text style={styles.summary}>{hero.summary}</Text>
+
+              <View style={styles.chipRow}>
+                {HERO_CHIPS.map((chip) => (
+                  <View
+                    key={chip.label}
+                    style={[
+                      styles.heroChip,
+                      chip.tone === "dark"
+                        ? styles.heroChipDark
+                        : chip.tone === "purple"
+                          ? styles.heroChipPurple
+                          : styles.heroChipPink,
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.heroChipText,
+                        chip.tone === "dark"
+                          ? styles.heroChipTextLight
+                          : styles.heroChipTextDark,
+                      ]}
+                    >
+                      {chip.label}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+
+              <View style={styles.ctaRow}>
+                <Pressable onPress={onTalkPress} style={[styles.primaryCta, styles.phoneCtaFull]}>
+                  <Text style={styles.primaryCtaText}>Work Together</Text>
+                  <Text style={styles.primaryCtaArrow}>-&gt;</Text>
+                </Pressable>
+                <Pressable
+                  onPress={onJourneyPress}
+                  style={[styles.secondaryCta, surface, styles.phoneCtaFull]}
+                >
+                  <Text style={styles.secondaryCtaText}>View Journey</Text>
+                </Pressable>
+              </View>
+            </View>
+
+            <View style={styles.phoneCarouselWrap}>
+              <ScrollView
+                ref={carouselRef}
+                decelerationRate="fast"
+                horizontal
+                onMomentumScrollEnd={(e) => {
+                  const index = Math.round(
+                    e.nativeEvent.contentOffset.x / (carouselCardWidth + carouselCardGap)
+                  );
+                  setActiveCarouselIndex(
+                    Math.max(0, Math.min(index, projects.length - 1))
+                  );
+                }}
+                showsHorizontalScrollIndicator={false}
+                snapToInterval={carouselCardWidth + carouselCardGap}
+                snapToAlignment="start"
+                contentContainerStyle={styles.phoneCarouselContent}
+              >
+                {projects.map((project) => {
+                  const projectImageSource = PROJECT_IMAGE_SOURCES[project.slug];
+                  const projectGithubUrl = project.githubUrl || defaultGithubUrl;
+
+                  return (
+                    <View
+                      key={project.slug}
+                      style={[
+                        styles.phoneCarouselCard,
+                        { width: carouselCardWidth, marginRight: carouselCardGap },
+                      ]}
+                    >
+                      {projectImageSource ? (
+                        <Image
+                          resizeMode="cover"
+                          source={projectImageSource}
+                          style={styles.phoneCarouselImage}
+                        />
+                      ) : (
+                        <View style={styles.phoneCarouselImageFallback}>
+                          <ProjectIcon color={palette.purple} slug={project.slug} />
+                        </View>
+                      )}
+                      <View style={styles.phoneCarouselOverlay}>
+                        <Text style={styles.phoneCarouselTag}>
+                          {project.tag || project.stack?.[0] || ""}
+                        </Text>
+                        <Text style={styles.phoneCarouselTitle}>{project.title}</Text>
+                        {projectGithubUrl ? (
+                          <Pressable
+                            onPress={() => Linking.openURL(projectGithubUrl)}
+                            style={styles.phoneCarouselLink}
+                          >
+                            <AppIcon color="#FFFFFF" name="github" size={14} />
+                            <Text style={styles.phoneCarouselLinkText}>Code</Text>
+                          </Pressable>
+                        ) : null}
+                      </View>
+                    </View>
+                  );
+                })}
+              </ScrollView>
+
+              <View style={styles.dotRow}>
+                {projects.map((_, i) => (
+                  <View
+                    key={i}
+                    style={[styles.dot, i === activeCarouselIndex && styles.dotActive]}
+                  />
+                ))}
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.outer}>

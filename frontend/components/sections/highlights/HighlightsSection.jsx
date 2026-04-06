@@ -1,11 +1,13 @@
 import { memo, useState } from "react";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Platform, Pressable, Text, useWindowDimensions, View } from "react-native";
 
 import { AppIcon } from "../../common";
 import { palette } from "../../../lib/theme";
 import { styles } from "./HighlightsSection.style";
 
 function HighlightsSection({ education }) {
+  const { width } = useWindowDimensions();
+  const isPhone = width < 640;
   const cards = education.slice(0, 3);
   const [hoveredCard, setHoveredCard] = useState(null);
 
@@ -55,8 +57,9 @@ function HighlightsSection({ education }) {
                 }}
                 style={[
                   styles.card,
-                  index === 1 && styles.cardDelayed,
-                  index === 2 && styles.cardDelayedMore,
+                  isPhone && styles.cardPhone,
+                  !isPhone && index === 1 && styles.cardDelayed,
+                  !isPhone && index === 2 && styles.cardDelayedMore,
                   hoveredCard === item.school && styles.cardHover,
                 ]}
               >

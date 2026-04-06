@@ -207,4 +207,49 @@ export const styles = StyleSheet.create({
     lineHeight: 30,
     fontFamily: fonts.display,
   },
+
+  // ─── Phone layout ─────────────────────────────────────────────────────────
+  timelineItemPhone: {
+    flexDirection: "column",
+    gap: 0,
+  },
+  cardPhone: {
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    borderRadius: 22,
+    borderLeftWidth: 4,
+  },
+  cardPhoneFeaturedBorder: {
+    borderLeftColor: palette.purple,
+  },
+  cardPhoneDefaultBorder: {
+    borderLeftColor: "rgba(21, 23, 61, 0.12)",
+  },
+  periodBadgePhone: {
+    alignSelf: "flex-start",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 999,
+    borderWidth: 1,
+    marginBottom: 12,
+  },
+  periodBadgePhoneFeatured: {
+    backgroundColor: "rgba(152, 37, 152, 0.1)",
+    borderColor: "rgba(152, 37, 152, 0.18)",
+  },
+  periodBadgePhoneDefault: {
+    backgroundColor: "rgba(21, 23, 61, 0.04)",
+    borderColor: "rgba(21, 23, 61, 0.08)",
+  },
+  periodBadgePhoneText: {
+    fontSize: 10,
+    fontWeight: "800",
+    letterSpacing: 1,
+    textTransform: "uppercase",
+    fontFamily: fonts.display,
+  },
+  rolePhone: {
+    fontSize: 22,
+    lineHeight: 28,
+  },
 });

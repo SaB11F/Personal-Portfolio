@@ -68,6 +68,11 @@ export const styles = StyleSheet.create({
         }
       : {}),
   },
+  cardPhone: {
+    maxWidth: "100%",
+    minHeight: 0,
+    width: "100%",
+  },
   cardDelayed: {
     ...(Platform.OS === "web"
       ? {

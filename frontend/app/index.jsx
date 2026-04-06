@@ -38,6 +38,7 @@ function HomeScreen() {
   const sectionOffsets = useRef({});
   const { width } = useWindowDimensions();
   const isWide = width >= 1024;
+  const isPhone = width < 640;
 
   const registerSection = useCallback((key, y) => {
     sectionOffsets.current[key] = Math.max(0, y - 12);
@@ -83,7 +84,7 @@ function HomeScreen() {
             <SectionNav isWide={isWide} onNavigate={handleNavigate} />
           </View>
 
-          <View style={styles.page}>
+          <View style={[styles.page, isPhone && styles.pagePhone]}>
             <View
               onLayout={(event) => {
                 registerSection("top", event.nativeEvent.layout.y);
@@ -92,6 +93,7 @@ function HomeScreen() {
             >
               <HeroSection
                 hero={portfolioContent.hero}
+                isPhone={isPhone}
                 isWide={isWide}
                 onJourneyPress={() => handleNavigate("experience")}
                 onTalkPress={() => handleNavigate("contact")}
@@ -107,7 +109,7 @@ function HomeScreen() {
               onLayout={(event) =>
                 registerSection("experience", event.nativeEvent.layout.y)
               }
-              style={styles.photoRingExitGap}
+              style={[styles.photoRingExitGap, isPhone && styles.photoRingExitGapPhone]}
             >
               <ExperienceSection experience={portfolioContent.experience} />
             </View>
@@ -116,12 +118,12 @@ function HomeScreen() {
               onLayout={(event) =>
                 registerSection("skills", event.nativeEvent.layout.y)
               }
-              style={styles.sectionGap}
+              style={[styles.sectionGap, isPhone && styles.sectionGapPhone]}
             >
               <SkillsSection isWide={isWide} skills={portfolioContent.skills} />
             </View>
 
-            <View style={styles.sectionGap}>
+            <View style={[styles.sectionGap, isPhone && styles.sectionGapPhone]}>
               <HighlightsSection
                 achievements={portfolioContent.achievements}
                 education={portfolioContent.education}
@@ -132,9 +134,9 @@ function HomeScreen() {
               onLayout={(event) =>
                 registerSection("contact", event.nativeEvent.layout.y)
               }
-              style={styles.sectionGap}
+              style={[styles.sectionGap, isPhone && styles.sectionGapPhone]}
             >
-              <ContactSection contact={portfolioContent.contact} isWide={isWide} />
+              <ContactSection contact={portfolioContent.contact} isPhone={isPhone} isWide={isWide} />
             </View>
 
             <View style={styles.footer}>
@@ -177,11 +179,20 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     paddingHorizontal: 8
   },
+  pagePhone: {
+    paddingHorizontal: 16
+  },
   sectionGap: {
     marginTop: 110
   },
+  sectionGapPhone: {
+    marginTop: 64
+  },
   photoRingExitGap: {
     marginTop: 72
+  },
+  photoRingExitGapPhone: {
+    marginTop: 48
   },
   memoryGap: {
     marginTop: 2

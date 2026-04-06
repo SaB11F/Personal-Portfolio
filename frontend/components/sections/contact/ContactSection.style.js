@@ -38,6 +38,12 @@ export const styles = StyleSheet.create({
     fontFamily: fonts.display,
     maxWidth: 360,
   },
+  headingPhone: {
+    fontSize: 36,
+    lineHeight: 40,
+    letterSpacing: -1.4,
+    maxWidth: "100%",
+  },
   copy: {
     color: "rgba(223,229,255,0.72)",
     fontSize: 17,

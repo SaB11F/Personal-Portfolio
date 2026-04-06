@@ -1,5 +1,5 @@
-import { memo } from "react";
-import { Pressable, Text, View } from "react-native";
+import { memo, useState } from "react";
+import { Modal, Pressable, Text, View } from "react-native";
 
 import { AppIcon } from "../common";
 import { styles } from "./SectionNav.style";
@@ -11,21 +11,38 @@ const links = [
 ];
 
 function SectionNav({ isWide, onNavigate }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleNavPress = (key) => {
+    setMenuOpen(false);
+    onNavigate(key);
+  };
+
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, !isWide && styles.wrapperCompact]}>
       <View style={styles.brandRow}>
-        <View style={styles.avatarGroup}>
-          <View style={styles.avatarShell}>
-            <View style={styles.avatarInner}>
-              <AppIcon
-                color="rgba(21, 23, 61, 0.35)"
-                name="account"
-                size={16}
-              />
+        {!isWide ? (
+          <Pressable
+            accessibilityLabel="Open navigation menu"
+            onPress={() => setMenuOpen(true)}
+            style={styles.hamburgerBtn}
+          >
+            <AppIcon color="rgba(152, 37, 152, 0.9)" name="menu" size={22} />
+          </Pressable>
+        ) : (
+          <View style={styles.avatarGroup}>
+            <View style={styles.avatarShell}>
+              <View style={styles.avatarInner}>
+                <AppIcon
+                  color="rgba(21, 23, 61, 0.35)"
+                  name="account"
+                  size={16}
+                />
+              </View>
             </View>
+            <View style={styles.avatarGlow} />
           </View>
-          <View style={styles.avatarGlow} />
-        </View>
+        )}
 
         <Text style={styles.brandText}>
           RK <Text style={styles.brandDot}>.</Text>
@@ -51,6 +68,29 @@ function SectionNav({ isWide, onNavigate }) {
         <Text style={styles.ctaText}>LET&apos;S TALK</Text>
         <AppIcon color="#FFFFFF" name="arrow-right" size={14} />
       </Pressable>
+
+      <Modal
+        animationType="fade"
+        onRequestClose={() => setMenuOpen(false)}
+        transparent
+        visible={menuOpen}
+      >
+        <Pressable onPress={() => setMenuOpen(false)} style={styles.menuOverlay}>
+          <View style={styles.menuSheet}>
+            {links.map((link, index) => (
+              <View key={link.key}>
+                {index > 0 ? <View style={styles.menuDivider} /> : null}
+                <Pressable
+                  onPress={() => handleNavPress(link.key)}
+                  style={styles.menuLink}
+                >
+                  <Text style={styles.menuLinkText}>{link.label}</Text>
+                </Pressable>
+              </View>
+            ))}
+          </View>
+        </Pressable>
+      </Modal>
     </View>
   );
 }

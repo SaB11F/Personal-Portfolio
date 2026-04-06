@@ -896,4 +896,118 @@ export const styles = StyleSheet.create({
     textTransform: "uppercase",
     fontFamily: fonts.display,
   },
+
+  // ─── Phone layout ─────────────────────────────────────────────────────────
+  phoneScene: {
+    flexDirection: "column",
+    paddingTop: 18,
+    paddingBottom: 24,
+    gap: 24,
+    overflow: "visible",
+  },
+  phoneBgGlow: {
+    position: "absolute",
+    top: -40,
+    right: -60,
+    width: 280,
+    height: 280,
+    borderRadius: 999,
+    backgroundColor: "rgba(152, 37, 152, 0.14)",
+    ...(Platform.OS === "web"
+      ? {
+          filter: "blur(72px)",
+        }
+      : {}),
+  },
+  phoneCtaFull: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  phoneCarouselWrap: {
+    gap: 14,
+  },
+  phoneCarouselContent: {
+    paddingHorizontal: 0,
+  },
+  phoneCarouselCard: {
+    height: 240,
+    borderRadius: 22,
+    overflow: "hidden",
+    position: "relative",
+    backgroundColor: palette.navy,
+    ...shadow,
+  },
+  phoneCarouselImage: {
+    width: "100%",
+    height: "100%",
+  },
+  phoneCarouselImageFallback: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(152, 37, 152, 0.12)",
+  },
+  phoneCarouselOverlay: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingHorizontal: 18,
+    paddingTop: 36,
+    paddingBottom: 16,
+    backgroundColor: "rgba(21, 23, 61, 0.66)",
+    gap: 4,
+    ...(Platform.OS === "web"
+      ? {
+          backdropFilter: "blur(6px)",
+        }
+      : {}),
+  },
+  phoneCarouselTag: {
+    color: palette.pink,
+    fontSize: 10,
+    fontWeight: "900",
+    letterSpacing: 1.4,
+    textTransform: "uppercase",
+    fontFamily: fonts.display,
+  },
+  phoneCarouselTitle: {
+    color: "#FFFFFF",
+    fontSize: 20,
+    lineHeight: 24,
+    fontWeight: "800",
+    fontFamily: fonts.display,
+  },
+  phoneCarouselLink: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    marginTop: 6,
+    alignSelf: "flex-start",
+  },
+  phoneCarouselLinkText: {
+    color: "rgba(255,255,255,0.72)",
+    fontSize: 11,
+    fontWeight: "700",
+    letterSpacing: 0.6,
+    fontFamily: fonts.display,
+  },
+  dotRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 6,
+  },
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 999,
+    backgroundColor: "rgba(21, 23, 61, 0.16)",
+    borderWidth: 1,
+    borderColor: "rgba(21, 23, 61, 0.12)",
+  },
+  dotActive: {
+    backgroundColor: palette.purple,
+    borderColor: palette.purple,
+    width: 20,
+  },
 });

@@ -109,4 +109,56 @@ export const styles = StyleSheet.create({
     letterSpacing: 1.3,
     fontFamily: fonts.display,
   },
+  wrapperCompact: {
+    minHeight: 52,
+    paddingHorizontal: 16,
+  },
+  hamburgerBtn: {
+    width: 36,
+    height: 36,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 10,
+    backgroundColor: "rgba(152, 37, 152, 0.08)",
+  },
+  menuOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(21, 23, 61, 0.38)",
+    ...(Platform.OS === "web"
+      ? {
+          backdropFilter: "blur(4px)",
+        }
+      : {}),
+  },
+  menuSheet: {
+    marginTop: 52,
+    marginHorizontal: 16,
+    borderRadius: 18,
+    backgroundColor: "rgba(255, 255, 255, 0.96)",
+    borderWidth: 1,
+    borderColor: "rgba(152, 37, 152, 0.1)",
+    overflow: "hidden",
+    ...(Platform.OS === "web"
+      ? {
+          backdropFilter: "blur(16px)",
+          boxShadow: "0 16px 40px rgba(21, 23, 61, 0.14)",
+        }
+      : {}),
+  },
+  menuLink: {
+    paddingHorizontal: 22,
+    paddingVertical: 18,
+  },
+  menuLinkText: {
+    color: palette.navy,
+    fontSize: 16,
+    fontWeight: "700",
+    letterSpacing: -0.2,
+    fontFamily: fonts.display,
+  },
+  menuDivider: {
+    height: 1,
+    backgroundColor: "rgba(21, 23, 61, 0.06)",
+    marginHorizontal: 16,
+  },
 });
