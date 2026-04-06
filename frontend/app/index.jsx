@@ -123,7 +123,12 @@ function HomeScreen() {
               <SkillsSection isWide={isWide} skills={portfolioContent.skills} />
             </View>
 
-            <View style={[styles.sectionGap, isPhone && styles.sectionGapPhone]}>
+            <View
+              onLayout={(event) =>
+                registerSection("education", event.nativeEvent.layout.y)
+              }
+              style={[styles.sectionGap, isPhone && styles.sectionGapPhone]}
+            >
               <HighlightsSection
                 achievements={portfolioContent.achievements}
                 education={portfolioContent.education}

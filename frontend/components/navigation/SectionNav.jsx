@@ -5,9 +5,10 @@ import { AppIcon } from "../common";
 import { styles } from "./SectionNav.style";
 
 const links = [
-  { key: "experience", label: "Experience" },
   { key: "orbit", label: "Orbit" },
+  { key: "experience", label: "Experience" },
   { key: "skills", label: "Stack" },
+  { key: "education", label: "Education" },
 ];
 
 function SectionNav({ isWide, onNavigate }) {
