@@ -436,7 +436,7 @@ function HeroSection({ hero, isPhone, isWide, onJourneyPress, onTalkPress, proje
                                       : styles.orbitCardTagLight,
                                 ]}
                               >
-                                {project.tag || project.stack[0]}
+                                {project.tag || project.stack?.[0]}
                               </Text>
                             </View>
                           </View>

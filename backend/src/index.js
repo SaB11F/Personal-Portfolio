@@ -7,6 +7,7 @@ import contactRoutes from "./routes/contactRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const isDev = process.env.NODE_ENV !== "production";
 const normalizeOrigin = (origin) => origin.trim().replace(/\/+$/, "");
 const allowedOrigins = process.env.CLIENT_URL
   ? process.env.CLIENT_URL.split(",")
@@ -16,14 +17,14 @@ const allowedOrigins = process.env.CLIENT_URL
   : [];
 const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin || !allowedOrigins.length) {
-      return callback(null, true);
-    }
-
+    // Same-origin or server-to-server requests (no Origin header) — always allow
+    if (!origin) return callback(null, true);
+    // In development with no CLIENT_URL set, allow everything for convenience
+    if (isDev && !allowedOrigins.length) return callback(null, true);
+    // In production, only allow explicitly listed origins
     if (allowedOrigins.includes(normalizeOrigin(origin))) {
       return callback(null, true);
     }
-
     return callback(new Error(`Origin ${origin} is not allowed by CORS.`));
   },
   optionsSuccessStatus: 204,
@@ -44,6 +45,10 @@ app.use("/api/contact", contactRoutes);
 
 app.listen(PORT, async () => {
   console.log(`Portfolio API listening on port ${PORT}`);
-  await connectDB();
+  try {
+    await connectDB();
+  } catch (error) {
+    console.error("Failed to connect to database:", error.message);
+  }
 });
 
