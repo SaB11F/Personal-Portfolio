@@ -926,6 +926,9 @@ export const styles = StyleSheet.create({
   phoneCarouselWrap: {
     gap: 14,
   },
+  phoneCarouselScrollView: {
+    height: 240,
+  },
   phoneCarouselContent: {
     paddingHorizontal: 0,
   },

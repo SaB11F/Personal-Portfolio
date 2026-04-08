@@ -176,6 +176,7 @@ function HeroSection({ hero, isPhone, isWide, onJourneyPress, onTalkPress, proje
                 ref={carouselRef}
                 decelerationRate="fast"
                 horizontal
+                style={styles.phoneCarouselScrollView}
                 onMomentumScrollEnd={(e) => {
                   const index = Math.round(
                     e.nativeEvent.contentOffset.x / (carouselCardWidth + carouselCardGap)
@@ -231,15 +232,6 @@ function HeroSection({ hero, isPhone, isWide, onJourneyPress, onTalkPress, proje
                   );
                 })}
               </ScrollView>
-
-              <View style={styles.dotRow}>
-                {projects.map((_, i) => (
-                  <View
-                    key={i}
-                    style={[styles.dot, i === activeCarouselIndex && styles.dotActive]}
-                  />
-                ))}
-              </View>
             </View>
           </View>
         </View>
